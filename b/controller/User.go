@@ -104,6 +104,7 @@ func CreateUser(c *gin.Context) {
 	user.Password = fmt.Sprintf("%s", hashedPassword)
 	config.DB.Create(&user)
 	if user.Role_name == "Shop Owner" {
+		config.DB.Create(&model.Shop{ID: user.ID, Average_Rating: 0, Number_of_Sales: 0})
 		SendMessage("Your shop successfully created!", []string{user.Email})
 	}
 	c.JSON(200, &user)
