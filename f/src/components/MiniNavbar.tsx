@@ -19,9 +19,9 @@ const MiniNavbar = () =>
   <>
    <HeaderModule />
    <div className={s.mininavbar}>
-    <i className="fa-solid fa-link fa-2xl"></i>
-    <i className="fa-regular fa-comment fa-2xl" onClick={handleChatClick} ></i>
-    <i className="fa-solid fa-ticket fa-2xl" onClick={handleVoucherClick}></i>
+    <i className="fa-solid fa-link fa-2xl" style={{color: "black"}}></i>
+    <i className="fa-regular fa-comment fa-2xl" style={{color: "black"}} onClick={handleChatClick} ></i>
+    <i className="fa-solid fa-ticket fa-2xl" style={{color: "black"}} onClick={handleVoucherClick}></i>
     {/* <i className="fa-regular fa-comment fa-2xl">
      <div className={s.smiley}>
       {`:)`}

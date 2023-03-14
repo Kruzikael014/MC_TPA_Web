@@ -15,562 +15,571 @@ $secondary-background: #262626;
 $secondary-darkgrey : #121212;
 
 @mixin hori {
-      display: flex;
-      flex-direction: row;
+  display: flex;
+  flex-direction: row;
 }
 
 @mixin verti {
-      display: flex;
-      flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 @mixin long-round-butt {
-      border-radius: 50px;
+  border-radius: 50px;
 }
 
 @mixin round-butt {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      border-radius: 50%;
-      width: 36px;
-      height: 36px;
-      border: 1px solid rgba(0, 0, 0, 0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  border: 1px solid rgba(0, 0, 0, 0.4);
 }
 
 .navbar {
-      // background-color: $primary-white;
-      background-color: $primary-white;
-      height: 5.4rem;
-      padding: 0.8rem;
-      border-bottom: solid 1px rgba(0, 0, 0, 0.3);
+  // background-color: $primary-white;
+  background-color: $primary-white;
+  height: 5.4rem;
+  padding: 0.8rem;
+  border-bottom: solid 1px rgba(0, 0, 0, 0.3);
+  user-select: none;
+  cursor: pointer;
+
+  .money {
+    position: absolute;
+    left: 73rem;
+    top: 3.9rem;
+    z-index: 9;
+    user-select: none;
+    width:9rem;
+  }
+
+  .horidiv {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+
+    .locatext2 {
+      position: relative;
+      left: 0.2rem;
+      width: 100%;
+      font-weight: bold;
+      appearance: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      background-image: none;
+      border: none;
+      outline: none;
+    }
+
+    .searchcontainer {
+      position: relative;
+      display: flex;
+
+      .search {
+        @include long-round-butt;
+        width: 790px;
+        height: 42px;
+        border: solid 1px rgba(0, 0, 0, 0.3);
+        box-sizing: border-box;
+        padding: 1rem;
+      }
+
+      .searchbutt {
+        @include long-round-butt;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: white;
+        width: 64px;
+        height: 44px;
+        background-color: $primary-blue;
+        position: absolute;
+        right: 0px;
+      }
+    }
+
+    .notifbutton {
+      @include round-butt;
+    }
+
+    .lang {
+      @include round-butt;
+    }
+
+    .themebutt {
+      @include long-round-butt;
+      position: relative;
+      padding: 0.4rem;
+      box-sizing: border-box;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      border: solid 1px rgba(0, 0, 0, 0.3);
+      margin-inline: 1rem;
+    }
+
+    .dontblue {
+      position: relative;
+      right: 1rem;
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .signin {
+      text-decoration: none;
+      text-decoration-line: none;
+      @include long-round-butt;
+      display: flex;
+      padding-inline: 0.9rem;
+      justify-content: center;
+      align-items: center;
       user-select: none;
+      border: solid 1px rgba(0, 0, 0, 0.1);
+
+      .textcontainer {
+        text-decoration: none;
+        text-decoration-line: none;
+        display: flex;
+        flex-direction: column;
+      }
+
+    }
+
+    .signin:hover {
+      text-decoration: none;
+      text-decoration-line: none;
+      background-color: #ebebeb;
+      transition: 200ms;
+    }
+
+    .cartbutton {
+      position: relative;
+      right: 10rem;
+      top: 0.3rem;
+    }
+
+  }
+
+  .vertidiv {
+    display: flex;
+    flex-direction: column;
+
+    .b {
+      font-weight: bold;
+    }
+
+
+    .horidiv1 {
+      margin-top: 0.9rem;
+      position: relative;
+      right: 1.7rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-evenly;
+      gap: 1.8rem;
       cursor: pointer;
+      user-select: none;
+    }
 
-      .horidiv {
-            display: flex;
-            align-items: center;
-            justify-content: space-evenly;
+    .horidivlower {
+      margin-top: 0.9rem;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: space-evenly;
+      gap: 1.8rem;
 
-            .locatext2 {
-                  position: relative;
-                  left: 0.2rem;
-                  width: 100%;
-                  font-weight: bold;
-                  appearance: none;
-                  -webkit-appearance: none;
-                  -moz-appearance: none;
-                  background-image: none;
-                  border: none;
-                  outline: none;
-            }
+      .nebusiness {
+        font-style: italic;
+        @include hori;
+        column-gap: 0.4rem;
 
-            .searchcontainer {
-                  position: relative;
-                  display: flex;
-
-                  .search {
-                        @include long-round-butt;
-                        width: 790px;
-                        height: 42px;
-                        border: solid 1px rgba(0, 0, 0, 0.3);
-                        box-sizing: border-box;
-                        padding: 1rem;
-                  }
-
-                  .searchbutt {
-                        @include long-round-butt;
-                        display: flex;
-                        justify-content: center;
-                        align-items: center;
-                        color: white;
-                        width: 64px;
-                        height: 44px;
-                        background-color: $primary-blue;
-                        position: absolute;
-                        right: 0px;
-                  }
-            }
-
-            .notifbutton {
-                  @include round-butt;
-            }
-
-            .lang {
-                  @include round-butt;
-            }
-
-            .themebutt {
-                  @include long-round-butt;
-                  position: relative;
-                  padding: 0.4rem;
-                  box-sizing: border-box;
-                  display: flex;
-                  justify-content: flex-end;
-                  align-items: center;
-                  border: solid 1px rgba(0, 0, 0, 0.3);
-                  margin-inline: 1rem;
-            }
-
-            .dontblue {
-                  position: relative;
-                  right: 1rem;
-                  color: inherit;
-                  text-decoration: none;
-            }
-
-            .signin {
-                  text-decoration: none;
-                  text-decoration-line: none;
-                  @include long-round-butt;
-                  display: flex;
-                  padding-inline: 0.9rem;
-                  justify-content: center;
-                  align-items: center;
-                  user-select: none;
-                  border: solid 1px rgba(0, 0, 0, 0.1);
-
-                  .textcontainer {
-                        text-decoration: none;
-                        text-decoration-line: none;
-                        display: flex;
-                        flex-direction: column;
-                  }
-
-            }
-
-            .signin:hover {
-                  text-decoration: none;
-                  text-decoration-line: none;
-                  background-color: #ebebeb;
-                  transition: 200ms;
-            }
-
-            .cartbutton {
-                  position: relative;
-                  right: 10rem;
-                  top: 0.3rem;
-            }
-
+        .blue {
+          color: #0a185c;
+          font-weight: bold;
+        }
       }
 
-      .vertidiv {
-            display: flex;
-            flex-direction: column;
+      .feedback {
 
-            .b {
-                  font-weight: bold;
-            }
-
-
-            .horidiv1 {
-                  margin-top: 0.9rem;
-                  position: relative;
-                  right: 1.7rem;
-                  display: flex;
-                  align-items: center;
-                  justify-content: space-evenly;
-                  gap: 1.8rem;
-                  cursor: pointer;
-                  user-select: none;
-            }
-
-            .horidivlower {
-                  margin-top: 0.9rem;
-                  position: relative;
-                  display: flex;
-                  align-items: center;
-                  justify-content: space-evenly;
-                  gap: 1.8rem;
-
-                  .nebusiness {
-                        font-style: italic;
-                        @include hori;
-                        column-gap: 0.4rem;
-
-                        .blue {
-                              color: #0a185c;
-                              font-weight: bold;
-                        }
-                  }
-
-                  .feedback {
-
-                        @include hori;
-                        @include long-round-butt;
-                        border: solid 1px rgba(0, 0, 0, 0.3);
-                        padding: 0.2rem;
-                        padding-inline: 1rem;
-                        gap: 0.3rem;
-                        background-color: $primary-blue;
-                        color: white;
-                        font-weight: bold;
-                  }
-
-                  .help {
-                        @include hori;
-                        color: white;
-                        @include long-round-butt;
-                        border: solid 1px rgba(0, 0, 0, 0.3);
-                        padding: 0.2rem;
-                        padding-inline: 1rem;
-                        gap: 0.3rem;
-                        background-color: $primary-blue;
-                        color: white;
-                        font-weight: bold;
-                  }
-            }
-
+        @include hori;
+        @include long-round-butt;
+        border: solid 1px rgba(0, 0, 0, 0.3);
+        padding: 0.2rem;
+        padding-inline: 1rem;
+        gap: 0.3rem;
+        background-color: $primary-blue;
+        color: white;
+        font-weight: bold;
       }
+
+      .help {
+        @include hori;
+        color: white;
+        @include long-round-butt;
+        border: solid 1px rgba(0, 0, 0, 0.3);
+        padding: 0.2rem;
+        padding-inline: 1rem;
+        gap: 0.3rem;
+        background-color: $primary-blue;
+        color: white;
+        font-weight: bold;
+      }
+    }
+
+  }
 
 }
 
 
 .themebutta {
-      background-color: $primary-white;
-      cursor: pointer;
-      user-select: none;
-      @include long-round-butt;
-      position: absolute;
-      padding: 0.4rem;
-      box-sizing: border-box;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 60px;
-      height: 36px;
-      border: solid 1px rgba(0, 0, 0, 0.3);
-      left: 87.1rem;
-      top: 1.23rem;
-      z-index: 3;
+  background-color: $primary-white;
+  cursor: pointer;
+  user-select: none;
+  @include long-round-butt;
+  position: absolute;
+  padding: 0.4rem;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 60px;
+  height: 36px;
+  border: solid 1px rgba(0, 0, 0, 0.3);
+  left: 87.1rem;
+  top: 1.23rem;
+  z-index: 3;
 }
 
 .outputsearch {
-      user-select: auto;
-      cursor: auto;
+  user-select: auto;
+  cursor: auto;
+  box-sizing: border-box;
+  z-index: 3;
+  position: absolute;
+  padding: 1rem;
+  background-color: #ffffff;
+  width: 790px;
+  height: 45rem;
+  border-radius: 10px;
+  @include verti();
+
+  .mainresult {
+    height: 30rem;
+  }
+
+  .otherresult {
+    @include hori();
+    justify-content: space-around;
+    width: 100%;
+    height: 100%;
+
+    .matchkey {
       box-sizing: border-box;
-      z-index: 3;
-      position: absolute;
       padding: 1rem;
-      background-color: #ffffff;
-      width: 790px;
-      height: 45rem;
-      border-radius: 10px;
-      @include verti();
 
-      .mainresult {
-            height: 30rem;
-      }
+      width: 33%;
+      // background-color: red;
+    }
 
-      .otherresult {
-            @include hori();
-            justify-content: space-around;
-            width: 100%;
-            height: 100%;
+    .matchbrand {
+      box-sizing: border-box;
+      padding: 1rem;
+      width: 33%;
+      // background-color: yellow;
+    }
 
-            .matchkey {
-                  box-sizing: border-box;
-                  padding: 1rem;
+    .matchrec {
+      box-sizing: border-box;
+      padding: 1rem;
+      width: 33%;
+      background-color: #ecf1fe;
+    }
 
-                  width: 33%;
-                  // background-color: red;
-            }
-
-            .matchbrand {
-                  box-sizing: border-box;
-                  padding: 1rem;
-                  width: 33%;
-                  // background-color: yellow;
-            }
-
-            .matchrec {
-                  box-sizing: border-box;
-                  padding: 1rem;
-                  width: 33%;
-                  background-color: #ecf1fe;
-            }
-
-      }
+  }
 
 
 }
 
 
 .footer {
-      // box-sizing: border-box;
-      color: $primary-white;
-      position: relative;
-      bottom: 0px;
-      width: 100%;
-      height: 430px;
-      background-color: #0a185c;
-      @include hori;
-      justify-content: flex-start;
-      padding: 3rem;
-      column-gap: 10%;
+  // box-sizing: border-box;
+  color: $primary-white;
+  position: relative;
+  bottom: 0px;
+  width: 100%;
+  height: 430px;
+  background-color: #0a185c;
+  @include hori;
+  justify-content: flex-start;
+  padding: 3rem;
+  column-gap: 10%;
 
-      .segmenthead {
-            user-select: auto;
-            position: relative;
-            font-weight: bold;
-            margin-bottom: 2rem;
-      }
+  .segmenthead {
+    user-select: auto;
+    position: relative;
+    font-weight: bold;
+    margin-bottom: 2rem;
+  }
 
-      .accountseg {
+  .accountseg {
 
-            .logreglink {
-                  color: inherit;
-                  text-decoration: none;
-            }
+    .logreglink {
+      color: inherit;
+      text-decoration: none;
+    }
 
-      }
+  }
 
-      .segmentcontent {
-            cursor: pointer;
-            font-weight: lighter;
-            @include verti;
-            row-gap: 1rem
-      }
+  .segmentcontent {
+    cursor: pointer;
+    font-weight: lighter;
+    @include verti;
+    row-gap: 1rem
+  }
 
-      .vert {
-            @include verti;
-      }
+  .vert {
+    @include verti;
+  }
 
 }
 
 .disclaimer {
-      color: $secondary-darkgrey;
+  color: $secondary-darkgrey;
+  position: relative;
+  bottom: 0px;
+  width: 100%;
+  height: 111px;
+  background-color: $primary-white;
+  @include hori;
+  column-gap: 10%;
+  align-items: center;
+  justify-content: space-around;
+  bottom: 2rem;
+
+  .leftdiv {
+    @include hori;
+
+    .copyright {
       position: relative;
-      bottom: 0px;
-      width: 100%;
-      height: 111px;
-      background-color: $primary-white;
+      right: 7.5rem;
+    }
+
+    .disclaimerbuttons {
       @include hori;
-      column-gap: 10%;
-      align-items: center;
-      justify-content: space-around;
-      bottom: 2rem;
+      gap: 1rem;
+      cursor: pointer;
+    }
 
-      .leftdiv {
-            @include hori;
+  }
 
-            .copyright {
-                  position: relative;
-                  right: 7.5rem;
-            }
+  .socialmedia {
+    @include hori;
+    position: relative;
+    left: 4rem;
+    gap: 0.7rem;
+    color: $primary-darkblue;
+    cursor: pointer;
 
-            .disclaimerbuttons {
-                  @include hori;
-                  gap: 1rem;
-                  cursor: pointer;
-            }
-
-      }
-
-      .socialmedia {
-            @include hori;
-            position: relative;
-            left: 4rem;
-            gap: 0.7rem;
-            color: $primary-darkblue;
-            cursor: pointer;
-
-            .socmedlink {
-                  text-decoration: none;
-                  color: inherit;
-            }
-      }
+    .socmedlink {
+      text-decoration: none;
+      color: inherit;
+    }
+  }
 
 
 
 }
 
 .homepage {
-      position: relative;
+  position: relative;
 }
 
 
 .signin {
-      width: 100%;
+  width: 100%;
 
-      .container {
-            padding-top: 3rem;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            row-gap: 2rem;
-            justify-content: center;
-            align-items: center;
+  .container {
+    padding-top: 3rem;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    row-gap: 2rem;
+    justify-content: center;
+    align-items: center;
 
-            .form {
-                  @include verti;
-                  gap: 3rem;
-                  justify-content: center;
-                  align-items: center;
-
-                  .forget {
-                        cursor: pointer;
-                        text-decoration: underline;
-
-                        &:hover {
-                              text-decoration: dashed;
-                        }
-                  }
-            }
-      }
-}
-
-.otpin {
-      width: 100%;
-      @include verti();
+    .form {
+      @include verti;
+      gap: 3rem;
       justify-content: center;
       align-items: center;
 
-      .container {
-            padding-top: 3rem;
-            width: 43%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            row-gap: 2rem;
-            justify-content: center;
-            align-items: center;
+      .forget {
+        cursor: pointer;
+        text-decoration: underline;
 
-            .messagetext {
-                  width: 70%;
-                  text-align: center;
-            }
-
-            .form {
-                  @include verti;
-                  gap: 3rem;
-                  justify-content: center;
-                  align-items: center;
-                  width: 20%;
-
-                  .forget {
-                        cursor: pointer;
-                        text-decoration: underline;
-
-                        &:hover {
-                              text-decoration: dashed;
-                        }
-                  }
-
-                  .newreq {
-                        text-decoration: underline;
-                        color: black;
-                        cursor: pointer;
-
-                        &:hover {
-                              text-decoration: dashed;
-                        }
-                  }
-            }
+        &:hover {
+          text-decoration: dashed;
+        }
       }
+    }
+  }
+}
+
+.otpin {
+  width: 100%;
+  @include verti();
+  justify-content: center;
+  align-items: center;
+
+  .container {
+    padding-top: 3rem;
+    width: 43%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    row-gap: 2rem;
+    justify-content: center;
+    align-items: center;
+
+    .messagetext {
+      width: 70%;
+      text-align: center;
+    }
+
+    .form {
+      @include verti;
+      gap: 3rem;
+      justify-content: center;
+      align-items: center;
+      width: 20%;
+
+      .forget {
+        cursor: pointer;
+        text-decoration: underline;
+
+        &:hover {
+          text-decoration: dashed;
+        }
+      }
+
+      .newreq {
+        text-decoration: underline;
+        color: black;
+        cursor: pointer;
+
+        &:hover {
+          text-decoration: dashed;
+        }
+      }
+    }
+  }
 }
 
 
 .forgotpin {
-      width: 100%;
-      @include verti();
+  width: 100%;
+  @include verti();
+  justify-content: center;
+  align-items: center;
+
+  .container {
+    padding-top: 3rem;
+    width: 43%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    row-gap: 2rem;
+    justify-content: center;
+    align-items: center;
+
+    .messagetext {
+      width: 70%;
+      text-align: center;
+    }
+
+    .form {
+      @include verti;
+      gap: 3rem;
       justify-content: center;
       align-items: center;
+      width: 20%;
 
-      .container {
-            padding-top: 3rem;
-            width: 43%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            row-gap: 2rem;
-            justify-content: center;
-            align-items: center;
+      .forget {
+        cursor: pointer;
+        text-decoration: underline;
 
-            .messagetext {
-                  width: 70%;
-                  text-align: center;
-            }
-
-            .form {
-                  @include verti;
-                  gap: 3rem;
-                  justify-content: center;
-                  align-items: center;
-                  width: 20%;
-
-                  .forget {
-                        cursor: pointer;
-                        text-decoration: underline;
-
-                        &:hover {
-                              text-decoration: dashed;
-                        }
-                  }
-
-                  .newreq {
-                        text-decoration: underline;
-                        color: black;
-                        cursor: pointer;
-
-                        &:hover {
-                              text-decoration: dashed;
-                        }
-                  }
-            }
+        &:hover {
+          text-decoration: dashed;
+        }
       }
+
+      .newreq {
+        text-decoration: underline;
+        color: black;
+        cursor: pointer;
+
+        &:hover {
+          text-decoration: dashed;
+        }
+      }
+    }
+  }
 }
 
 
 .newpassform {
-      width: 100%;
-      @include verti();
+  width: 100%;
+  @include verti();
+  justify-content: center;
+  align-items: center;
+
+  .container {
+    padding-top: 3rem;
+    width: 43%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    row-gap: 2rem;
+    justify-content: center;
+    align-items: center;
+
+    .messagetext {
+      width: 70%;
+      text-align: center;
+    }
+
+    .form {
+      @include verti;
+      gap: 3rem;
       justify-content: center;
       align-items: center;
+      width: 20%;
 
-      .container {
-            padding-top: 3rem;
-            width: 43%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            row-gap: 2rem;
-            justify-content: center;
-            align-items: center;
+      .forget {
+        cursor: pointer;
+        text-decoration: underline;
 
-            .messagetext {
-                  width: 70%;
-                  text-align: center;
-            }
-
-            .form {
-                  @include verti;
-                  gap: 3rem;
-                  justify-content: center;
-                  align-items: center;
-                  width: 20%;
-
-                  .forget {
-                        cursor: pointer;
-                        text-decoration: underline;
-
-                        &:hover {
-                              text-decoration: dashed;
-                        }
-                  }
-
-                  .newreq {
-                        text-decoration: underline;
-                        color: black;
-                        cursor: pointer;
-
-                        &:hover {
-                              text-decoration: dashed;
-                        }
-                  }
-            }
+        &:hover {
+          text-decoration: dashed;
+        }
       }
+
+      .newreq {
+        text-decoration: underline;
+        color: black;
+        cursor: pointer;
+
+        &:hover {
+          text-decoration: dashed;
+        }
+      }
+    }
+  }
 }
 
 
@@ -578,1390 +587,1390 @@ $secondary-darkgrey : #121212;
 .qtyinput {}
 
 .logreginput {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 304px;
-      height: 44px;
-      border: solid 1px rgba(0, 0, 0, 0.2);
-      border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 304px;
+  height: 44px;
+  border: solid 1px rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
 }
 
 .logreginput:focus {
-      border: $primary-blue;
-      border: solid 1px rgba(0, 0, 0, 0.2);
+  border: $primary-blue;
+  border: solid 1px rgba(0, 0, 0, 0.2);
 }
 
 .buttoninputmain {
-      color: black;
-      background-color: $button-orange;
-      width: 304px;
-      height: 44px;
-      border: solid 1px rgba(0, 0, 0, 0.2);
-      cursor: pointer;
-      font-weight: bold;
+  color: black;
+  background-color: $button-orange;
+  width: 304px;
+  height: 44px;
+  border: solid 1px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  font-weight: bold;
 }
 
 .buttoninputelse {
-      color: black;
-      background-color: $primary-white;
-      width: 304px;
-      height: 44px;
-      border: solid 1px rgba(0, 0, 0, 0.2);
-      cursor: pointer;
-      font-weight: bold
+  color: black;
+  background-color: $primary-white;
+  width: 304px;
+  height: 44px;
+  border: solid 1px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  font-weight: bold
 }
 
 .buttoninputblue {
-      color: $primary-white;
-      background-color: $primary-blue;
-      width: 304px;
-      height: 44px;
-      border: solid 1px rgba(0, 0, 0, 0.2);
-      cursor: pointer;
-      font-weight: bold;
-      border-radius: 10px;
-      font-size: 18px;
+  color: $primary-white;
+  background-color: $primary-blue;
+  width: 304px;
+  height: 44px;
+  border: solid 1px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  font-weight: bold;
+  border-radius: 10px;
+  font-size: 18px;
 }
 
 .buttoninputblue:hover {
-      color: $primary-white;
-      background-color: $primary-lightblue;
-      width: 304px;
-      height: 44px;
-      border: solid 1px rgba(0, 0, 0, 0.2);
-      cursor: pointer;
-      font-weight: bold;
-      border-radius: 10px;
-      font-size: 18px;
-      transition: 600ms;
+  color: $primary-white;
+  background-color: $primary-lightblue;
+  width: 304px;
+  height: 44px;
+  border: solid 1px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  font-weight: bold;
+  border-radius: 10px;
+  font-size: 18px;
+  transition: 600ms;
 }
 
 
 
 .signup {
-      width: 100%;
+  width: 100%;
 
-      .business {
-            width: 250px;
-      }
+  .business {
+    width: 250px;
+  }
 
-      .checkboxes {
-            width: 306px;
-      }
+  .checkboxes {
+    width: 306px;
+  }
 
-      .container {
-            padding-top: 3rem;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            row-gap: 1.7rem;
-            justify-content: center;
-            align-items: center;
+  .container {
+    padding-top: 3rem;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    row-gap: 1.7rem;
+    justify-content: center;
+    align-items: center;
 
-            .form {
-                  @include verti;
-                  gap: 1.8rem;
-            }
-      }
+    .form {
+      @include verti;
+      gap: 1.8rem;
+    }
+  }
 }
 
 .nodecor {
-      text-decoration: none;
-      color: inherit;
+  text-decoration: none;
+  color: inherit;
 }
 
 .underlined {
-      text-decoration: underline;
-      color: inherit;
+  text-decoration: underline;
+  color: inherit;
 }
 
 .buttonscaro {
-      position: absolute;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      column-gap: 88rem;
-      top: 20rem;
-      right: 5rem;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  column-gap: 88rem;
+  top: 20rem;
+  right: 5rem;
 
-      .button {
-            z-index: 99;
-            color: black;
-            font-size: 48px;
-            background-color: rgba(255, 255, 255, 0.65);
-            border-radius: 10px;
-            border: none;
-      }
+  .button {
+    z-index: 99;
+    color: black;
+    font-size: 48px;
+    background-color: rgba(255, 255, 255, 0.65);
+    border-radius: 10px;
+    border: none;
+  }
 
 }
 
 
 .carousel {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
 
 
 
-      .carouselImage {
-            width: 1807px;
-            height: 44rem;
-            transition: transform 0.5s ease-in-out;
+  .carouselImage {
+    width: 1807px;
+    height: 44rem;
+    transition: transform 0.5s ease-in-out;
 
-            &.sliding {
-                  transition: transform 0.5s ease-in-out;
-                  transform: translateX(-2%);
-            }
-      }
+    &.sliding {
+      transition: transform 0.5s ease-in-out;
+      transform: translateX(-2%);
+    }
+  }
 
 }
 
 .adminpage {
-      position: relative;
-      @include verti();
-      row-gap: 3rem;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+  position: relative;
+  @include verti();
+  row-gap: 3rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
-      .featurebuttoncontainer {
-            width: 1300px;
-            margin-inline: 2rem;
-            margin-top: 2rem;
-            @include hori();
-            flex-wrap: wrap;
-            row-gap: 1rem;
-            column-gap: 6rem;
-            justify-content: center;
-            align-items: center;
+  .featurebuttoncontainer {
+    width: 1300px;
+    margin-inline: 2rem;
+    margin-top: 2rem;
+    @include hori();
+    flex-wrap: wrap;
+    row-gap: 1rem;
+    column-gap: 6rem;
+    justify-content: center;
+    align-items: center;
 
-            .adminfeaturebutton {
-                  background-color: $secondary-lightblue;
-                  padding-block: 1rem;
-                  padding-inline: 1.9rem;
-                  border-radius: 20px;
-                  font-weight: bold;
-                  user-select: none;
-                  cursor: pointer;
+    .adminfeaturebutton {
+      background-color: $secondary-lightblue;
+      padding-block: 1rem;
+      padding-inline: 1.9rem;
+      border-radius: 20px;
+      font-weight: bold;
+      user-select: none;
+      cursor: pointer;
 
-                  &:hover {
-                        background-color: $primary-blue;
-                        transition: 300ms;
-                  }
-
-                  &.clicked {
-                        background-color: $primary-darkblue;
-                        color: $primary-white;
-                        transition: 300ms;
-                  }
-
-            }
-
+      &:hover {
+        background-color: $primary-blue;
+        transition: 300ms;
       }
+
+      &.clicked {
+        background-color: $primary-darkblue;
+        color: $primary-white;
+        transition: 300ms;
+      }
+
+    }
+
+  }
 
 }
 
 @mixin issubpage {
-      margin: 4rem;
-      padding: 4rem;
-      border: solid 1px rgba(0, 0, 0, 0.3);
-      border-radius: 20px;
+  margin: 4rem;
+  padding: 4rem;
+  border: solid 1px rgba(0, 0, 0, 0.3);
+  border-radius: 20px;
 }
 
 .ManageReport {
-      @include issubpage();
-      width: 99rem;
-      @include verti();
-      justify-content: space-between;
-      align-items: center;
+  @include issubpage();
+  width: 99rem;
+  @include verti();
+  justify-content: space-between;
+  align-items: center;
 }
 
 .ManageUser {
-      @include issubpage();
-      width: 99rem;
+  @include issubpage();
+  width: 99rem;
+  @include verti();
+  justify-content: space-between;
+  align-items: center;
+
+  .title {
+    margin-bottom: 2rem;
+  }
+
+  .shopcontainer {
+    @include verti();
+    width: inherit;
+
+    .shopheader {
+      width: inherit;
+      @include hori();
+      margin-bottom: 1rem;
+
+      .id {
+        width: 5%;
+
+      }
+
+      .name {
+        width: 24%
+      }
+
+      .email {
+        width: 25%;
+      }
+
+      .phone {
+        width: 18%;
+      }
+
+      .status {
+        width: 9%;
+      }
+
+      .action {
+        width: 19%;
+        text-align: center;
+        text-indent: -5rem;
+      }
+
+
+    }
+
+    .shops {
       @include verti();
-      justify-content: space-between;
+      width: inherit;
+      justify-content: center;
       align-items: center;
 
-      .title {
-            margin-bottom: 2rem;
-      }
-
-      .shopcontainer {
-            @include verti();
-            width: inherit;
-
-            .shopheader {
-                  width: inherit;
-                  @include hori();
-                  margin-bottom: 1rem;
-
-                  .id {
-                        width: 5%;
-
-                  }
-
-                  .name {
-                        width: 24%
-                  }
-
-                  .email {
-                        width: 25%;
-                  }
-
-                  .phone {
-                        width: 18%;
-                  }
-
-                  .status {
-                        width: 9%;
-                  }
-
-                  .action {
-                        width: 19%;
-                        text-align: center;
-                        text-indent: -5rem;
-                  }
+      .shop {
+        width: inherit;
+        @include hori();
+        display: flex;
+        justify-content: center;
+        align-items: center;
 
 
-            }
+        .id {
+          width: 5%;
 
-            .shops {
-                  @include verti();
-                  width: inherit;
-                  justify-content: center;
-                  align-items: center;
+        }
 
-                  .shop {
-                        width: inherit;
-                        @include hori();
-                        display: flex;
-                        justify-content: center;
-                        align-items: center;
+        .name {
+          width: 24%
+        }
 
+        .email {
+          width: 25%;
+        }
 
-                        .id {
-                              width: 5%;
+        .phone {
+          width: 18%;
+        }
 
-                        }
+        .status {
+          width: 9%;
+        }
 
-                        .name {
-                              width: 24%
-                        }
+        .buttons {
+          @include hori();
+          column-gap: 2rem;
+          width: 19%;
+          position: relative;
+          top: 0.4rem;
+          z-index: 9;
+        }
 
-                        .email {
-                              width: 25%;
-                        }
+        .button {
+          color: $primary-white;
+          width: 6rem;
+          height: 2rem;
+          margin-bottom: 1rem;
+          border: solid 1px rgba(0, 0, 0, 0.2);
+          border-radius: 8px;
+          cursor: pointer;
+          text-align: center;
+        }
 
-                        .phone {
-                              width: 18%;
-                        }
+        .colred {
+          background-color: red;
 
-                        .status {
-                              width: 9%;
-                        }
+          &:hover {
+            background-color: rgb(169, 0, 0);
+            transition: 600ms;
+          }
+        }
 
-                        .buttons {
-                              @include hori();
-                              column-gap: 2rem;
-                              width: 19%;
-                              position: relative;
-                              top: 0.4rem;
-                              z-index: 9;
-                        }
+        .colgreen {
+          background-color: green;
 
-                        .button {
-                              color: $primary-white;
-                              width: 6rem;
-                              height: 2rem;
-                              margin-bottom: 1rem;
-                              border: solid 1px rgba(0, 0, 0, 0.2);
-                              border-radius: 8px;
-                              cursor: pointer;
-                              text-align: center;
-                        }
-
-                        .colred {
-                              background-color: red;
-
-                              &:hover {
-                                    background-color: rgb(169, 0, 0);
-                                    transition: 600ms;
-                              }
-                        }
-
-                        .colgreen {
-                              background-color: green;
-
-                              &:hover {
-                                    transition: 600ms;
-                                    background-color: rgb(2, 85, 2);
-                              }
-                        }
-
-                  }
-
-            }
+          &:hover {
+            transition: 600ms;
+            background-color: rgb(2, 85, 2);
+          }
+        }
 
       }
+
+    }
+
+  }
 }
 
 .OpenShop {
-      @include issubpage();
-      width: 99rem;
-      @include verti();
-      justify-content: space-between;
-      align-items: center;
+  @include issubpage();
+  width: 99rem;
+  @include verti();
+  justify-content: space-between;
+  align-items: center;
 
-      .openshopform {
-            margin-top: 2rem;
-            @include verti();
-            row-gap: 2rem;
-            justify-content: space-between;
-            align-items: center;
-      }
+  .openshopform {
+    margin-top: 2rem;
+    @include verti();
+    row-gap: 2rem;
+    justify-content: space-between;
+    align-items: center;
+  }
 }
 
 .ManageShop {
-      @include issubpage();
-      width: 99rem;
+  @include issubpage();
+  width: 99rem;
+  @include verti();
+  justify-content: space-between;
+  align-items: center;
+
+  .title {
+    margin-bottom: 2rem;
+  }
+
+  .shopcontainer {
+    @include verti();
+    width: inherit;
+
+    .shopheader {
+      width: inherit;
+      @include hori();
+      margin-bottom: 1rem;
+
+      .id {
+        width: 5%;
+
+      }
+
+      .name {
+        width: 24%
+      }
+
+      .email {
+        width: 25%;
+      }
+
+      .phone {
+        width: 18%;
+      }
+
+      .status {
+        width: 9%;
+      }
+
+      .action {
+        width: 19%;
+        text-align: center;
+        text-indent: -5rem;
+      }
+
+
+    }
+
+    .shops {
       @include verti();
-      justify-content: space-between;
+      width: inherit;
+      justify-content: center;
       align-items: center;
 
-      .title {
-            margin-bottom: 2rem;
-      }
-
-      .shopcontainer {
-            @include verti();
-            width: inherit;
-
-            .shopheader {
-                  width: inherit;
-                  @include hori();
-                  margin-bottom: 1rem;
-
-                  .id {
-                        width: 5%;
-
-                  }
-
-                  .name {
-                        width: 24%
-                  }
-
-                  .email {
-                        width: 25%;
-                  }
-
-                  .phone {
-                        width: 18%;
-                  }
-
-                  .status {
-                        width: 9%;
-                  }
-
-                  .action {
-                        width: 19%;
-                        text-align: center;
-                        text-indent: -5rem;
-                  }
+      .shop {
+        width: inherit;
+        @include hori();
+        display: flex;
+        justify-content: center;
+        align-items: center;
 
 
-            }
+        .id {
+          width: 5%;
 
-            .shops {
-                  @include verti();
-                  width: inherit;
-                  justify-content: center;
-                  align-items: center;
+        }
 
-                  .shop {
-                        width: inherit;
-                        @include hori();
-                        display: flex;
-                        justify-content: center;
-                        align-items: center;
+        .name {
+          width: 24%
+        }
 
+        .email {
+          width: 25%;
+        }
 
-                        .id {
-                              width: 5%;
+        .phone {
+          width: 18%;
+        }
 
-                        }
+        .status {
+          width: 9%;
+        }
 
-                        .name {
-                              width: 24%
-                        }
+        .buttons {
+          @include hori();
+          column-gap: 2rem;
+          width: 19%;
+          position: relative;
+          top: 0.4rem;
+          z-index: 9;
+        }
 
-                        .email {
-                              width: 25%;
-                        }
+        .button {
+          color: $primary-white;
+          width: 6rem;
+          height: 2rem;
+          margin-bottom: 1rem;
+          border: solid 1px rgba(0, 0, 0, 0.2);
+          border-radius: 8px;
+          cursor: pointer;
+          text-align: center;
+        }
 
-                        .phone {
-                              width: 18%;
-                        }
+        .colred {
+          background-color: red;
 
-                        .status {
-                              width: 9%;
-                        }
+          &:hover {
+            background-color: rgb(169, 0, 0);
+            transition: 600ms;
+          }
+        }
 
-                        .buttons {
-                              @include hori();
-                              column-gap: 2rem;
-                              width: 19%;
-                              position: relative;
-                              top: 0.4rem;
-                              z-index: 9;
-                        }
+        .colgreen {
+          background-color: green;
 
-                        .button {
-                              color: $primary-white;
-                              width: 6rem;
-                              height: 2rem;
-                              margin-bottom: 1rem;
-                              border: solid 1px rgba(0, 0, 0, 0.2);
-                              border-radius: 8px;
-                              cursor: pointer;
-                              text-align: center;
-                        }
-
-                        .colred {
-                              background-color: red;
-
-                              &:hover {
-                                    background-color: rgb(169, 0, 0);
-                                    transition: 600ms;
-                              }
-                        }
-
-                        .colgreen {
-                              background-color: green;
-
-                              &:hover {
-                                    transition: 600ms;
-                                    background-color: rgb(2, 85, 2);
-                              }
-                        }
-
-                  }
-
-            }
+          &:hover {
+            transition: 600ms;
+            background-color: rgb(2, 85, 2);
+          }
+        }
 
       }
+
+    }
+
+  }
 
 }
 
 .SendLetter {
-      @include issubpage();
-      width: 99rem;
-      @include verti();
-      justify-content: space-between;
-      align-items: center;
+  @include issubpage();
+  width: 99rem;
+  @include verti();
+  justify-content: space-between;
+  align-items: center;
 
-      .emailform {
-            padding: 2rem;
-            display: flex;
-            flex-direction: column;
-            row-gap: 2rem;
-            justify-content: center;
-            align-items: center;
-      }
+  .emailform {
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    row-gap: 2rem;
+    justify-content: center;
+    align-items: center;
+  }
 }
 
 .AddVoucher {
-      @include issubpage();
-      width: 99rem;
-      @include verti();
-      justify-content: space-between;
-      align-items: center;
+  @include issubpage();
+  width: 99rem;
+  @include verti();
+  justify-content: space-between;
+  align-items: center;
 }
 
 .ManageReview {
-      @include issubpage();
-      width: 99rem;
-      @include verti();
-      justify-content: space-between;
-      align-items: center;
+  @include issubpage();
+  width: 99rem;
+  @include verti();
+  justify-content: space-between;
+  align-items: center;
 }
 
 .ManagePromo {
-      @include issubpage();
-      width: 99rem;
-      @include verti();
-      justify-content: space-between;
-      align-items: center;
+  @include issubpage();
+  width: 99rem;
+  @include verti();
+  justify-content: space-between;
+  align-items: center;
 
-      .header {
-            @include hori();
-            justify-content: center;
-            align-items: center;
+  .header {
+    @include hori();
+    justify-content: center;
+    align-items: center;
 
-            .plusicon {
-                  position: relative;
-                  bottom: 1rem;
-                  margin-left: 1rem;
-            }
+    .plusicon {
+      position: relative;
+      bottom: 1rem;
+      margin-left: 1rem;
+    }
 
-            .title {
-                  margin-bottom: 2rem;
-            }
-      }
+    .title {
+      margin-bottom: 2rem;
+    }
+  }
 
-      .shopcontainer {
-            @include verti();
-            width: inherit;
+  .shopcontainer {
+    @include verti();
+    width: inherit;
 
-            .shopheader {
-                  width: inherit;
-                  @include hori();
-                  margin-bottom: 1rem;
-                  column-gap: 1rem;
+    .shopheader {
+      width: inherit;
+      @include hori();
+      margin-bottom: 1rem;
+      column-gap: 1rem;
 
-                  .id {
-                        width: 5%;
-
-                  }
-
-                  .name {
-                        width: 60%
-                  }
-
-                  .status {
-                        width: 10%;
-                        position: relative;
-                        left: 2rem;
-                  }
-
-                  .action {
-                        width: 25%;
-                        text-align: center;
-                        // text-indent: -5rem;
-                  }
-
-            }
+      .id {
+        width: 5%;
 
       }
+
+      .name {
+        width: 60%
+      }
+
+      .status {
+        width: 10%;
+        position: relative;
+        left: 2rem;
+      }
+
+      .action {
+        width: 25%;
+        text-align: center;
+        // text-indent: -5rem;
+      }
+
+    }
+
+  }
 
 }
 
 
 .shopspromo {
-      margin-top: 2rem;
-      @include verti();
-      width: inherit;
-      justify-content: center;
-      align-items: center;
-      row-gap: 2rem;
+  margin-top: 2rem;
+  @include verti();
+  width: inherit;
+  justify-content: center;
+  align-items: center;
+  row-gap: 2rem;
 
-      .shop {
-            width: inherit;
-            @include hori();
-            display: flex;
-            justify-content: flex-start;
-            align-items: center;
-            column-gap: 1rem;
-            row-gap: 2rem;
-
-
-            .id {
-                  width: 5%;
-
-            }
-
-            .name {
-                  width: 60%;
-
-                  .imagecontainer {
-                        width: 900px;
-
-                        .theimage {
-                              width: inherit;
-                              height: inherit;
-                        }
-
-                  }
-
-            }
-
-            .status {
-                  width: 10%;
-            }
-
-            .buttons {
-                  z-index: 9;
-                  @include hori();
-                  column-gap: 2rem;
-                  width: 25%;
-                  position: relative;
-                  top: 0.4rem;
-                  left: 14rem;
+  .shop {
+    width: inherit;
+    @include hori();
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    column-gap: 1rem;
+    row-gap: 2rem;
 
 
-                  .colred {
-                        background-color: red;
+    .id {
+      width: 5%;
 
-                        &:hover {
-                              background-color: rgb(169, 0, 0);
-                              transition: 600ms;
-                        }
-                  }
+    }
 
-                  .colgreen {
-                        background-color: green;
+    .name {
+      width: 60%;
 
-                        &:hover {
-                              transition: 600ms;
-                              background-color: rgb(2, 85, 2);
-                        }
-                  }
+      .imagecontainer {
+        width: 900px;
 
-            }
-
-            .button {
-                  color: $primary-white;
-                  width: 6rem;
-                  height: 2rem;
-                  margin-bottom: 1rem;
-                  border: solid 1px rgba(0, 0, 0, 0.2);
-                  border-radius: 8px;
-                  cursor: pointer;
-                  text-align: center;
-            }
-
+        .theimage {
+          width: inherit;
+          height: inherit;
+        }
 
       }
+
+    }
+
+    .status {
+      width: 10%;
+    }
+
+    .buttons {
+      z-index: 9;
+      @include hori();
+      column-gap: 2rem;
+      width: 25%;
+      position: relative;
+      top: 0.4rem;
+      left: 14rem;
+
+
+      .colred {
+        background-color: red;
+
+        &:hover {
+          background-color: rgb(169, 0, 0);
+          transition: 600ms;
+        }
+      }
+
+      .colgreen {
+        background-color: green;
+
+        &:hover {
+          transition: 600ms;
+          background-color: rgb(2, 85, 2);
+        }
+      }
+
+    }
+
+    .button {
+      color: $primary-white;
+      width: 6rem;
+      height: 2rem;
+      margin-bottom: 1rem;
+      border: solid 1px rgba(0, 0, 0, 0.2);
+      border-radius: 8px;
+      cursor: pointer;
+      text-align: center;
+    }
+
+
+  }
 
 }
 
 
 .shopowner {
-      @include verti();
-      justify-content: space-between;
-      align-items: center;
-      padding: 2rem;
-      margin: 4rem;
-      border: solid 1px rgba(0, 0, 0, 0.16789);
+  @include verti();
+  justify-content: space-between;
+  align-items: center;
+  padding: 2rem;
+  margin: 4rem;
+  border: solid 1px rgba(0, 0, 0, 0.16789);
+  border-radius: 20px;
+
+  .shopownersubpage {
+    box-sizing: border-box;
+    width: 100%;
+    margin-top: 4rem;
+    padding: 2rem;
+    // border: solid 1px rgba(0, 0, 0, 0.16789);
+    // border-radius: 20px;
+  }
+
+  .featurebuttoncontainer {
+    width: 1300px;
+    margin-inline: 2rem;
+    margin-top: 2rem;
+    @include hori();
+    flex-wrap: wrap;
+    row-gap: 1rem;
+    column-gap: 6rem;
+    justify-content: center;
+    align-items: center;
+
+    .shopownerfeaturebutton {
+      @include hori();
+      flex-wrap: wrap;
+
+      background-color: $secondary-lightblue;
+      padding-block: 1rem;
+      padding-inline: 1.9rem;
       border-radius: 20px;
+      font-weight: bold;
+      user-select: none;
+      cursor: pointer;
 
-      .shopownersubpage {
-            box-sizing: border-box;
-            width: 100%;
-            margin-top: 4rem;
-            padding: 2rem;
-            // border: solid 1px rgba(0, 0, 0, 0.16789);
-            // border-radius: 20px;
+      &:hover {
+        background-color: $primary-blue;
+        transition: 300ms;
       }
 
-      .featurebuttoncontainer {
-            width: 1300px;
-            margin-inline: 2rem;
-            margin-top: 2rem;
-            @include hori();
-            flex-wrap: wrap;
-            row-gap: 1rem;
-            column-gap: 6rem;
-            justify-content: center;
-            align-items: center;
-
-            .shopownerfeaturebutton {
-                  @include hori();
-                  flex-wrap: wrap;
-
-                  background-color: $secondary-lightblue;
-                  padding-block: 1rem;
-                  padding-inline: 1.9rem;
-                  border-radius: 20px;
-                  font-weight: bold;
-                  user-select: none;
-                  cursor: pointer;
-
-                  &:hover {
-                        background-color: $primary-blue;
-                        transition: 300ms;
-                  }
-
-                  &.clicked {
-                        background-color: $primary-darkblue;
-                        color: $primary-white;
-                        transition: 300ms;
-                  }
-            }
+      &.clicked {
+        background-color: $primary-darkblue;
+        color: $primary-white;
+        transition: 300ms;
       }
+    }
+  }
 
 }
 
 @mixin immaprodlabel {
-      position: absolute;
-      color: $secondary-darkgrey;
-      opacity: 75%;
+  position: absolute;
+  color: $secondary-darkgrey;
+  opacity: 75%;
 }
 
 .InsertShopProduct {
-      @include verti();
+  @include verti();
 
-      .insertproductform {
-            @include verti();
-            justify-content: space-between;
-            align-items: center;
-            row-gap: 2rem;
-      }
+  .insertproductform {
+    @include verti();
+    justify-content: space-between;
+    align-items: center;
+    row-gap: 2rem;
+  }
 
 }
 
 .insertpromo {
-      @include verti();
-      justify-content: center;
-      align-items: center;
+  @include verti();
+  justify-content: center;
+  align-items: center;
 
-      .form {
-            margin: 2rem;
-            @include verti();
-            gap: 2rem;
-            justify-content: center;
-            align-items: center;
+  .form {
+    margin: 2rem;
+    @include verti();
+    gap: 2rem;
+    justify-content: center;
+    align-items: center;
 
-      }
+  }
 }
 
 .UpdateShopProduct {
-      @include verti();
+  @include verti();
 
-      .insertproductform {
-            @include verti();
-            justify-content: space-between;
-            align-items: center;
-            row-gap: 2rem;
-      }
+  .insertproductform {
+    @include verti();
+    justify-content: space-between;
+    align-items: center;
+    row-gap: 2rem;
+  }
 
 }
 
 .ViewShopProduct {
-      .makeitbigger {
-            font-size: 40px;
-            margin-bottom: 2rem
-      }
+  .makeitbigger {
+    font-size: 40px;
+    margin-bottom: 2rem
+  }
 }
 
 .shortcutstyles {
-      @include verti();
-      position: absolute;
-      width: 45rem;
-      height: 25rem;
-      top: 4rem;
-      right: 11rem;
-      z-index: 1;
-      box-sizing: border-box;
-      border: #050c2e solid;
+  @include verti();
+  position: absolute;
+  width: 45rem;
+  height: 25rem;
+  top: 4rem;
+  right: 11rem;
+  z-index: 10;
+  box-sizing: border-box;
+  border: #050c2e solid;
 
-      .bottomcontent {
-            position: absolute;
-            bottom: 0;
-            @include hori();
-            background-color: $primary-white;
-            width: 100%;
-            height: 20rem;
-            box-sizing: border-box;
+  .bottomcontent {
+    position: absolute;
+    bottom: 0;
+    @include hori();
+    background-color: $primary-white;
+    width: 100%;
+    height: 20rem;
+    box-sizing: border-box;
+
+  }
+
+  .topcontent {
+    background-color: #c3d3f8;
+    @include hori();
+    justify-content: space-between;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 5rem;
+    padding-inline: 0.8rem;
+    box-sizing: border-box;
+
+    .rightsection {
+      @include hori();
+      width: 50%;
+      justify-content: space-around;
+
+
+      .rightsubsection {
+        @include hori();
 
       }
 
-      .topcontent {
-            background-color: #c3d3f8;
-            @include hori();
-            justify-content: space-between;
-            align-items: center;
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 5rem;
-            padding-inline: 0.8rem;
-            box-sizing: border-box;
-
-            .rightsection {
-                  @include hori();
-                  width: 50%;
-                  justify-content: space-around;
+    }
 
 
-                  .rightsubsection {
-                        @include hori();
+    .prof {
+      @include hori();
+      width: 50%;
+      column-gap: 1rem;
 
-                  }
-
-            }
-
-
-            .prof {
-                  @include hori();
-                  width: 50%;
-                  column-gap: 1rem;
-
-                  .iconcontainer {
-                        position: relative;
-                        top: 0.6rem;
-                  }
-
-                  .actualname {
-                        @include verti();
-
-
-                  }
-
-            }
+      .iconcontainer {
+        position: relative;
+        top: 0.6rem;
       }
+
+      .actualname {
+        @include verti();
+
+
+      }
+
+    }
+  }
 }
 
 .largeproductcard {
-      @include verti();
-      font-size: 18px;
-      border: solid 1px rgba(0, 0, 0, 0.1);
-      border-radius: 8px;
-      padding: 0.3rem;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+  @include verti();
+  font-size: 18px;
+  border: solid 1px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  padding: 0.3rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
-      .productname {
-            align-self: flex-start;
+  .productname {
+    align-self: flex-start;
 
-      }
+  }
 
-      .productprice {
-            align-self: flex-start;
-            position: relative;
-            bottom: 1rem;
-      }
+  .productprice {
+    align-self: flex-start;
+    position: relative;
+    bottom: 1rem;
+  }
 
-      .buttons {
-            z-index: 9;
-            @include hori();
-            column-gap: 2rem;
-            width: inherit;
-      }
+  .buttons {
+    z-index: 9;
+    @include hori();
+    column-gap: 2rem;
+    width: inherit;
+  }
 
-      .button {
-            color: $primary-white;
-            width: 9rem;
-            height: 2rem;
-            margin-bottom: 1rem;
-            border: solid 1px rgba(0, 0, 0, 0.2);
-            border-radius: 8px;
-            cursor: pointer;
-            text-indent: -1rem;
+  .button {
+    color: $primary-white;
+    width: 9rem;
+    height: 2rem;
+    margin-bottom: 1rem;
+    border: solid 1px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    cursor: pointer;
+    text-indent: -1rem;
 
-      }
+  }
 
-      .colred {
-            background-color: red;
+  .colred {
+    background-color: red;
 
-            &:hover {
-                  background-color: rgb(169, 0, 0);
-                  transition: 600ms;
-            }
-      }
+    &:hover {
+      background-color: rgb(169, 0, 0);
+      transition: 600ms;
+    }
+  }
 
-      .colgreen {
-            background-color: green;
+  .colgreen {
+    background-color: green;
 
-            &:hover {
-                  transition: 600ms;
-                  background-color: rgb(2, 85, 2);
-            }
-      }
+    &:hover {
+      transition: 600ms;
+      background-color: rgb(2, 85, 2);
+    }
+  }
 }
 
 
 .mediumproductcard {
-      @include verti();
-      font-size: 18px;
-      border: solid 1px rgba(0, 0, 0, 0.1);
-      border-radius: 8px;
-      padding: 0.3rem;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+  @include verti();
+  font-size: 18px;
+  border: solid 1px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  padding: 0.3rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
-      .productname {
-            align-self: flex-start;
+  .productname {
+    align-self: flex-start;
 
-      }
+  }
 
-      .productprice {
-            align-self: flex-start;
-            position: relative;
-            bottom: 1rem;
-      }
+  .productprice {
+    align-self: flex-start;
+    position: relative;
+    bottom: 1rem;
+  }
 
-      .buttons {
-            z-index: 9;
-            @include hori();
-            column-gap: 2rem;
-            width: inherit;
-      }
+  .buttons {
+    z-index: 9;
+    @include hori();
+    column-gap: 2rem;
+    width: inherit;
+  }
 
-      .button {
-            color: $primary-white;
-            width: 9rem;
-            height: 2rem;
-            margin-bottom: 1rem;
-            border: solid 1px rgba(0, 0, 0, 0.2);
-            border-radius: 8px;
-            cursor: pointer;
-            text-indent: -1rem;
+  .button {
+    color: $primary-white;
+    width: 9rem;
+    height: 2rem;
+    margin-bottom: 1rem;
+    border: solid 1px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    cursor: pointer;
+    text-indent: -1rem;
 
-      }
+  }
 
-      .colred {
-            background-color: red;
+  .colred {
+    background-color: red;
 
-            &:hover {
-                  background-color: rgb(169, 0, 0);
-                  transition: 600ms;
-            }
-      }
+    &:hover {
+      background-color: rgb(169, 0, 0);
+      transition: 600ms;
+    }
+  }
 
-      .colgreen {
-            background-color: green;
+  .colgreen {
+    background-color: green;
 
-            &:hover {
-                  transition: 600ms;
-                  background-color: rgb(2, 85, 2);
-            }
-      }
+    &:hover {
+      transition: 600ms;
+      background-color: rgb(2, 85, 2);
+    }
+  }
 }
 
 .shopproductcontainer {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr 1fr;
-      gap: 2.6rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 2.6rem;
 }
 
 .sidebar {
-      border-radius: 0.3rem;
-      row-gap: 1.6rem;
-      width: 14%;
-      height: 40rem;
-      position: absolute;
-      background-image: linear-gradient(to bottom, $primary-lightgrey 80%, rgba(255, 255, 255, 0) 100%);
-      left: 2.5%;
-      z-index: 9;
-      padding: 1rem;
-      justify-content: centerl;
-      align-items: center;
+  border-radius: 0.3rem;
+  row-gap: 1.6rem;
+  width: 14%;
+  height: 40rem;
+  position: absolute;
+  background-image: linear-gradient(to bottom, $primary-lightgrey 80%, rgba(255, 255, 255, 0) 100%);
+  left: 2.5%;
+  z-index: 9;
+  padding: 1rem;
+  justify-content: centerl;
+  align-items: center;
 
 
-      @include verti();
+  @include verti();
 
-      .sidebaritem {
-            cursor: pointer;
-            user-select: none;
-            width: 100%;
-            padding-right: 0.5rem;
-            @include hori();
-            align-items: center;
-            justify-content: space-between;
+  .sidebaritem {
+    cursor: pointer;
+    user-select: none;
+    width: 100%;
+    padding-right: 0.5rem;
+    @include hori();
+    align-items: center;
+    justify-content: space-between;
 
-            .obj {
-                  @include hori();
-                  column-gap: 1rem;
-            }
-      }
+    .obj {
+      @include hori();
+      column-gap: 1rem;
+    }
+  }
 }
 
 .productpage {
-      margin-top: 2.5rem;
-      color: $primary-darkblue;
-      padding: 3rem;
-      font-weight: bold;
-      font-size: large;
+  margin-top: 2.5rem;
+  color: $primary-darkblue;
+  padding: 3rem;
+  font-weight: bold;
+  font-size: large;
 
-      .titleproduct {
-            margin-bottom: 2rem;
+  .titleproduct {
+    margin-bottom: 2rem;
+  }
+
+  .bestdealsitems {
+    @include hori();
+
+    .mainbestdeal {
+      width: 566px;
+      height: 500px;
+      background-color: yellow;
+    }
+
+    .besidemain {
+      @include verti();
+
+      .row1 {
+        @include hori();
+        margin-bottom: 20px
       }
 
-      .bestdealsitems {
-            @include hori();
-
-            .mainbestdeal {
-                  width: 566px;
-                  height: 500px;
-                  background-color: yellow;
-            }
-
-            .besidemain {
-                  @include verti();
-
-                  .row1 {
-                        @include hori();
-                        margin-bottom: 20px
-                  }
-
-                  .row2 {
-                        @include hori();
-
-                  }
-
-                  .col1 {
-                        margin-inline: 20px;
-                  }
-
-                  .data {
-                        width: 566px;
-                        height: 240px;
-                        background-color: greenyellow;
-                  }
-
-            }
+      .row2 {
+        @include hori();
 
       }
 
-      .bestdealbottom {
-            margin-top: 1rem;
-            display: flex;
-            flex-direction: row;
-            gap: 0.885rem;
-
-            .data {
-                  width: 424px;
-                  height: 320px;
-                  background: green;
-            }
+      .col1 {
+        margin-inline: 20px;
       }
+
+      .data {
+        width: 566px;
+        height: 240px;
+        background-color: greenyellow;
+      }
+
+    }
+
+  }
+
+  .bestdealbottom {
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: row;
+    gap: 0.885rem;
+
+    .data {
+      width: 424px;
+      height: 320px;
+      background: green;
+    }
+  }
 
 }
 
 .infiniteprod {
-      padding-left: 4rem;
-      width: 1807px;
-      padding: 2rem;
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-      gap: 20px;
+  padding-left: 4rem;
+  width: 1807px;
+  padding: 2rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  gap: 20px;
 }
 
 .productdetail {
 
-      .detailcontent {
+  .detailcontent {
 
 
-            .directorybar {
-                  width: 100%;
-                  border: 1px solid black;
-                  height: 2.5rem;
-                  margin-bottom: 1rem;
-            }
+    .directorybar {
+      width: 100%;
+      border: 1px solid black;
+      height: 2.5rem;
+      margin-bottom: 1rem;
+    }
 
-            .detail {
-                  width: inherit;
-                  @include hori();
-                  column-gap: 2rem;
-                  padding: 6rem;
+    .detail {
+      width: inherit;
+      @include hori();
+      column-gap: 2rem;
+      padding: 6rem;
 
-                  .midsection {
-                        @include verti();
-                        width: 43%;
-                        padding: 1.5rem;
-                        row-gap: 1rem;
+      .midsection {
+        @include verti();
+        width: 43%;
+        padding: 1.5rem;
+        row-gap: 1rem;
 
-                        .raterev {
-                              @include hori();
-                              column-gap: 2rem;
-                        }
+        .raterev {
+          @include hori();
+          column-gap: 2rem;
+        }
 
-                        .seemore {
-                              @include hori();
-                              justify-content: flex-start;
-                              align-items: center;
-                              gap: 0.4rem;
-                        }
+        .seemore {
+          @include hori();
+          justify-content: flex-start;
+          align-items: center;
+          gap: 0.4rem;
+        }
 
-                        .banner {
-                              width: 60%;
-                              height: 4rem;
-                              background-color: #0a185c;
-                        }
+        .banner {
+          width: 60%;
+          height: 4rem;
+          background-color: #0a185c;
+        }
 
-                        .details {}
+        .details {}
 
-                  }
-
-                  .rightsection {
-                        width: 30%;
-                        padding: 1.5rem;
-                        @include verti();
-                        column-gap: 2rem;
-
-                        .shippedby {
-                              @include hori();
-                        }
-
-                        .detailprice {
-                              @include hori();
-                        }
-
-                        .buttonqty {
-                              @include hori();
-                              column-gap: 1rem;
-
-                        }
-                  }
-            }
       }
+
+      .rightsection {
+        width: 30%;
+        padding: 1.5rem;
+        @include verti();
+        column-gap: 2rem;
+
+        .shippedby {
+          @include hori();
+        }
+
+        .detailprice {
+          @include hori();
+        }
+
+        .buttonqty {
+          @include hori();
+          column-gap: 1rem;
+
+        }
+      }
+    }
+  }
 }
 
 .cartpage {
+  @include verti();
+  padding: 1rem;
+  box-sizing: border-box;
+  height: fit-content;
+
+  .carttitle {
+    position: relative;
+    left: 4.7rem;
+    top: 1.5rem;
+  }
+
+
+  .offheader {
+    @include hori();
+    padding: 3rem;
+    width: 100%;
+    column-gap: 2rem;
+    justify-content: space-evenly;
+    align-items: center;
+    box-sizing: border-box;
+    height: fit-content;
+
+    .cartcontent {
       @include verti();
-      padding: 1rem;
-      box-sizing: border-box;
+      width: 70%;
+      height: 3rem;
+      padding: 2rem;
+      border: 1px solid rgba(0, 0, 0, 0.16789);
+      border-radius: 1rem;
       height: fit-content;
+      row-gap: 2rem;
+    }
 
-      .carttitle {
-            position: relative;
-            left: 4.7rem;
-            top: 1.5rem;
+    .cartsummary {
+      @include verti();
+      align-self: flex-start;
+      width: 25%;
+      height: 3rem;
+      box-sizing: border-box;
+      padding: 1.5rem;
+      border: 1px solid rgba(0, 0, 0, 0.16789);
+      border-radius: 1rem;
+      height: 25rem;
+      row-gap: 2rem;
+
+      .pricerow {
+        @include hori();
+        justify-content: space-between;
+        align-items: center;
       }
 
-
-      .offheader {
-            @include hori();
-            padding: 3rem;
-            width: 100%;
-            column-gap: 2rem;
-            justify-content: space-evenly;
-            align-items: center;
-            box-sizing: border-box;
-            height: fit-content;
-
-            .cartcontent {
-                  @include verti();
-                  width: 70%;
-                  height: 3rem;
-                  padding: 2rem;
-                  border: 1px solid rgba(0, 0, 0, 0.16789);
-                  border-radius: 1rem;
-                  height: fit-content;
-                  row-gap: 2rem;
-            }
-
-            .cartsummary {
-                  @include verti();
-                  align-self: flex-start;
-                  width: 25%;
-                  height: 3rem;
-                  box-sizing: border-box;
-                  padding: 1.5rem;
-                  border: 1px solid rgba(0, 0, 0, 0.16789);
-                  border-radius: 1rem;
-                  height: 25rem;
-                  row-gap: 2rem;
-
-                  .pricerow {
-                        @include hori();
-                        justify-content: space-between;
-                        align-items: center;
-                  }
-
-                  .buttoncontainer {
-                        position: relative;
-                        top: 2rem;
-                        align-self: center;
-                  }
-
-            }
+      .buttoncontainer {
+        position: relative;
+        top: 2rem;
+        align-self: center;
       }
+
+    }
+  }
 
 }
 
 .checkoutform {
-      @include verti();
-      justify-content: center;
-      align-items: center;
-      margin-block: 2rem;
-      padding: 2.5rem;
-      box-sizing: border-box;
+  @include verti();
+  justify-content: center;
+  align-items: center;
+  margin-block: 2rem;
+  padding: 2.5rem;
+  box-sizing: border-box;
 
-      .title {
-            margin-bottom: 3rem;
-      }
+  .title {
+    margin-bottom: 3rem;
+  }
 
-      .theform {
+  .theform {
 
-            @include verti();
-            row-gap: 3rem;
+    @include verti();
+    row-gap: 3rem;
 
-            .inputselect {
-                  width: 650px;
-                  height: 35px;
-                  border-radius: 5px
-            }
+    .inputselect {
+      width: 650px;
+      height: 35px;
+      border-radius: 5px
+    }
 
-            .buttoncontainer {
-                  position: relative;
-                  top: 3rem;
-                  left: 50%;
-                  transform: translateX(-15%);
-                  margin-bottom: 3rem;
-            }
-      }
+    .buttoncontainer {
+      position: relative;
+      top: 3rem;
+      left: 50%;
+      transform: translateX(-15%);
+      margin-bottom: 3rem;
+    }
+  }
 
 }
 
 .cartcard {
-      @include hori();
-      column-gap: 1.4rem;
+  @include hori();
+  column-gap: 1.4rem;
+  justify-content: flex-start;
+  column-gap: 8rem;
+  height: fit-content;
+
+  .middlesection {
+    @include verti();
+    width: 45%;
+  }
+
+  .rightsection {
+    @include hori();
+    width: 28%;
+
+    justify-content: space-between;
+
+    .qtyinput {
+      width: 5rem;
+      height: 2rem;
+      border: 1px solid rgba(0, 0, 0, 0.16789);
+      border-radius: 10px;
+      text-align: center;
+    }
+
+    .pricesection {
+      width: 100%;
+      @include verti();
+      align-items: center;
       justify-content: flex-start;
-      column-gap: 8rem;
-      height: fit-content;
 
-      .middlesection {
-            @include verti();
-            width: 45%;
-      }
+      .delbut {
+        position: relative;
+        top: 2rem;
+        right: 1.5rem;
+        @include hori();
+        width: 5rem;
+        justify-content: flex-start;
+        align-items: center;
+        column-gap: 0.2rem;
+        border: 1px solid rgba(0, 0, 0, 0.16789);
+        border-radius: 5px;
+        padding: 0.4rem;
+        box-sizing: border-box;
+        cursor: pointer;
 
-      .rightsection {
-            @include hori();
-            width: 28%;
-
-            justify-content: space-between;
-
-            .qtyinput {
-                  width: 5rem;
-                  height: 2rem;
-                  border: 1px solid rgba(0, 0, 0, 0.16789);
-                  border-radius: 10px;
-                  text-align: center;
-            }
-
-            .pricesection {
-                  width: 100%;
-                  @include verti();
-                  align-items: center;
-                  justify-content: flex-start;
-
-                  .delbut {
-                        position: relative;
-                        top: 2rem;
-                        right: 1.5rem;
-                        @include hori();
-                        width: 5rem;
-                        justify-content: flex-start;
-                        align-items: center;
-                        column-gap: 0.2rem;
-                        border: 1px solid rgba(0, 0, 0, 0.16789);
-                        border-radius: 5px;
-                        padding: 0.4rem;
-                        box-sizing: border-box;
-                        cursor: pointer;
-
-                        &:hover {
-                              background-color: #d7d7d7;
-                        }
-
-                  }
-            }
+        &:hover {
+          background-color: #d7d7d7;
+        }
 
       }
+    }
+
+  }
 }
 
 .mininavbar {
-      cursor: pointer;
-      background-color: $primary-white;
-      position: fixed;
-      border-radius: 10px;
-      border: 1px solid rgba(0, 0, 0, 0.16789);
-      bottom: 9rem;
-      right: 0px;
-      width: 3rem;
-      height: 10rem;
-      align-items: center;
-      padding-top: 2rem;
-      @include verti();
-      box-sizing: border-box;
-      row-gap: 3rem;
+  cursor: pointer;
+  background-color: $primary-white;
+  position: fixed;
+  border-radius: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.16789);
+  bottom: 9rem;
+  right: 0px;
+  width: 3rem;
+  height: 10rem;
+  align-items: center;
+  padding-top: 2rem;
+  @include verti();
+  box-sizing: border-box;
+  row-gap: 3rem;
 
-      .smiley {
-            position: absolute;
-            right: 13px;
-            font-size: 21px;
-            font-weight: bold;
-            transform: rotate(90deg);
-      }
+  .smiley {
+    position: absolute;
+    right: 13px;
+    font-size: 21px;
+    font-weight: bold;
+    transform: rotate(90deg);
+  }
 }
 
 .chatpage {
-      @include hori();
-      height: 80vh;
-      border-radius: 10px;
-      border: 1px solid rgba(0, 0, 0, 0.2);
-      margin: 3rem;
-      column-gap: 1rem;
-      justify-content: space-between;
+  @include hori();
+  height: 80vh;
+  border-radius: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  margin: 3rem;
+  column-gap: 1rem;
+  justify-content: space-between;
 
-      .title {
-            width: 100%;
-            text-align: center;
-      }
+  .title {
+    width: 100%;
+    text-align: center;
+  }
 
-      &>div:first-child {
-            width: 30%;
-            border-radius: 10px;
-            border: 1px solid rgba(0, 0, 0, 0.2);
-            padding: 2rem;
-      }
+  &>div:first-child {
+    width: 30%;
+    border-radius: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    padding: 2rem;
+  }
 
-      &>div {
-            width: 70%;
-            border-radius: 10px;
-            border: 1px solid rgba(0, 0, 0, 0.2);
-            padding: 2rem;
-      }
+  &>div {
+    width: 70%;
+    border-radius: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    padding: 2rem;
+  }
 
 }
 
 .ResetShopPassword {
-      @include verti();
-      justify-self: center;
-      align-items: center;
-      padding: 2rem;
-      row-gap: 3rem;
-      box-sizing: border-box;
+  @include verti();
+  justify-self: center;
+  align-items: center;
+  padding: 2rem;
+  row-gap: 3rem;
+  box-sizing: border-box;
 
-      .passform {
-            @include hori();
-            align-items: center;
+  .passform {
+    @include hori();
+    align-items: center;
 
-            .showpassbutton {
-                  background-color: inherit;
-                  position: relative;
-                  right: 3.3rem;
-                  border: 1px solid rgba(0, 0, 0, 0.05);
-                  width: 2rem;
-                  height: 2rem;
-            }
+    .showpassbutton {
+      background-color: inherit;
+      position: relative;
+      right: 3.3rem;
+      border: 1px solid rgba(0, 0, 0, 0.05);
+      width: 2rem;
+      height: 2rem;
+    }
 
-      }
+  }
 }
 
 .AddVoucher {
-      @include verti();
-      justify-content: center;
-      align-items: center;
-      row-gap: 3rem;
+  @include verti();
+  justify-content: center;
+  align-items: center;
+  row-gap: 3rem;
 }
 
 .voucherpage {
-      @include verti();
+  @include verti();
 
-      .vouchercontent {
-            padding: 4rem;
-            @include verti();
-            height: 80vh;
-            align-items: center;
-            row-gap: 3.5rem;
-      }
+  .vouchercontent {
+    padding: 4rem;
+    @include verti();
+    height: 80vh;
+    align-items: center;
+    row-gap: 3.5rem;
+  }
 }
