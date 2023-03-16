@@ -3,7 +3,7 @@ import { deleteObject, getDownloadURL, ref, uploadBytes } from "firebase/storage
 import storage from "./Firebase"
 
 
-export default async function uploadImage(imagefile: File | undefined, Filename:string | undefined)
+export default async function uploadImage(imagefile: File | undefined, Filename: string | undefined)
 {
   if (imagefile !== undefined)
   {
@@ -21,13 +21,16 @@ export async function getUrl(fileName: string | undefined): Promise<string>
   {
 
     const storageRef = ref(storage, `products/${fileName}`)
-    await getDownloadURL(storageRef).then((resolve) => {
+    await getDownloadURL(storageRef).then((resolve) =>
+    {
       url = resolve
-    }).catch((error) => {
+    }).catch((error) =>
+    {
       console.log(error);
-      
+
     })
-  } else {
+  } else
+  {
     return ""
   }
   return url

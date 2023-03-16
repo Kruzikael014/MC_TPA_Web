@@ -53,7 +53,7 @@ $secondary-darkgrey : #121212;
     top: 3.9rem;
     z-index: 9;
     user-select: none;
-    width:9rem;
+    width: 9rem;
   }
 
   .horidiv {
@@ -1972,5 +1972,25 @@ $secondary-darkgrey : #121212;
     height: 80vh;
     align-items: center;
     row-gap: 3.5rem;
+  }
+}
+
+.ShopProfile {
+  @include verti();
+  overflow: hidden;
+  justify-content: center;
+  align-items: center;
+  row-gap: 4rem;
+
+  .shopprofileform {
+    @include verti();
+    row-gap: inherit;
+    justify-content: center;
+    align-items: center;
+
+    .formbuttons {
+      @include hori();
+      column-gap: 3rem;
+    }
   }
 }

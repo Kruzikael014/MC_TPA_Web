@@ -49,6 +49,7 @@ const InputField = (props: input) =>
           height: height ? `${height}px` : undefined,
         }}
         min={0}
+        accept=".png,.jpg,.jpeg"
       />
     </>
   );

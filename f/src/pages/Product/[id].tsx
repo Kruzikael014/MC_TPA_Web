@@ -81,7 +81,8 @@ const ProductDetail = (props: ProductDetailProp) =>
   const addToCart = async () =>
   {
 
-    if (user?.id === undefined) {
+    if (user?.id === undefined)
+    {
       alert("You must login first")
       return
     }
@@ -105,7 +106,7 @@ const ProductDetail = (props: ProductDetailProp) =>
     // alert(response)
     console.log(response);
 
-    
+
 
 
 
@@ -161,11 +162,11 @@ const ProductDetail = (props: ProductDetailProp) =>
               </div>
               <div>
                 {
-                (product.product_stock !== 0 
-                  && 
-                  product.product_stock !== undefined) ?
-                  `In stock (${product.product_stock} pcs)` :
-                  "Product out of stock"
+                  (product.product_stock !== 0
+                    &&
+                    product.product_stock !== undefined) ?
+                    `In stock (${product.product_stock} pcs)` :
+                    "Product out of stock"
                 }
               </div>
               <div>

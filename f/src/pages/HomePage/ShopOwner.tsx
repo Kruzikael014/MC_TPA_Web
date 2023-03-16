@@ -27,7 +27,6 @@ export default function ShopOwner()
   const showSubcontent = () =>
   {
     if (clickedButton === 1) return <ViewShopProduct />
-    if (clickedButton === 2) return <ViewShopOverview />
     if (clickedButton === 3) return <ShopProfile />
     if (clickedButton === 4) return <InsertShopProduct />
     if (clickedButton === 5) return <UpdateShopProduct />

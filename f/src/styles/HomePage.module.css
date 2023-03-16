@@ -1774,4 +1774,26 @@
   height: 80vh;
   align-items: center;
   row-gap: 3.5rem;
+}
+
+.ShopProfile {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  justify-content: center;
+  align-items: center;
+  row-gap: 4rem;
+}
+.ShopProfile .shopprofileform {
+  display: flex;
+  flex-direction: column;
+  row-gap: inherit;
+  justify-content: center;
+  align-items: center;
+}
+.ShopProfile .shopprofileform .formbuttons {
+  display: flex;
+  flex-direction: row;
+  -moz-column-gap: 3rem;
+       column-gap: 3rem;
 }/*# sourceMappingURL=HomePage.module.css.map */

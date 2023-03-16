@@ -41,6 +41,7 @@ export default function Navbar()
           const countryResult = await GetCountry(coords.latitude, coords.longitude)
 
           setCountry(countryResult)
+          sessionStorage.setItem("country", countryResult)
 
           setCountryLoaded(true)
         }
