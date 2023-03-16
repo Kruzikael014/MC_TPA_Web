@@ -27,6 +27,7 @@ func Connect() {
 	db.AutoMigrate(&model.Cart{})
 	db.AutoMigrate(&model.Chat{})
 	db.AutoMigrate(&model.Voucher{})
+	db.AutoMigrate(&model.Announcement{})
 
 	var adminCount int64 = 0
 	db.Model(model.User{}).Where("email = ?", "Admin123@email.com").Count(&adminCount)

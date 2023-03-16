@@ -8,7 +8,7 @@ import User from "@/types/User";
 import getCookie from "@/util/GetCookie";
 import { useEffect, useState } from "react";
 import getUserFromToken from "../api/getuser";
-import styles from "@/styles/HomePage.module.css"
+import s from "@/styles/HomePage.module.css"
 
 interface ShopDetailInterface
 {
@@ -50,12 +50,31 @@ const ShopPagePage = (props: ShopDetailInterface) =>
 
   return (
     <>
-      <div className={styles.shopdetailpage}>
+      <div className={s.shopdetailpage}>
         <Navbar />
         <HeaderModule />
         <ThemeToggle />
-        <div className={styles.shopdetailcontent}>
-          a
+        <div className={s.profileheader}>
+          <div className={s.circler}>
+            <i className="fa-solid fa-user fa-4x"></i>
+          </div>
+          <div className={s.profiledata}>
+            <div className={s.title}>
+              <h1>
+                {user?.First_name} {user?.Last_name} Store
+              </h1>
+            </div>
+            <div className={s.salesrate}>
+              {shopDetail.number_of_sales} total sales | 80 followers | {shopDetail.average_rating} (80% positive in the last 12 months)
+            </div>
+          </div>
+        </div>
+        <div className={s.rotate}>
+          <hr />
+          <div className={s.path}>
+          Home - {sessionStorage.getItem("country")} &gt; {user?.First_name + " " + user?.Last_name} 
+          </div>
+          <hr />
         </div>
         <Footer />
       </div>

@@ -4,6 +4,8 @@ import { useState } from "react"
 import styles from "@/styles/HomePage.module.css"
 import BroadcastRequest from "@/types/BroadcastRequest"
 import Broadcast from "../api/broadcast"
+import SetAnnouncement from "../api/SetAnnouncement"
+import Announcement from "@/types/Announcement"
 
 const SendLetter = () =>
 {
@@ -22,7 +24,13 @@ const SendLetter = () =>
 
     const response = await Broadcast(newBroadcast)
     console.log(response)
-    
+
+    const setAnnouncementReq:Announcement = {
+      announcement_message : message
+    }
+
+    const saveResponse = await SetAnnouncement(setAnnouncementReq)
+
     if (response !== -1 && response.data.message === "Email sent successfully") {
       alert("Email successfully broadcasted!")
       window.location.reload()

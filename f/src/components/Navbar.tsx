@@ -15,6 +15,7 @@ import { useRouter } from 'next/router'
 import SearchBar from './SearchBar'
 import ReactSwitch from 'react-switch'
 import { ThemeContext } from '@/types/Theme'
+import NotificationBar from './NotificationBar'
 
 
 
@@ -22,6 +23,7 @@ export default function Navbar()
 {
   const [user, setUser] = useState<User>({ First_name: "", Last_name: "", Email: "", Password: "", Phone_num: "", Email_subscriber: false, Status: "", Role_name: "", balance: 0 })
   const [showShortcut, setShowShortcut] = useState(false);
+  const [showNotif, setShowNotif] = useState(false)
   const [country, setCountry] = useState<string | null>("")
   const router = useRouter()
 
@@ -41,7 +43,10 @@ export default function Navbar()
           const countryResult = await GetCountry(coords.latitude, coords.longitude)
 
           setCountry(countryResult)
-          sessionStorage.setItem("country", countryResult)
+          if (countryResult)
+          {
+            sessionStorage.setItem("country", countryResult)
+          }
 
           setCountryLoaded(true)
         }
@@ -97,6 +102,15 @@ export default function Navbar()
   const handleCartButtonClick = (e: any) =>
   {
     router.push(`/Cart/${user.id}`)
+  }
+
+  const notificationClick = () =>
+  {
+    if (user.Email !== undefined)
+    {
+      console.log("a");
+      setShowNotif(!showNotif)
+    }
   }
 
   return (
@@ -156,9 +170,15 @@ export default function Navbar()
 
           {/* Search bar here */}
 
-          <div className={styles.notifbutton}>
+          <div className={styles.notifbutton} onClick={notificationClick}>
             <i className="fa-regular fa-bell fa-xl"></i>
           </div>
+          {
+            showNotif &&
+            <>
+              <NotificationBar user={user} />
+            </>
+          }
           <div className={styles.lang}>
             <i className="fa-solid fa-flag"></i>
           </div>

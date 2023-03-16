@@ -6,7 +6,6 @@ import ResetShopPassword from "../Layouts/ResetShopPassword"
 import ShopProfile from "../Layouts/ShopProfile"
 import UpdateShopProduct from "../Layouts/UpdateShopProduct"
 import ViewShopOrder from "../Layouts/ViewShopOrder"
-import ViewShopOverview from "../Layouts/ViewShopOverview"
 import ViewShopProduct from "../Layouts/ViewShopProduct"
 
 

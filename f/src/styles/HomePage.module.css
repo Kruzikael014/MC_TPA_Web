@@ -68,6 +68,29 @@
   height: 36px;
   border: 1px solid rgba(0, 0, 0, 0.4);
 }
+.navbar .horidiv .notifbar {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  z-index: 9;
+  background-color: #ffffff;
+  width: 20%;
+  height: 28rem;
+  border-radius: 5px;
+  left: 66.5rem;
+  top: 4rem;
+  overflow-y: scroll;
+  border: 1px solid rgba(0, 0, 0, 0.16789);
+  padding: 1rem;
+  box-sizing: border-box;
+}
+.navbar .horidiv .notifbar .bubble {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+  border-radius: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.14);
+}
 .navbar .horidiv .lang {
   display: flex;
   justify-content: center;
@@ -1796,4 +1819,37 @@
   flex-direction: row;
   -moz-column-gap: 3rem;
        column-gap: 3rem;
+}
+
+.shopdetailpage {
+  display: flex;
+  flex-direction: column;
+}
+.shopdetailpage .profileheader {
+  padding-block: 0.5rem;
+  padding-bottom: 0.5rem;
+  padding-inline: 2rem;
+  display: flex;
+  flex-direction: row;
+}
+.shopdetailpage .profileheader .circler {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  border: 1px solid black;
+  width: 7rem;
+  height: 7rem;
+}
+.shopdetailpage .profileheader .profiledata {
+  display: flex;
+  flex-direction: column;
+}
+.shopdetailpage .profileheader .profiledata .salesrate {
+  display: flex;
+  flex-direction: row;
+}
+.shopdetailpage .rotate .path {
+  position: absolute;
 }/*# sourceMappingURL=HomePage.module.css.map */

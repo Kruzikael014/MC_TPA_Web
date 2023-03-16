@@ -105,6 +105,31 @@ $secondary-darkgrey : #121212;
       @include round-butt;
     }
 
+    .notifbar {
+      @include verti();
+      position: absolute;
+      z-index: 9;
+      background-color: $primary-white;
+      width: 20%;
+      height: 28rem;
+      border-radius: 5px;
+      left: 66.5rem;
+      top: 4rem;
+      overflow-y: scroll;
+      border: 1px solid rgba(0, 0, 0, 0.16789);
+      padding: 1rem;
+      box-sizing: border-box;
+
+      .bubble {
+        @include verti();
+        margin-bottom: 1rem;
+        border-radius: 10px;
+        border: 1px solid rgba(0, 0, 0, 0.14);
+
+
+      }
+    }
+
     .lang {
       @include round-butt;
     }
@@ -1993,4 +2018,48 @@ $secondary-darkgrey : #121212;
       column-gap: 3rem;
     }
   }
+}
+
+.shopdetailpage {
+  @include verti();
+
+  .profileheader {
+    padding-block: 0.5rem;
+    padding-bottom: 0.5rem;
+    padding-inline: 2rem;
+    @include hori();
+
+    .circler {
+      @include verti();
+      justify-content: center;
+      align-items: center;
+      border-radius: 50%;
+      border: 1px solid black;
+      width: 7rem;
+      height: 7rem;
+    }
+
+    .profiledata {
+      @include verti();
+
+      .salesrate {
+        @include hori;
+
+      }
+
+    }
+
+  }
+
+  .rotate {
+    .path {
+      position: absolute;
+
+    }
+
+    
+
+  }
+
+
 }
