@@ -1375,9 +1375,50 @@ $secondary-darkgrey : #121212;
 }
 
 .ViewShopProduct {
-  .makeitbigger {
-    font-size: 40px;
-    margin-bottom: 2rem
+  .header {
+    @include hori();
+
+    .vertibutt {
+      @include verti();
+      row-gap: 0.75rem;
+      justify-content: center;
+      align-items: center;
+
+      .paginatorgroup {
+        @include hori();
+        column-gap: 0.5rem;
+
+        .lt,
+        .gt {
+          border: 1px solid rgba(0, 0, 0, 0.16789);
+          border-radius: 50%;
+          width: 30px;
+          height: 30px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          user-select: none;
+          cursor: pointer;
+
+          &:hover {
+            background-color: $primary-lightgrey;
+          }
+        }
+
+      }
+    }
+
+    .makeitbigger {
+      font-size: 40px;
+      margin-bottom: 2rem
+    }
+
+    .horidiv {
+      position: absolute;
+      @include hori();
+      width: 100%;
+      justify-content: space-evenly;
+    }
   }
 }
 
@@ -1695,6 +1736,12 @@ $secondary-darkgrey : #121212;
       @include hori();
       column-gap: 2rem;
       padding: 6rem;
+
+      .visitstore {
+        position: absolute;
+        left: 39.5%;
+        text-decoration: underline
+      }
 
       .midsection {
         @include verti();
@@ -2023,11 +2070,66 @@ $secondary-darkgrey : #121212;
 .shopdetailpage {
   @include verti();
 
+  .categ {
+    @include verti();
+    margin: 5rem;
+    box-sizing: border-box;
+
+    .categtitle {
+      color: $primary-darkblue;
+    }
+
+    .horicateg {
+      margin-top: 3rem;
+      @include hori();
+      width: 95%;
+      height: 100%;
+      margin: 1rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr 1fr;
+      justify-content: center;
+      align-items: center;
+      column-gap: 2rem;
+      row-gap: 2rem;
+      box-sizing: border-box;
+
+      .categorycontainer {
+        justify-self: center;
+        align-self: center;
+        border-radius: 10px;
+        border: 1px solid rgba(0, 0, 0, 0.5);
+        padding: 1rem;
+        box-sizing: border-box;
+      }
+
+    }
+
+  }
+
+  .ViewShopProductShoPage {
+    padding: 5rem;
+    padding-top: 1rem;
+  }
+
+
+  .shoapboutut {
+    margin: 5rem;
+  }
+
+  .gap {
+    margin-bottom: 2rem;
+  }
+
+  .footercontainer {
+    margin-top: 7rem;
+  }
+
   .profileheader {
     padding-block: 0.5rem;
     padding-bottom: 0.5rem;
     padding-inline: 2rem;
     @include hori();
+    column-gap: 3rem;
 
     .circler {
       @include verti();
@@ -2041,6 +2143,7 @@ $secondary-darkgrey : #121212;
 
     .profiledata {
       @include verti();
+      row-gap: 1.2rem;
 
       .salesrate {
         @include hori;
@@ -2052,14 +2155,127 @@ $secondary-darkgrey : #121212;
   }
 
   .rotate {
-    .path {
-      position: absolute;
+    @include hori();
+    margin-block: 1rem;
 
+    .path {
+      margin-inline: 3rem;
+      margin-left: 9rem;
     }
 
-    
+    .rt {
+      transform: rotate(90deg);
+    }
+
+    .storepagebutton {
+      @include hori();
+      column-gap: 2.2rem;
+      margin-left: 17rem;
+
+      .txt {
+        user-select: none;
+        cursor: pointer;
+      }
+
+      .und {
+        text-decoration: underline;
+
+      }
+
+    }
 
   }
 
 
+}
+
+.myFormReview {
+  @include verti();
+  align-items: center;
+  margin: 2rem auto;
+  padding: 1rem;
+  border-radius: 10px;
+  background-color: #f7f7f7;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  width: 20%;
+  box-sizing: border-box;
+
+  label {
+    margin-top: 1rem;
+  }
+
+  .radioButtons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 1rem;
+
+    input[type="radio"] {
+      margin-right: 1rem;
+      margin-left: 1rem;
+      margin-top: 1rem;
+    }
+  }
+
+  .ratingButtons {
+    display: flex;
+    justify-content: center;
+    label {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin: 0 0.5rem;
+
+      input[type="radio"] {
+        margin-bottom: 0.25rem;
+      }
+    }
+  }
+  button[type="submit"]:hover {
+    background-color: $primary-darkblue;
+  }
+}
+
+.reviewshoppage {
+  @include verti();
+  width: 80%;
+  align-self: center;
+  justify-self: center;
+
+  .up {
+    width: 100%;
+    @include hori();
+    justify-content: space-evenly;
+    .left {
+      width: 30%;
+      @include verti();
+
+    }
+
+    .center {
+      width: 30%;
+      @include verti();
+
+    }
+
+    .right {
+      width: 30%;
+      @include hori();
+      justify-content: space-between;
+
+      .ratingpercent {
+        @include verti();
+
+      }
+
+    }
+  }
+
+  .down {
+    @include verti();
+    margin-top: 4rem;
+    margin: 3rem;
+
+  }
 }

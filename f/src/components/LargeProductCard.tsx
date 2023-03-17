@@ -6,14 +6,16 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import DeleteShopProduct from "../pages/api/DeleteShopProduct";
 import { changeFunc } from "../pages/HomePage/ShopOwner";
+import LiveImage from "./LiveImage";
 
 interface ProductCard
 {
   product: Product,
-  index: number
+  index: number,
+  fullaccess?: boolean
 }
 
-const LargeProductCard = ({ product, index }: ProductCard) =>
+const LargeProductCard = ({ product, index, fullaccess }: ProductCard) =>
 {
   const { product_category, product_description, product_details, product_image, product_name, product_price, product_stock, uploaded_by, id }
     = product
@@ -74,26 +76,30 @@ const LargeProductCard = ({ product, index }: ProductCard) =>
         <div>{product_description}</div> */}
         <br />
         <div>
-          <Image src={imageUrls ? imageUrls : "https://www.meme-arsenal.com/memes/c9e6371faa3b57eaee1d35595ca8e910.jpg"}
+          {/* <Image src={imageUrls ? imageUrls : "https://www.meme-arsenal.com/memes/c9e6371faa3b57eaee1d35595ca8e910.jpg"}
             width={380}
             height={280}
             alt="not found"
             onClick={handleCardClick}
-          />
+          /> */}
+          <LiveImage imageUrl={product_image} width={380} height={280} />
         </div>
         <div className={styles.productname}>{product_name}</div>
         <br />
         <div className={styles.productprice}>Rp. {product_price.toLocaleString()}</div>
-        <div className={styles.buttons}>
-          <button onClick={(e) => { handleUpdate() }} className={`${styles.button} ${styles.colgreen}`}>
-            <i className="fa-solid fa-pen-to-square"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            Update
-          </button>
-          <button onClick={(e) => { handleDelete() }} className={`${styles.button} ${styles.colred}`}>
-            <i className="fa-solid fa-trash"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            Delete
-          </button>
-        </div>
+        {
+          fullaccess &&
+          <div className={styles.buttons}>
+            <button onClick={(e) => { handleUpdate() }} className={`${styles.button} ${styles.colgreen}`}>
+              <i className="fa-solid fa-pen-to-square"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              Update
+            </button>
+            <button onClick={(e) => { handleDelete() }} className={`${styles.button} ${styles.colred}`}>
+              <i className="fa-solid fa-trash"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              Delete
+            </button>
+          </div>
+        }
 
       </div>
     </>

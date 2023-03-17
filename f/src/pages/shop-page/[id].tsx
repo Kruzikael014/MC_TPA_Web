@@ -9,6 +9,14 @@ import getCookie from "@/util/GetCookie";
 import { useEffect, useState } from "react";
 import getUserFromToken from "../api/getuser";
 import s from "@/styles/HomePage.module.css"
+import LiveImage from "@/components/LiveImage";
+import ProductCategory from "@/types/ProductCategory";
+import GetProductCategoryRequest from "@/types/GetProductCategoryRequest";
+import GetProductCategory from "../api/GetProductCategory";
+import { useRouter } from "next/router";
+import ViewShopProduct from "../Layouts/ViewShopProduct";
+import GetUserFromId from "../api/GetUserFromId";
+import ButtonInput from "@/components/ButtonInput";
 
 interface ShopDetailInterface
 {
@@ -20,6 +28,10 @@ const ShopPagePage = (props: ShopDetailInterface) =>
 
   const { shopDetail } = props
   const [user, setUser] = useState<User | undefined>(undefined)
+  const [clickedFeature, setClickedFeature] = useState(1)
+  const router = useRouter()
+  const query = router.query
+  const { id } = query
 
   useEffect(() =>
   {
@@ -28,7 +40,7 @@ const ShopPagePage = (props: ShopDetailInterface) =>
       const ob = {
         JWToken: getCookie("JWToken")
       }
-      const response = await getUserFromToken(ob)
+      const response = await GetUserFromId(Number(id))
       setUser(
         {
           First_name: response.first_name,
@@ -46,6 +58,294 @@ const ShopPagePage = (props: ShopDetailInterface) =>
     getCurrUser();
   }, [])
 
+  const handleClickedFeature = (num: number) =>
+  {
+    setClickedFeature(num)
+  }
+
+  const Case1 = () =>
+  {
+
+    const [categories, setCategories] = useState<ProductCategory[] | undefined>(undefined)
+    const router = useRouter()
+
+    useEffect(() =>
+    {
+
+      if (query.id)
+      {
+        const fetchCategories = async () =>
+        {
+          const productCategoryRequest: GetProductCategoryRequest = {
+            uploaded_by: Number(query.id)
+          }
+          const response = await GetProductCategory(productCategoryRequest)
+          setCategories(response)
+        }
+        fetchCategories()
+      }
+
+    }, [])
+
+    const handleProductDetail = (id: number | undefined) =>
+    {
+      router.push(`/Product/${id}`)
+    }
+
+    return (
+      <>
+        <center>
+          <LiveImage imageUrl={shopDetail.shop_banner} height={250} width={1500} />
+        </center>
+        <div className={s.categ}>
+          <h1 className={s.categtitle}>
+            Shop by category
+          </h1>
+          <div className={s.horicateg}>
+            {
+              categories && Array.isArray(categories) &&
+              categories.map((category, index: number) =>
+              {
+                return <>
+                  <div key={index} className={s.categorycontainer} onClick={(e) => { handleProductDetail(category.id) }}>
+                    <LiveImage imageUrl={category.product_image} height={300} width={300} />
+                    <h3>
+                      {category.product_category}
+                    </h3>
+                  </div>
+                </>
+              })
+            }
+          </div>
+        </div>
+      </>
+    )
+  }
+
+  const ViewReviewShopForm = () =>
+  {
+
+    const [rate, setRate] = useState(0)
+    const [deliveredOnTime, setDeliveredOnTime] = useState<boolean | null>(null);
+    const [itemAsDescribed, setItemAsDescribed] = useState<boolean | null>(null);
+    const [satisfactoryService, setSatisfactoryService] = useState<boolean | null>(null);
+
+    const handleSubmit = (e: any) =>
+    {
+      e.preventDefault();
+      console.log('Rating value : ', rate);
+      console.log('Delivered on time:', deliveredOnTime);
+      console.log('Item as described:', itemAsDescribed);
+      console.log('Satisfactory service:', satisfactoryService);
+    };
+
+    const handleRatingChange = (e: React.ChangeEvent<HTMLInputElement>) =>
+    {
+      setRate(Number(e.target.value));
+    };
+
+    return (
+      <form onSubmit={handleSubmit} className={s.myFormReview}>
+        <label>Rating</label>
+        <div className={s.ratingButtons}>
+          {[1, 2, 3, 4, 5].map((value) => (
+            <label key={value}>
+              <input
+                type="radio"
+                name="rating"
+                value={value}
+                onChange={handleRatingChange}
+              />
+              {value}
+            </label>
+          ))}
+        </div>
+        <label htmlFor="deliveredOnTime">
+          Item(s) delivered on time?
+        </label>
+        <div className={s.radioButtons}>
+          <input
+            type="radio"
+            id="deliveredOnTimeYes"
+            name="deliveredOnTime"
+            value="yes"
+            onChange={() => setDeliveredOnTime(true)}
+          />
+          <label htmlFor="deliveredOnTimeYes">Yes</label>
+          <input
+            type="radio"
+            id="deliveredOnTimeNo"
+            name="deliveredOnTime"
+            value="no"
+            onChange={() => setDeliveredOnTime(false)}
+          />
+          <label htmlFor="deliveredOnTimeNo">No</label>
+        </div>
+
+        <label htmlFor="itemAsDescribed">
+          Item(s) as seller described?
+        </label>
+        <div className={s.radioButtons}>
+          <input
+            type="radio"
+            id="itemAsDescribedYes"
+            name="itemAsDescribed"
+            value="yes"
+            onChange={() => setItemAsDescribed(true)}
+          />
+          <label htmlFor="itemAsDescribedYes">Yes</label>
+          <input
+            type="radio"
+            id="itemAsDescribedNo"
+            name="itemAsDescribed"
+            value="no"
+            onChange={() => setItemAsDescribed(false)}
+          />
+          <label htmlFor="itemAsDescribedNo">No</label>
+        </div>
+
+        <label htmlFor="satisfactoryService">
+          Satisfactory customer service?
+        </label>
+        <div className={s.radioButtons}>
+          <input
+            type="radio"
+            id="satisfactoryServiceYes"
+            name="satisfactoryService"
+            value="yes"
+            onChange={() => setSatisfactoryService(true)}
+          />
+          <label htmlFor="satisfactoryServiceYes">Yes</label>
+          <input
+            type="radio"
+            id="satisfactoryServiceNo"
+            name="satisfactoryService"
+            value="no"
+            onChange={() => setSatisfactoryService(false)}
+          />
+          <label htmlFor="satisfactoryServiceNo">No</label>
+        </div>
+        <ButtonInput placeholder="Save Review" submit blue centered height={30} width={200} />
+      </form>
+    );
+
+  }
+
+  const ViewReviewShop = () =>
+  {
+
+    return (
+      <>
+        <div className={s.reviewshoppage}>
+          <div className={s.up}>
+            <div className={s.left}>
+              <h3>
+                Total Rating
+              </h3>
+              <h4>
+                5000
+              </h4>
+            </div>
+            <div className={s.center}>
+              <h3>
+                Each rating
+              </h3>
+              <h5>5 - 300</h5>
+              <h5>4 - 300</h5>
+              <h5>3 - 300</h5>
+              <h5>2 - 300</h5>
+              <h5>1 - 300</h5>
+            </div>
+            <div className={s.right}>
+              <div className={s.ratingpercent}>
+                <h3>On time</h3>
+                <h4>
+                  88%
+                </h4>
+              </div>
+              <div className={s.ratingpercent}>
+                <h3>Product Accuracy</h3>
+                <h4>
+                  90%
+                </h4>
+              </div>
+              <div className={s.ratingpercent}>
+                <h3>Service Satisfaction</h3>
+                <h4>
+                  75%
+                </h4>
+              </div>
+            </div>
+          </div>
+          <div className={s.down}>
+            <center>
+              <h1>
+                Reviews
+              </h1>
+            </center>
+            <div className={s.reviewcontents}>
+            
+            </div>
+          </div>
+        </div>
+      </>
+    )
+
+  }
+
+  const showSubcontent = () =>
+  {
+    switch (clickedFeature)
+    {
+      case 1:
+
+        if (user?.Status !== "Clear")
+        {
+          return <>
+            <center>
+              <h1>
+                Shop has been banned
+              </h1>
+            </center>
+          </>
+        }
+        else
+        {
+          return <>
+            <Case1 />
+          </>
+        }
+
+      case 2:
+        return <>
+          <div className={s.ViewShopProductShoPage}>
+            <ViewShopProduct notauthorized id={shopDetail?.id} />
+          </div>
+        </>
+      case 3:
+        return <>
+          <ViewReviewShop />
+        </>
+      case 4:
+        return <>
+
+        </>
+      case 5:
+        return <>
+          <div className={s.shoapboutut}>
+            <h1>
+              About us
+            </h1>
+            <div>
+              <p style={{ textAlign: "justify", marginTop: "4rem" }}>
+                {shopDetail.shop_description}
+              </p>
+            </div>
+          </div>
+        </>
+    }
+
+  }
 
 
   return (
@@ -69,14 +369,37 @@ const ShopPagePage = (props: ShopDetailInterface) =>
             </div>
           </div>
         </div>
+        <hr />
         <div className={s.rotate}>
-          <hr />
           <div className={s.path}>
-          Home - {sessionStorage.getItem("country")} &gt; {user?.First_name + " " + user?.Last_name} 
+            Home - {(typeof sessionStorage !== 'undefined') ? sessionStorage.getItem("country") : "Unknown place"} &gt; {user?.First_name + " " + user?.Last_name}
           </div>
-          <hr />
+          <div className={s.storepagebutton}>
+            <div className={(clickedFeature === 1) ? `${s.und} ${s.txt}` : `${s.txt}`} onClick={(e) => { handleClickedFeature(1) }}>
+              Store home
+            </div>
+            <div className={(clickedFeature === 2) ? `${s.und} ${s.txt}` : `${s.txt}`} onClick={(e) => { handleClickedFeature(2) }}>
+              All products
+            </div>
+            <div className={(clickedFeature === 3) ? `${s.und} ${s.txt}` : `${s.txt}`} onClick={(e) => { handleClickedFeature(3) }}>
+              Reviews
+            </div>
+            <div className={(clickedFeature === 4) ? `${s.und} ${s.txt}` : `${s.txt}`} onClick={(e) => { handleClickedFeature(4) }}>
+              Return Policy
+            </div>
+            <div className={(clickedFeature === 5) ? `${s.und} ${s.txt}` : `${s.txt}`} onClick={(e) => { handleClickedFeature(5) }}>
+              About us
+            </div>
+          </div>
         </div>
-        <Footer />
+        <hr className={s.gap} />
+
+        {showSubcontent()}
+
+
+        <div className={s.footercontainer}>
+          <Footer />
+        </div>
       </div>
     </>
   );

@@ -35,6 +35,7 @@ const ProductDetail = (props: ProductDetailProp) =>
   const [imageUrl, setImageUrl] = useState("")
 
   const [user, setUser] = useState<User | undefined>(undefined)
+  const router = useRouter()
 
 
   useEffect(() =>
@@ -106,10 +107,6 @@ const ProductDetail = (props: ProductDetailProp) =>
     // alert(response)
     console.log(response);
 
-
-
-
-
   }
 
   const parseProductDetail = (detail: string | undefined): string[] =>
@@ -126,6 +123,11 @@ const ProductDetail = (props: ProductDetailProp) =>
     }
   };
 
+  const handleStoreVisit = () =>
+  {
+    router.push(`/shop-page/${product.uploaded_by}`)
+  }
+
   return (
     <>
       <ThemeToggle />
@@ -139,6 +141,9 @@ const ProductDetail = (props: ProductDetailProp) =>
             <div className={s.imagesection}>
               <Image width={600} height={450} src={imageUrl} alt="" />
             </div>
+            <h4 onClick={handleStoreVisit} className={s.visitstore}>
+              Visit store
+            </h4>
             <div className={s.midsection}>
               <h1>
                 {product?.product_name}

@@ -7,33 +7,115 @@ import GetShopProduct from "../api/GetShopProduct"
 import getUserFromToken from "../api/getuser"
 import LargeProductCard from "../../components/LargeProductCard"
 import MediumProductCard from "@/components/MediumProductCard"
+import User from "@/types/User"
+import GetFilteredShopProduct from "../api/GetFilteredShopProduct"
+import GetUserFromId from "../api/GetUserFromId"
+import GetProductCount from "../api/GetProductCount"
 
+interface ViewShopProductProps
+{
+  notauthorized?: boolean,
+  id?: number
+}
 
-
-export default function ViewShopProduct()
+export default function ViewShopProduct(props: ViewShopProductProps)
 {
 
-  // bisa sekalian buat details
-
+  const [user, setUser] = useState<User | undefined>(undefined)
   const [products, setProducts] = useState<Array<Product> | undefined>(Array<Product>)
-  
+  const [productCount, setProductCount] = useState("-")
+
+  const { notauthorized, id } = props
+
+  const [filter, setFilter] = useState("all")
+  const [page, setPage] = useState(1)
+
+  useEffect(() =>
+  {
+    const fetchUser = async () =>
+    {
+
+      if (id)
+      {
+        const user = await GetUserFromId(Number(id))
+        setUser(user)
+      }
+      else
+      {
+        const ob = {
+          JWToken: getCookie("JWToken")
+        }
+        const user = await getUserFromToken(ob)
+        setUser(user)
+      }
+    }
+    fetchUser()
+
+  }, [])
+
+  useEffect(() =>
+  {
+    const fetchProduct = async () =>
+    {
+      if (user !== undefined)
+      {
+        console.log("a");
+
+        const products = await GetShopProduct(user?.id, page)
+        console.log(products);
+        setProducts(products)
+      }
+    }
+    fetchProduct()
+  }, [page, user])
+
+  const decreasePage = () =>
+  {
+    if (page - 1 !== 0)
+    {
+      setPage(page - 1)
+    }
+  }
+
+  const increasePage = () =>
+  {
+    setPage(page + 1)
+  }
+
+  useEffect(() =>
+  {
+    console.log("Want to show product that fitlered tiwth attr " + filter + " and show on page " + page + " fetching item uploaded by user with id " + user?.id)
+
+    const fetchProduct = async () =>
+    {
+      const request: Object = {
+        uploaded_by: user?.id,
+        page: page
+      }
+      const products = await GetFilteredShopProduct(request, filter)
+      console.log(products);
+      setProducts(products)
+    }
+    fetchProduct()
+
+  }, [page, filter])
+
+  const handleFilterChange = (e: any) =>
+  {
+    setPage(1)
+    setFilter(e.target.value)
+  }
 
 
   useEffect(() =>
   {
-    const fetchShopItem = async () =>
+
+    const getProductCount = async () =>
     {
-      const ob = {
-        JWToken: getCookie("JWToken")
-      }
-      const user = await getUserFromToken(ob)
-
-      const products = await GetShopProduct(user.id)
-      console.log(products)
-      setProducts(products)
+      const response = await GetProductCount(Number(id))
+      setProductCount(response)
     }
-
-    fetchShopItem()
+    getProductCount()
 
   }, [])
 
@@ -41,20 +123,62 @@ export default function ViewShopProduct()
   return (
     <>
       <div className={styles.ViewShopProduct}>
-        <h1 className={styles.makeitbigger}>
-          Your product
-        </h1>
+        <div className={styles.header}>
+          <h1 className={styles.makeitbigger}>
+            Your product ({productCount})
+          </h1>
+          <h3>
+            <div className={styles.horidiv}>
+              <div className={styles.vertibutt}>
+                <p>
+                  <b>
+                    Filter by
+                  </b>
+                </p>
+                <select defaultValue={"Choose filter"} onChange={handleFilterChange} >
+                  <option value="Choose filter" disabled>
+                    Choose filter
+                  </option>
+                  <option value="Lowest Price">
+                    Lowest Price
+                  </option>
+                  <option value="Highest Price">
+                    Highest Price
+                  </option>
+                  <option value="Most Bought">
+                    Most Bought
+                  </option>
+                </select>
+              </div>
+              <div className={styles.vertibutt}>
+                Page
+                <div className={styles.paginatorgroup}>
+                  <div className={styles.lt} onClick={decreasePage}>
+                    &lt;
+                  </div>
+                  <input type="number" value={page} min={0} contentEditable={false} />
+                  <div className={styles.gt} onClick={increasePage}>
+                    &gt;
+                  </div>
+                </div>
+              </div>
+            </div>
+          </h3>
+        </div>
         <div className={styles.shopproductcontainer} >
           {
-            (products?.length === 0) ? 
-            <h3> You dont have any product right now!</h3>
-            :
-            products?.map((product: Product, index: number) =>
-            {
-              return (
-                <LargeProductCard key={index} product={product} index={index} />
-              )
-            })
+            (products?.length === 0) ?
+              <h3> You dont have any product right now!</h3>
+              :
+              (Array.isArray(products)) ?
+                products?.map((product: Product, index: number) =>
+                {
+                  return (
+                    <LargeProductCard fullaccess={(notauthorized) ? false : true} key={index} product={product} index={index} />
+                  )
+                })
+                :
+                <h3> You dont have any product right now!</h3>
           }
         </div>
       </div>

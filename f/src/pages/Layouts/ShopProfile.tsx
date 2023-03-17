@@ -109,13 +109,13 @@ export default function ShopProfile()
 
       const response = await ChangeShopProfile(Number(shopDetail?.id), shopDetailRequest)
       alert(response)
-
+      window.location.reload()
     }
   }
 
   const showShopPreview = () =>
   {
-    router.push(`/shop-page/${shopDetail?.id}`)
+    router.push({pathname : `/shop-page`, query : { id: shopDetail?.id }})
   }
 
   return (

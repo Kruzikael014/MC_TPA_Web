@@ -40,7 +40,7 @@ func CheckoutCart(c *gin.Context) {
 			c.String(http.StatusOK, "Failed to retrieve product %d: %s", item.ProductId, err.Error())
 			return
 		}
-		product.Product_Stock -= int(item.Quantity)
+		product.Product_Stock -= int64(item.Quantity)
 		if err := tx.Model(&product).Update("product_stock", product.Product_Stock).Error; err != nil {
 			tx.Rollback()
 			c.String(http.StatusOK, "Failed to update product %d stock: %s", item.ProductId, err.Error())

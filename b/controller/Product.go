@@ -29,6 +29,23 @@ func GetProduct(c *gin.Context) {
 	c.JSON(200, &Product)
 }
 
+func GetShopProductPaginated(c *gin.Context) {
+	shopId := c.Query("uploaded_by")
+	products := []model.Product{}
+
+	page, _ := strconv.Atoi(c.Query("page"))
+	if page == 0 {
+		page = 1
+	}
+
+	pageSize := 50
+	offset := (page - 1) * pageSize
+
+	config.DB.Where("uploaded_by = ?", shopId).Limit(pageSize).Offset(offset).Find(&products)
+
+	c.JSON(200, &products)
+}
+
 func GetShopProduct(c *gin.Context) {
 	shopId := c.Query("uploaded_by")
 	products := []model.Product{}
@@ -108,4 +125,171 @@ func SearchProduct(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, product)
+}
+
+func GetProductCategory(c *gin.Context) {
+	var GetProductReq struct {
+		Uploaded_by uint `json:"uploaded_by"`
+	}
+	c.ShouldBindJSON(&GetProductReq)
+	type ProductCategory struct {
+		ProductCategory string `json:"product_category"`
+		ProductImage    string `json:"product_image"`
+		ProductId       uint   `json:"id"`
+	}
+	var products []ProductCategory
+	rows, err := config.DB.Raw("select distinct product_category, max(product_image), max(id) from products WHERE uploaded_by = ? group by product_category", GetProductReq.Uploaded_by).Rows()
+	if err != nil {
+		c.String(200, "Failed to query the category!")
+		return
+	}
+	defer rows.Close()
+	for rows.Next() {
+		var product ProductCategory
+		err := rows.Scan(&product.ProductCategory, &product.ProductImage, &product.ProductId)
+
+		if err != nil {
+			c.String(200, "Failed to bind query result!")
+			return
+		}
+		products = append(products, product)
+	}
+	c.JSON(200, &products)
+}
+
+func FetchLowPricedProduct(c *gin.Context) {
+	var FetchLowPricedProductReq struct {
+		Uploaded_by uint `json:"uploaded_by"`
+		Page        int  `json:"page"`
+	}
+	c.ShouldBindJSON(&FetchLowPricedProductReq)
+
+	pageSize := 50
+
+	offset := (FetchLowPricedProductReq.Page - 1) * pageSize
+	limit := pageSize
+
+	var products []Product
+	rows, err := config.DB.Raw(`SELECT 
+	p.id, p.product_name, p.product_image, p.product_price, p.product_stock, p.uploaded_by, p.rating
+FROM 
+	products p
+WHERE 
+	uploaded_by = ? 
+ORDER BY 
+	product_price ASC 
+LIMIT ? OFFSET ?`, FetchLowPricedProductReq.Uploaded_by, limit, offset).Rows()
+	if err != nil {
+		c.String(200, "Failed to query the filter!")
+		return
+	}
+	defer rows.Close()
+	for rows.Next() {
+		var product Product
+		if err := config.DB.ScanRows(rows, &product); err != nil {
+			c.String(200, "Failed to bind query result!")
+			return
+		}
+		products = append(products, product)
+	}
+	c.JSON(200, &products)
+}
+
+func FetchhighPricedProduct(c *gin.Context) {
+	var FetchhighPricedProductReq struct {
+		Uploaded_by uint `json:"uploaded_by"`
+		Page        int  `json:"page"`
+	}
+	c.ShouldBindJSON(&FetchhighPricedProductReq)
+
+	pageSize := 50
+
+	offset := (FetchhighPricedProductReq.Page - 1) * pageSize
+	limit := pageSize
+
+	var products []Product
+	rows, err := config.DB.Raw(`SELECT 
+	p.id, p.product_name, p.product_image, p.product_price, p.product_stock, p.uploaded_by, p.rating
+FROM 
+	products p
+WHERE 
+	uploaded_by = ? 
+ORDER BY 
+	product_price DESC 
+LIMIT ? OFFSET ?`, FetchhighPricedProductReq.Uploaded_by, limit, offset).Rows()
+	if err != nil {
+		c.String(200, "Failed to query the filter!")
+		return
+	}
+	defer rows.Close()
+	for rows.Next() {
+		var product Product
+		if err := config.DB.ScanRows(rows, &product); err != nil {
+			c.String(200, "Failed to bind query result!")
+			return
+		}
+		products = append(products, product)
+	}
+	c.JSON(200, &products)
+}
+
+func FetchMostBoughtProduct(c *gin.Context) {
+	var FetchMostBoughtProductReq struct {
+		Uploaded_by uint `json:"uploaded_by"`
+		Page        int  `json:"page"`
+	}
+
+	c.ShouldBindJSON(&FetchMostBoughtProductReq)
+
+	pageSize := 50
+
+	offset := (FetchMostBoughtProductReq.Page - 1) * pageSize
+
+	rows, err := config.DB.Raw(`
+	SELECT p.id, p.product_name, p.product_image, p.product_price, p.product_stock, p.uploaded_by, p.rating
+	FROM transactions tr 
+	JOIN carts c ON c.cart_id = tr.cart_id 
+	JOIN products p ON c.product_id = p.id 
+	WHERE uploaded_by = ? 
+	GROUP BY p.id 
+	ORDER BY COUNT(*) DESC 
+	LIMIT ? OFFSET ?
+	`, FetchMostBoughtProductReq.Uploaded_by, pageSize, offset).Rows()
+	if err != nil {
+		c.String(200, "Failed to query the filter!")
+		return
+	}
+	defer rows.Close()
+
+	var products []Product
+	for rows.Next() {
+		var product Product
+		if err := config.DB.ScanRows(rows, &product); err != nil {
+			c.String(200, "Failed to bind query result!")
+			return
+		}
+		products = append(products, product)
+	}
+	c.JSON(200, &products)
+}
+
+type Product struct {
+	ID            uint   `json:"id"`
+	ProductName   string `json:"product_name"`
+	ProductImage  string `json:"product_image"`
+	ProductPrice  uint   `json:"product_price"`
+	ProductStock  uint   `json:"product_stock"`
+	UploadedBy    uint   `json:"uploaded_by"`
+	ProductRating uint   `json:"product_rating"`
+}
+
+func GetProductCount(c *gin.Context) {
+	var uploadedBy = c.Param("id")
+	var count int64
+	err := config.DB.Raw("SELECT COUNT(*) FROM products WHERE uploaded_by = ?", uploadedBy).Scan(&count).Error
+	if err != nil {
+		c.String(200, "Failed to get product count")
+		return
+	}
+	c.String(200, strconv.Itoa(int(count)))
 }
