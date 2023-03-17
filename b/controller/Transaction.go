@@ -2,6 +2,7 @@ package controller
 
 import (
 	"net/http"
+	"strconv"
 
 	"github.com/Kruzikael014/oldegg-backend/config"
 	"github.com/Kruzikael014/oldegg-backend/model"
@@ -64,4 +65,23 @@ func CheckoutCart(c *gin.Context) {
 	tx.Commit()
 
 	c.String(http.StatusOK, "Cart successfully checked out!")
+}
+
+func GetTransactionCount(c *gin.Context) {
+	var userID = c.Param("id")
+	var count int64
+	rows, err := config.DB.Raw("SELECT COUNT(*) FROM transactions t JOIN carts c ON c.cart_id = t.cart_id JOIN products p ON p.id = c.product_id WHERE p.uploaded_by = ?", userID).Rows()
+	if err != nil {
+		c.String(200, "Error while running the query!")
+		return
+	}
+	defer rows.Close()
+	if rows.Next() {
+		err = rows.Scan(&count)
+		if err != nil {
+			c.String(200, "Failed to bind the count!")
+			return
+		}
+	}
+	c.String(200, strconv.Itoa(int(count)))
 }

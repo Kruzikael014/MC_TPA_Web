@@ -7,4 +7,5 @@ import (
 
 func TransactionRoute(e *gin.Engine) {
 	e.POST("/checkout-cart-content", controller.CheckoutCart)
+	e.GET("/get-transaction-count/:id", controller.GetTransactionCount)
 }

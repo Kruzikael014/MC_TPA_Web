@@ -8,6 +8,7 @@ const GetUserFromId = async (id: number) =>
   {
 
     const response = await axios.get(`${API}/get-user-by-id/${id}`)
+    console.log(response);
     return response.data
 
   } catch (error)
