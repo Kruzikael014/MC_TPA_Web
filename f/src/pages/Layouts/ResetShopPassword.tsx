@@ -5,8 +5,8 @@ import ChangePassRequest from "@/types/ChangePassRequest"
 import User from "@/types/User"
 import getCookie from "@/util/GetCookie"
 import { useEffect, useState } from "react"
-import getUserFromToken from "../api/getuser"
-import ResetPass from "../api/ResetPass"
+import getUserFromToken from "../api/User-APIs/getuser"
+import ResetPass from "../api/User-APIs/ResetPass"
 
 export default function ResetShopPassword()
 {

@@ -4,7 +4,7 @@ import PromotionBanner from "@/types/PromotionBanenr";
 import uploadImage from "@/util/ImageController";
 import { useState } from "react";
 import { v4 } from "uuid";
-import UploadPromo from "../api/UploadPromo";
+import UploadPromo from "../api/Promo-APIs/UploadPromo";
 
 const InsertPromotion = () =>
 {

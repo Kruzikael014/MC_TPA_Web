@@ -16,9 +16,9 @@ import Image from "next/image"
 import { useRouter } from "next/router"
 import { ParsedUrlQuery } from "querystring"
 import { useEffect, useState } from "react"
-import AddCart from "../api/AddCart"
-import GetSingleProduct from "../api/GetSingleProduct"
-import getUserFromToken from "../api/getuser"
+import AddCart from "../api/Cart-APIs/AddCart"
+import GetSingleProduct from "../api/Product-APIs/GetSingleProduct"
+import getUserFromToken from "../api/User-APIs/getuser"
 
 interface ProductDetailProp
 {
@@ -213,9 +213,7 @@ const ProductDetail = (props: ProductDetailProp) =>
                 <ButtonInput orange placeholder="Add to cart" func={addToCart} />
               </div>
             </div>
-
           </div>
-
         </div>
       </div>
       <Footer />

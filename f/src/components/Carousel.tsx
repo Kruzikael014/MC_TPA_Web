@@ -1,4 +1,4 @@
-import GetActivePromo from "@/pages/api/GetActivePromo";
+import GetActivePromo from "@/pages/api/Promo-APIs/GetActivePromo";
 import styles from "@/styles/HomePage.module.css"
 import PromotionBanner from "@/types/PromotionBanenr";
 import { getUrl } from "@/util/ImageController";

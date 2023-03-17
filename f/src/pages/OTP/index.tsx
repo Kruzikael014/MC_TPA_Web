@@ -6,7 +6,7 @@ import Image from "next/image";
 import InputField from "@/components/InputField";
 import ButtonInput from "@/components/ButtonInput";
 import OTPVerifyRequest from "@/types/OTPVerifyRequest";
-import UseOTP from "../api/UseOTP";
+import UseOTP from "../api/User-APIs/UseOTP";
 
 const OTPage = () =>
 {
@@ -23,7 +23,7 @@ const OTPage = () =>
 
   }, [])
 
-  const handleFormSubmit = async (e:any) =>
+  const handleFormSubmit = async (e: any) =>
   {
     e.preventDefault()
     const setCookie = (key: string, value: string, expiredInDay: number) =>
@@ -40,14 +40,16 @@ const OTPage = () =>
 
     const response = await UseOTP(newOTPVerifyRequest)
     console.log(response);
-    
 
-    if (response ===  "OTP Code is invalid!") {
+
+    if (response === "OTP Code is invalid!")
+    {
       alert(response)
       return
     }
 
-    else if (response?.error === "OTP expired") {
+    else if (response?.error === "OTP expired")
+    {
       alert(response.error)
       return
     }

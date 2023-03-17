@@ -4,7 +4,7 @@ import PromotionBanner from "@/types/PromotionBanenr"
 import { getUrl } from "@/util/ImageController"
 import { useRouter } from 'next/router'
 import { useEffect, useState } from "react"
-import GetPromo from "../api/GetPromo"
+import GetPromo from "../api/Promo-APIs/GetPromo"
 import { changeFunc } from "../HomePage/AdminPage"
 import PromotionRow from "./PromotionRow"
 
@@ -23,7 +23,6 @@ const ManagePromo = () =>
     {
 
       const response = await GetPromo()
-      console.log(response)
       setPromo(response)
 
     }

@@ -1,8 +1,8 @@
-import InfiniteFetching from "@/pages/api/InfiniteFetching"
 import Product from "@/types/Product"
 import { useEffect, useState } from "react"
 import styles from "@/styles/HomePage.module.css"
 import MediumProductCard from "./MediumProductCard"
+import InfiniteFetching from "@/pages/api/Product-APIs/InfiniteFetching"
 
 
 

@@ -4,7 +4,7 @@ import InputField from "@/components/InputField"
 import styles from "@/styles/HomePage.module.css"
 import Shop from "@/types/Shop"
 import { useState } from "react"
-import CreateShop from "../api/CreateShop"
+import CreateShop from "../api/Cart-APIs/CreateShop"
 
 
 
@@ -43,7 +43,8 @@ const OpenShop = () =>
 
     const response = await CreateShop(newShop)
     console.log(response)
-    if (response !== -1 && response.email !== "") {
+    if (response !== -1 && response.email !== "")
+    {
       alert("Shop successfully created!")
       window.location.reload()
     }

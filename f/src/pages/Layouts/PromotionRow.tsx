@@ -4,7 +4,7 @@ import PromotionBanner from "@/types/PromotionBanenr";
 import { getUrl } from "@/util/ImageController";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import UpdatePromo from "../api/UpdatePromo";
+import UpdatePromo from "../api/Promo-APIs/UpdatePromo";
 
 interface Promotion
 {

@@ -9,13 +9,13 @@ import Product from "@/types/Product";
 import { onLog } from "firebase/app";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import GetCart from "../api/GetCart";
+import GetCart from "../api/Cart-APIs/GetCart";
 import s from "@/styles/HomePage.module.css"
-import GetSingleProduct from "../api/GetSingleProduct";
+import GetSingleProduct from "../api/Product-APIs/GetSingleProduct";
 import LiveImage from "@/components/LiveImage";
 import CartCard from "@/components/CartCard";
-import GetCartTotal from "../api/GetCartTotal";
 import ButtonInput from "@/components/ButtonInput";
+import GetCartTotal from "../api/Cart-APIs/GetCartTotal";
 
 const CartPage = () =>
 {

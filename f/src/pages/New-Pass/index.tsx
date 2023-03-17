@@ -20,7 +20,7 @@ const NewPassFormx = () =>
 
   return (
     <>
-      <NewPassForm email={email}  />
+      <NewPassForm email={email} />
     </>
   );
 }

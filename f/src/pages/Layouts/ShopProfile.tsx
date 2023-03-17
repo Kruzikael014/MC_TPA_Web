@@ -9,9 +9,9 @@ import uploadImage, { deleteImage, getUrl } from "@/util/ImageController"
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
 import { v4 } from "uuid"
-import ChangeShopProfile from "../api/ChangeShopProfile"
-import getUserFromToken from "../api/getuser"
-import ShopDetailAPI from "../api/ShopDetailAPI"
+import ChangeShopProfile from "../api/Cart-APIs/ChangeShopProfile"
+import getUserFromToken from "../api/User-APIs/getuser"
+import ShopDetailAPI from "../api/User-APIs/ShopDetailAPI"
 
 export default function ShopProfile()
 {
@@ -115,7 +115,7 @@ export default function ShopProfile()
 
   const showShopPreview = () =>
   {
-    router.push({pathname : `/shop-page`, query : { id: shopDetail?.id }})
+    router.push({pathname : `/shop-page/${shopDetail?.id}`, query : { id: shopDetail?.id }})
   }
 
   return (

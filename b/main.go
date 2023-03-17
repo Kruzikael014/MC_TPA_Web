@@ -34,6 +34,7 @@ func main() {
 	route.ChatRoute(router)
 	route.VoucherRoute(router)
 	route.AnnouncementRoute(router)
+	route.ReviewRoute(router)
 	// router.Run(":8088")
 	http.ListenAndServe(":8088", cors.New(options).Handler(router))
 }

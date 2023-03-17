@@ -6,11 +6,11 @@ import ButtonInput from "@/components/ButtonInput";
 import Link from "next/link";
 import { useState } from "react";
 import LoginRequest from "@/types/LoginRequest";
-import SignUserIn from "../api/signin";
+import SignUserIn from "../api/Auth-APIs/signin";
 import { useRouter } from "next/router";
-import GetOTP from "../api/GetOTP";
+import GetOTP from "../api/User-APIs/GetOTP";
 import OTPRequest from "@/types/OTPRequest";
-import GetForgotPass from "../api/GetForgotPass";
+import GetForgotPass from "../api/User-APIs/GetForgotPass";
 import ForgotPassRequest from "@/types/ForgotPassRequest";
 
 
@@ -52,8 +52,6 @@ export default function SignIn()
     else
     {
       setCookie("JWToken", response.token, 1)
-
-      // move validate here, so we can prevent if the user is banned or anything else
 
       router.push("/")
     }
@@ -104,20 +102,21 @@ export default function SignIn()
       return
     }
 
-    const request:ForgotPassRequest = {
+    const request: ForgotPassRequest = {
       email: email
     }
 
     const response = await GetForgotPass(request)
 
-    if (response !== "OK") {
+    if (response !== "OK")
+    {
       alert(response)
       return
     }
 
     router.push({
       pathname: "/Forgot-Pass",
-      query : {
+      query: {
         email: email
       }
     })

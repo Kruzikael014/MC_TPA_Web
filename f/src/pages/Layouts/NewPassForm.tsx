@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import InputField from "@/components/InputField";
 import ButtonInput from "@/components/ButtonInput";
 import ChangePassRequest from "@/types/ChangePassRequest";
-import UpdatePass from "../api/UpdatePass";
+import UpdatePass from "../api/User-APIs/UpdatePass";
 import { useRouter } from "next/router";
 
 interface emailprops

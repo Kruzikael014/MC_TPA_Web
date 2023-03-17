@@ -4,7 +4,7 @@ import { getUrl } from "@/util/ImageController";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import DeleteShopProduct from "../pages/api/DeleteShopProduct";
+import DeleteShopProduct from "../pages/api/Product-APIs/DeleteShopProduct";
 import { changeFunc } from "../pages/HomePage/ShopOwner";
 import LiveImage from "./LiveImage";
 

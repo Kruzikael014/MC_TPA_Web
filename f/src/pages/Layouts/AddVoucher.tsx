@@ -6,7 +6,7 @@ import InputField from "@/components/InputField"
 import styles from "@/styles/HomePage.module.css"
 import CreateVoucherRequest from "@/types/CreateVoucherRequest"
 import { useState } from "react"
-import CreateVoucher from "../api/CreateVoucher"
+import CreateVoucher from "../api/Voucher-APIs/CreateVoucher"
 
 
 const AddVoucher = () =>

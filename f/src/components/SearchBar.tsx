@@ -1,5 +1,5 @@
-import GetSingleProduct from '@/pages/api/GetSingleProduct';
-import searchProduct from '@/pages/api/SearchProduct';
+import GetSingleProduct from '@/pages/api/Product-APIs/GetSingleProduct';
+import searchProduct from '@/pages/api/Promo-APIs/SearchProduct';
 import s from '@/styles/HomePage.module.css'
 import Product from '@/types/Product';
 import Image from 'next/image';

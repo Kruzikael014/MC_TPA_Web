@@ -1550,6 +1550,7 @@
   position: absolute;
   left: 39.5%;
   text-decoration: underline;
+  cursor: pointer;
 }
 .productdetail .detailcontent .detail .midsection {
   display: flex;
@@ -2057,4 +2058,15 @@
   flex-direction: column;
   margin-top: 4rem;
   margin: 3rem;
+}
+.reviewshoppage .down .revitt {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+.reviewshoppage .down .revitt i {
+  position: relative;
+  top: 4px;
+  margin-left: 1rem;
 }/*# sourceMappingURL=HomePage.module.css.map */

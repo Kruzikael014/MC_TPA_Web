@@ -5,11 +5,11 @@ import User from "@/types/User"
 import getCookie from "@/util/GetCookie"
 import uploadImage, { getUrl } from "@/util/ImageController"
 import { useEffect, useState } from "react"
-import getUserFromToken from "../api/getuser"
+import getUserFromToken from "../api/User-APIs/getuser"
 
 import { v4 } from "uuid"
 import Product from "@/types/Product"
-import InsertProduct from "../api/InsertProduct"
+import InsertProduct from "../api/Product-APIs/InsertProduct"
 
 interface Image
 {

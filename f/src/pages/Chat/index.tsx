@@ -5,7 +5,7 @@ import s from '@/styles/HomePage.module.css'
 import User from "@/types/User";
 import getCookie from "@/util/GetCookie";
 import { useEffect, useState } from "react";
-import getUserFromToken from "../api/getuser";
+import getUserFromToken from "../api/User-APIs/getuser";
 
 const ChatPage = () =>
 {

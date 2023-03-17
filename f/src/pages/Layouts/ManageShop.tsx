@@ -4,9 +4,9 @@ import styles from "@/styles/HomePage.module.css"
 import Product from "@/types/Product"
 import Shop from "@/types/Shop"
 import { useEffect, useState } from "react"
-import BanApi from "../api/BanApi"
-import ListShop from "../api/ListShop"
-import UnbanApi from "../api/UnbanApi"
+import BanApi from "../api/User-APIs/BanApi"
+import ListShop from "../api/User-APIs/ListShop"
+import UnbanApi from "../api/User-APIs/UnbanApi"
 
 const ManageShop = () =>
 {

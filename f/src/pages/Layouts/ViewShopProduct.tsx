@@ -3,14 +3,14 @@ import Product from "@/types/Product"
 import getCookie from "@/util/GetCookie"
 import { getUrl } from "@/util/ImageController"
 import { useEffect, useState } from "react"
-import GetShopProduct from "../api/GetShopProduct"
-import getUserFromToken from "../api/getuser"
+import GetShopProduct from "../api/Product-APIs/GetShopProduct"
+import getUserFromToken from "../api/User-APIs/getuser"
 import LargeProductCard from "../../components/LargeProductCard"
 import MediumProductCard from "@/components/MediumProductCard"
 import User from "@/types/User"
-import GetFilteredShopProduct from "../api/GetFilteredShopProduct"
-import GetUserFromId from "../api/GetUserFromId"
-import GetProductCount from "../api/GetProductCount"
+import GetFilteredShopProduct from "../api/Product-APIs/GetFilteredShopProduct"
+import GetUserFromId from "../api/User-APIs/GetUserFromId"
+import GetProductCount from "../api/Product-APIs/GetProductCount"
 
 interface ViewShopProductProps
 {
@@ -84,8 +84,6 @@ export default function ViewShopProduct(props: ViewShopProductProps)
 
   useEffect(() =>
   {
-    console.log("Want to show product that fitlered tiwth attr " + filter + " and show on page " + page + " fetching item uploaded by user with id " + user?.id)
-
     const fetchProduct = async () =>
     {
       const request: Object = {

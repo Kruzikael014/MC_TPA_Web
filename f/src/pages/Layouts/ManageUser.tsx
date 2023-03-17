@@ -1,9 +1,9 @@
 
 import styles from "@/styles/HomePage.module.css"
 import { useEffect, useState } from "react"
-import BanApi from "../api/BanApi"
-import ListCustomer from "../api/ListCustomer"
-import UnbanApi from "../api/UnbanApi"
+import BanApi from "../api/User-APIs/BanApi"
+import ListCustomer from "../api/User-APIs/ListCustomer"
+import UnbanApi from "../api/User-APIs/UnbanApi"
 
 const ManageUser = () =>
 {

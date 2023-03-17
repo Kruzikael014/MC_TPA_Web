@@ -6,17 +6,21 @@ import API from "@/env";
 import ShopDetail from "@/types/ShopDetail";
 import User from "@/types/User";
 import getCookie from "@/util/GetCookie";
-import { useEffect, useState } from "react";
-import getUserFromToken from "../api/getuser";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import getUserFromToken from "../api/User-APIs/getuser";
 import s from "@/styles/HomePage.module.css"
 import LiveImage from "@/components/LiveImage";
 import ProductCategory from "@/types/ProductCategory";
 import GetProductCategoryRequest from "@/types/GetProductCategoryRequest";
-import GetProductCategory from "../api/GetProductCategory";
+import GetProductCategory from "../api/Product-APIs/GetProductCategory";
 import { useRouter } from "next/router";
 import ViewShopProduct from "../Layouts/ViewShopProduct";
-import GetUserFromId from "../api/GetUserFromId";
+import GetUserFromId from "../api/User-APIs/GetUserFromId";
 import ButtonInput from "@/components/ButtonInput";
+import InputField from "@/components/InputField";
+import Review from "@/types/Review";
+import SaveReview from "../api/Review-APIs/SaveReview";
+import GetReviews from "../api/Review-APIs/GetReviews";
 
 interface ShopDetailInterface
 {
@@ -28,6 +32,7 @@ const ShopPagePage = (props: ShopDetailInterface) =>
 
   const { shopDetail } = props
   const [user, setUser] = useState<User | undefined>(undefined)
+  const [realUser, setRealUser] = useState<User | undefined>(undefined)
   const [clickedFeature, setClickedFeature] = useState(1)
   const router = useRouter()
   const query = router.query
@@ -35,11 +40,22 @@ const ShopPagePage = (props: ShopDetailInterface) =>
 
   useEffect(() =>
   {
-    const getCurrUser = async () =>
+    const fetchUser = async () =>
     {
       const ob = {
         JWToken: getCookie("JWToken")
       }
+      const user = await getUserFromToken(ob)
+      setRealUser(user)
+    }
+    fetchUser()
+
+  }, [])
+
+  useEffect(() =>
+  {
+    const getCurrUser = async () =>
+    {
       const response = await GetUserFromId(Number(id))
       setUser(
         {
@@ -122,21 +138,46 @@ const ShopPagePage = (props: ShopDetailInterface) =>
     )
   }
 
-  const ViewReviewShopForm = () =>
+  interface ViewReviewSHopForm
   {
+    setStateFunction: Dispatch<SetStateAction<boolean>>
+  }
+
+  const ViewReviewShopForm = (props: ViewReviewSHopForm) =>
+  {
+
+    const { setStateFunction } = props
 
     const [rate, setRate] = useState(0)
     const [deliveredOnTime, setDeliveredOnTime] = useState<boolean | null>(null);
     const [itemAsDescribed, setItemAsDescribed] = useState<boolean | null>(null);
     const [satisfactoryService, setSatisfactoryService] = useState<boolean | null>(null);
+    const [comment, setComment] = useState("")
 
-    const handleSubmit = (e: any) =>
+    const handleSubmit = async (e: any) =>
     {
       e.preventDefault();
-      console.log('Rating value : ', rate);
-      console.log('Delivered on time:', deliveredOnTime);
-      console.log('Item as described:', itemAsDescribed);
-      console.log('Satisfactory service:', satisfactoryService);
+      if (deliveredOnTime === null || itemAsDescribed === null || satisfactoryService === null || comment === "")
+      {
+        alert("Fill all the form!")
+        return
+      }
+
+      const newReview: Review = {
+        created_at: new Date(),
+        message: comment,
+        delivered_ontime: deliveredOnTime,
+        item_accurate: itemAsDescribed,
+        rating_value: rate,
+        satisfying_service: satisfactoryService,
+        reviewer_id: realUser?.id,
+        shop_id: user?.id
+      }
+
+      const response = await SaveReview(newReview)
+      alert(response)
+
+      setStateFunction(false)
     };
 
     const handleRatingChange = (e: React.ChangeEvent<HTMLInputElement>) =>
@@ -146,6 +187,7 @@ const ShopPagePage = (props: ShopDetailInterface) =>
 
     return (
       <form onSubmit={handleSubmit} className={s.myFormReview}>
+        <InputField onChange={setComment} value={comment} text placeholder="Review Message" width={250} height={30} />
         <label>Rating</label>
         <div className={s.ratingButtons}>
           {[1, 2, 3, 4, 5].map((value) => (
@@ -234,6 +276,24 @@ const ShopPagePage = (props: ShopDetailInterface) =>
   const ViewReviewShop = () =>
   {
 
+    const [showForm, setShowForm] = useState(false)
+    const [reviews, setReviews] = useState<Review[] | undefined>(undefined)
+
+    useEffect(() =>
+    {
+
+      const fetchReviews = async () =>
+      {
+
+        const response = await GetReviews(Number(user?.id))
+        setReviews(response)
+
+      }
+      fetchReviews()
+
+    }, [])
+
+
     return (
       <>
         <div className={s.reviewshoppage}>
@@ -278,19 +338,44 @@ const ShopPagePage = (props: ShopDetailInterface) =>
             </div>
           </div>
           <div className={s.down}>
-            <center>
-              <h1>
-                Reviews
-              </h1>
-            </center>
-            <div className={s.reviewcontents}>
-            
-            </div>
+            {
+              showForm ?
+                <>
+                  <ViewReviewShopForm setStateFunction={setShowForm} />
+                </>
+                :
+                <>
+                  <center className={s.revitt}>
+                    <h1>
+                      Reviews
+                    </h1>
+                    {
+                      user?.id !== realUser?.id ?
+                        <i className="fa-sharp fa-solid fa-plus fa-2x" onClick={(e) => { setShowForm(true) }}></i>
+                        :
+                        ""
+                    }
+                  </center>
+                  <div className={s.reviewcontents}>
+                    {
+                      reviews?.map((review, index) =>
+                      {
+                        return (
+                          <>
+                            <div key={index}>
+                              {review.message}
+                            </div>
+                          </>
+                        )
+                      })
+                    }
+                  </div>
+                </>
+            }
           </div>
         </div>
       </>
     )
-
   }
 
   const showSubcontent = () =>

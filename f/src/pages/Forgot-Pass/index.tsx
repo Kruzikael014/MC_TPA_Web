@@ -7,7 +7,7 @@ import { useRouter } from "next/router";
 import ButtonInput from "@/components/ButtonInput";
 import InputField from "@/components/InputField";
 import ForgotPassVerifYRequet from "@/types/ForgotPassVerifyRequest";
-import UseForgotPass from "../api/UseForgotPass";
+import UseForgotPass from "../api/User-APIs/UseForgotPass";
 import NewPassForm from "../Layouts/NewPassForm";
 
 const ForgotPass = () =>
@@ -65,9 +65,6 @@ const ForgotPass = () =>
       }
     })
     }
-
-
-
 
   }
 

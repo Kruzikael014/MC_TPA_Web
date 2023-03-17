@@ -1740,7 +1740,8 @@ $secondary-darkgrey : #121212;
       .visitstore {
         position: absolute;
         left: 39.5%;
-        text-decoration: underline
+        text-decoration: underline;
+        cursor: pointer;
       }
 
       .midsection {
@@ -2276,6 +2277,20 @@ $secondary-darkgrey : #121212;
     @include verti();
     margin-top: 4rem;
     margin: 3rem;
+
+    .revitt {
+      @include hori();
+      justify-content: center;
+      align-items: center;
+      
+
+      i {
+        position: relative;
+        top: 4px;
+        margin-left: 1rem;
+      }
+
+    }
 
   }
 }

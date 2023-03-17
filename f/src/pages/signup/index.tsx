@@ -6,8 +6,8 @@ import ButtonInput from "@/components/ButtonInput";
 import Link from "next/link";
 import { useState } from "react";
 import User from "@/types/User";
-import SignUserUp from "../api/signup";
 import { useRouter } from "next/router";
+import SignUserUp from "../api/Auth-APIs/signup";
 
 const SignUp = () =>
 {
@@ -34,13 +34,15 @@ const SignUp = () =>
       Email_subscriber: subscribe,
       Status: "Clear",
       Role_name: "Customer",
+      balance: 0
     }
 
     const response = await SignUserUp(newUser)
     console.log(response)
 
     if (response === -1) alert("ERROR!!!")
-    else {
+    else
+    {
       alert("Account Successfully Created")
       console.log(response)
       Router.push("/signin")

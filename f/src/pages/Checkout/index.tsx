@@ -10,13 +10,13 @@ import LiveImage from "@/components/LiveImage";
 import InputField from "@/components/InputField";
 import ThemeToggle from "@/components/ThemeToggle";
 import ButtonInput from "@/components/ButtonInput";
-import CartCheckout from "../api/CartCheckout";
+import CartCheckout from "../api/Cart-APIs/CartCheckout";
 import CheckoutRequest from "@/types/CheckoutRequest";
 import User from "@/types/User";
 import getCookie from "@/util/GetCookie";
-import getUserFromToken from "../api/getuser";
+import getUserFromToken from "../api/User-APIs/getuser";
 import PayRequest from "@/types/PayRequest";
-import PayCheckout from "../api/PayCheckout";
+import PayCheckout from "../api/Cart-APIs/PayCheckout";
 
 const CheckoutForm = () =>
 {

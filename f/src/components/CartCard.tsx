@@ -1,6 +1,6 @@
 
-import RemoveCartItem from "@/pages/api/RemoveCartItem";
-import UpdateCartQty from "@/pages/api/UpdateCartQty";
+import RemoveCartItem from "@/pages/api/Cart-APIs/RemoveCartItem";
+import UpdateCartQty from "@/pages/api/Cart-APIs/UpdateCartQty";
 import s from "@/styles/HomePage.module.css"
 import CartItem from "@/types/Cart";
 import Product from "@/types/Product";

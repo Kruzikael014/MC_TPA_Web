@@ -3,8 +3,8 @@ import InputField from "@/components/InputField"
 import { useState } from "react"
 import styles from "@/styles/HomePage.module.css"
 import BroadcastRequest from "@/types/BroadcastRequest"
-import Broadcast from "../api/broadcast"
-import SetAnnouncement from "../api/SetAnnouncement"
+import Broadcast from "../api/Email-APIs/broadcast"
+import SetAnnouncement from "../api/Email-APIs/SetAnnouncement"
 import Announcement from "@/types/Announcement"
 
 const SendLetter = () =>

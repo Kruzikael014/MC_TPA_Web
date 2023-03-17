@@ -1,11 +1,12 @@
 import styles from "@/styles/HomePage.module.css"
 
-export default function ViewShopOrder() {
+export default function ViewShopOrder()
+{
   return (
     <>
-    <div className={styles.ViewShopOrder}>
-      Im ViewShopOrder
-    </div>
+      <div className={styles.ViewShopOrder}>
+        Im ViewShopOrder
+      </div>
     </>
   )
 } 

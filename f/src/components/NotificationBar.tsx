@@ -2,7 +2,7 @@ import User from "@/types/User";
 import styles from '@/styles/HomePage.module.css'
 import { useEffect, useState } from "react";
 import Announcement from "@/types/Announcement";
-import GetAnnouncement from "@/pages/api/GetAnnouncement";
+import GetAnnouncement from "@/pages/api/Email-APIs/GetAnnouncement";
 
 interface NotifBarInterface
 {

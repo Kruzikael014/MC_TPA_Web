@@ -9,8 +9,8 @@ import User from '@/types/User';
 import UseVoucherRequest from '@/types/UseVoucherRequest';
 import getCookie from '@/util/GetCookie';
 import { useEffect, useState } from 'react';
-import getUserFromToken from '../api/getuser';
-import UseVoucher from '../api/UseVoucher';
+import getUserFromToken from '../api/User-APIs/getuser';
+import UseVoucher from '../api/Promo-APIs/UseVoucher';
 
 
 
