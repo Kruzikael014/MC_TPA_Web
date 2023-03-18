@@ -3,6 +3,7 @@ type CartItem = {
   user_id: number | undefined,
   product_id: number | undefined,
   quantity: number | undefined
+  delivery_status : string | undefined
 }
 
 export default CartItem

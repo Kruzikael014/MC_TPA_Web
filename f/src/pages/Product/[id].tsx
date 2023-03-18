@@ -100,6 +100,7 @@ const ProductDetail = (props: ProductDetailProp) =>
       product_id: product.id,
       user_id: user?.id,
       quantity: Number(desiredQty),
+      delivery_status : 'In progress'
     }
 
     const response = await AddCart(newItem)

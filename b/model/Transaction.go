@@ -8,4 +8,5 @@ type Transaction struct {
 	CartId             uint   `json:"cart_id"`
 	TransactionPayment string `json:"transaction_payment"`
 	DeliveryProvider   string `json:"delivery_provider"`
+	DeliveryStatus     string `json:"delivery_status"`
 }

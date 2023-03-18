@@ -14,6 +14,7 @@ func CheckoutCart(c *gin.Context) {
 		CartId             uint   `json:"cart_id"`
 		TransactionPayment string `json:"transaction_payment"`
 		DeliveryProvider   string `json:"delivery_provider"`
+		DeliveryStatus     string `json:"delivery_status"`
 	}
 	if err := c.BindJSON(&checkoutRequest); err != nil {
 		c.String(http.StatusOK, "Invalid request")
@@ -27,6 +28,16 @@ func CheckoutCart(c *gin.Context) {
 		c.String(http.StatusOK, "Failed to retrieve cart items: %s", err.Error())
 		return
 	}
+
+	// !!! update DeliveryStatus of the cartItems ALL into In progress HERE!!!
+	for _, item := range cartItems {
+		if err := tx.Model(&item).Update("delivery_status", "In progress").Error; err != nil {
+			tx.Rollback()
+			c.String(http.StatusOK, "Failed to update cart item delivery status: %s", err.Error())
+			return
+		}
+	}
+
 	if err := tx.Delete(&cartItems).Error; err != nil {
 		tx.Rollback()
 		c.String(http.StatusOK, "Failed to delete cart items: %s", err.Error())
@@ -54,6 +65,7 @@ func CheckoutCart(c *gin.Context) {
 		CartId:             checkoutRequest.CartId,
 		TransactionPayment: checkoutRequest.TransactionPayment,
 		DeliveryProvider:   checkoutRequest.DeliveryProvider,
+		DeliveryStatus:     "In progress",
 	}
 	if err := tx.Create(&transactionDone).Error; err != nil {
 		tx.Rollback()

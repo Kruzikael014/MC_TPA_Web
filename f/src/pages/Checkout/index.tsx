@@ -110,10 +110,12 @@ const CheckoutForm = () =>
       const request: CheckoutRequest = {
         cart_id: Number(cartList[0].cart_id),
         delivery_provider: delivery,
-        transaction_payment: payment
+        transaction_payment: payment,
+        delivery_status: "In progress"
       }
       const response = await CartCheckout(request)
       alert(response)
+      router.push("/")
     }
 
     // kalau misalnya dia pilih OldEggCurrency, validasiin oldegg money user nya dulu
@@ -131,7 +133,8 @@ const CheckoutForm = () =>
       const request: CheckoutRequest = {
         cart_id: Number(cartList[0].cart_id),
         delivery_provider: delivery,
-        transaction_payment: payment
+        transaction_payment: payment,
+        delivery_status: "In progress"
       }
       const checkoutResponse = await CartCheckout(request)
       if (checkoutResponse === "Cart successfully checked out!") {

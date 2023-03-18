@@ -23,7 +23,7 @@ const CartCard = (props: CartCardProps) =>
 
   const { cart, product, onChangex } = props
 
-  const { product_id, quantity, user_id, cart_id } = cart
+  const { product_id, quantity, user_id, cart_id, delivery_status } = cart
 
   const { product_category, product_description, product_details, product_image, product_name, product_price, product_rating, product_stock, uploaded_by, id } = product
   const [currQty, setCurrQty] = useState(0)
@@ -49,7 +49,7 @@ const CartCard = (props: CartCardProps) =>
     const request: UpdateRequest = {
       cart_id: Number(cart_id),
       new_qty: Number(newQty),
-      product_id: Number(product_id)
+      product_id: Number(product_id),
     };
     const response = await UpdateCartQty(request);
     console.log(response);
