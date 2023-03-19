@@ -38,11 +38,11 @@ func CheckoutCart(c *gin.Context) {
 		}
 	}
 
-	if err := tx.Delete(&cartItems).Error; err != nil {
-		tx.Rollback()
-		c.String(http.StatusOK, "Failed to delete cart items: %s", err.Error())
-		return
-	}
+	// if err := tx.Delete(&cartItems).Error; err != nil {
+	// 	tx.Rollback()
+	// 	c.String(http.StatusOK, "Failed to delete cart items: %s", err.Error())
+	// 	return
+	// }
 
 	// kurangin stock item
 	for _, item := range cartItems {

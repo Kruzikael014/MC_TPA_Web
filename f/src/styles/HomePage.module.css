@@ -2079,6 +2079,40 @@
   width: 100%;
 }
 
+.orderpage {
+  display: flex;
+  flex-direction: column;
+}
+.orderpage .content {
+  display: flex;
+  flex-direction: column;
+  row-gap: 3rem;
+  padding: 3rem;
+  box-sizing: border-box;
+}
+.orderpage .content .contenthead {
+  display: flex;
+  flex-direction: row;
+}
+.orderpage .content .contenthead select {
+  width: -moz-fit-content;
+  width: fit-content;
+  -webkit-margin-before: 0.5rem;
+          margin-block-start: 0.5rem;
+  margin-inline: 2rem;
+  padding-inline: 1rem;
+  height: 30px;
+}
+.orderpage .content h1 {
+  margin-bottom: 4rem;
+}
+.orderpage .content .carddes {
+  border-radius: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.16789);
+  padding: 2rem;
+  box-sizing: border-box;
+}
+
 .reviewcard {
   margin-top: 2rem;
   width: 100%;

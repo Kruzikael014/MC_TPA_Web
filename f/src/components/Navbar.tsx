@@ -113,6 +113,11 @@ export default function Navbar()
     }
   }
 
+  const handleOrderClick = () =>
+  {
+    router.push("/order-page")
+  }
+
   return (
     <div className={styles.navbar} style={{ backgroundColor: theme.navbar, color: theme.textColor }}>
       <div className={styles.money} style={{ backgroundColor: theme.navbar, color: theme.textColor, display: (user && user.balance !== 0) ? "block" : "none" }}>
@@ -255,7 +260,7 @@ export default function Navbar()
               </div>
             </div>
           </Link>
-          <div className="vertidiv">
+          <div className="vertidiv" onClick={handleOrderClick}>
             <div>
               Returns
             </div>

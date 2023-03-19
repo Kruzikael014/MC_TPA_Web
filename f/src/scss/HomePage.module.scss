@@ -2307,6 +2307,40 @@ $secondary-darkgrey : #121212;
   }
 }
 
+.orderpage {
+  @include verti();
+
+  .content {
+    @include verti();
+    row-gap: 3rem;
+
+    .contenthead {
+      @include hori();
+      select {
+        width: fit-content;
+        margin-block-start: 0.5rem;
+        margin-inline: 2rem;
+        padding-inline: 1rem;
+        height: 30px;
+      }
+    }
+
+    h1 {
+      margin-bottom: 4rem;
+    }
+    padding: 3rem;
+    box-sizing: border-box;
+    .carddes {
+      border-radius: 10px;
+      border: 1px solid rgba(0, 0, 0, 0.16789);
+      padding: 2rem;
+      box-sizing: border-box;
+
+    }
+  }
+
+}
+
 .reviewcard {
   margin-top: 2rem;
   width: 100%;
