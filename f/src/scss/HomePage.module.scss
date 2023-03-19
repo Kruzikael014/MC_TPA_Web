@@ -1719,6 +1719,36 @@ $secondary-darkgrey : #121212;
   gap: 20px;
 }
 
+.similarproductrecommendation {
+  padding: 6rem;
+  @include verti();
+
+  .productlist {
+    @include hori();
+    margin-top: 2rem;
+    margin-left: 2rem;
+    padding: 1rem;
+    border: 1px solid rgba(0, 0, 0, 0.16789);
+    border-radius: 10px;
+    height: fit-content;
+    // background-color: $button-orange;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    column-gap: 2rem;
+
+    // &::-webkit-scrollbar {
+    //   width: 0;
+    //   height: 0;
+    //   background-color: transparent;
+    // }
+    &:hover {
+      overflow-x: scroll;
+      overflow-y: hidden;
+    }
+  }
+
+}
+
 .productdetail {
 
   .detailcontent {
@@ -1763,9 +1793,16 @@ $secondary-darkgrey : #121212;
         }
 
         .banner {
+          cursor: pointer;
           width: 60%;
           height: 4rem;
-          background-color: #0a185c;
+          padding: 1rem;
+          box-sizing: border-box;
+          background-color: $primary-lightgrey;
+
+          &:hover {
+            background-color: $primary-grey;
+          }
         }
 
         .details {}
@@ -2315,21 +2352,31 @@ $secondary-darkgrey : #121212;
     row-gap: 3rem;
 
     .contenthead {
-      @include hori();
-      select {
-        width: fit-content;
-        margin-block-start: 0.5rem;
-        margin-inline: 2rem;
-        padding-inline: 1rem;
-        height: 30px;
+      @include verti();
+      row-gap: 4rem;
+
+      .realhead {
+        @include hori();
+
+        select {
+          width: fit-content;
+          margin-block-start: 0.5rem;
+          margin-inline: 2rem;
+          padding-inline: 1rem;
+          height: 30px;
+        }
       }
+
+      .searchbarcontainer {}
     }
 
     h1 {
       margin-bottom: 4rem;
     }
+
     padding: 3rem;
     box-sizing: border-box;
+
     .carddes {
       border-radius: 10px;
       border: 1px solid rgba(0, 0, 0, 0.16789);

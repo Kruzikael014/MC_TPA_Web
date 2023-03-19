@@ -1532,6 +1532,31 @@
   gap: 20px;
 }
 
+.similarproductrecommendation {
+  padding: 6rem;
+  display: flex;
+  flex-direction: column;
+}
+.similarproductrecommendation .productlist {
+  display: flex;
+  flex-direction: row;
+  margin-top: 2rem;
+  margin-left: 2rem;
+  padding: 1rem;
+  border: 1px solid rgba(0, 0, 0, 0.16789);
+  border-radius: 10px;
+  height: -moz-fit-content;
+  height: fit-content;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  -moz-column-gap: 2rem;
+       column-gap: 2rem;
+}
+.similarproductrecommendation .productlist:hover {
+  overflow-x: scroll;
+  overflow-y: hidden;
+}
+
 .productdetail .detailcontent .directorybar {
   width: 100%;
   border: 1px solid black;
@@ -1573,9 +1598,15 @@
   gap: 0.4rem;
 }
 .productdetail .detailcontent .detail .midsection .banner {
+  cursor: pointer;
   width: 60%;
   height: 4rem;
-  background-color: #0a185c;
+  padding: 1rem;
+  box-sizing: border-box;
+  background-color: #e9e7fc;
+}
+.productdetail .detailcontent .detail .midsection .banner:hover {
+  background-color: #dce0ed;
 }
 .productdetail .detailcontent .detail .rightsection {
   width: 30%;
@@ -2092,9 +2123,14 @@
 }
 .orderpage .content .contenthead {
   display: flex;
+  flex-direction: column;
+  row-gap: 4rem;
+}
+.orderpage .content .contenthead .realhead {
+  display: flex;
   flex-direction: row;
 }
-.orderpage .content .contenthead select {
+.orderpage .content .contenthead .realhead select {
   width: -moz-fit-content;
   width: fit-content;
   -webkit-margin-before: 0.5rem;

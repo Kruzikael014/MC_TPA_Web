@@ -2,6 +2,8 @@ package controller
 
 import (
 	"net/http"
+	"strconv"
+	"strings"
 
 	"github.com/Kruzikael014/oldegg-backend/config"
 	"github.com/Kruzikael014/oldegg-backend/model"
@@ -122,4 +124,126 @@ func ReconfirmTransactionStatus(tx *gorm.DB, transactionID uint) error {
 	}
 
 	return nil
+}
+
+func GetFilteredOrder(c *gin.Context) {
+	user_id, err := strconv.Atoi(c.Query("user_id"))
+	var user_role string = c.Query("user_role")
+	var filter string = c.Query("filter")
+
+	if err != nil {
+		c.String(200, "Failed to get the user id from query param")
+		return
+	}
+
+	if user_role == "Shop Owner" {
+		var orders []model.ShopOrder
+		var err error
+		if filter == "Canceled" {
+			err = config.DB.Table("carts").Select("transactions.id as transaction_id, carts.cart_id, quantity, products.id as product_id, product_name, product_image, product_price, user_id, carts.delivery_status").
+				Joins("JOIN products ON products.id = carts.product_id").
+				Joins("JOIN transactions on transactions.cart_id = carts.cart_id").
+				Where("uploaded_by = ? AND carts.delivery_status = ?", user_id, filter).
+				Scan(&orders).Error
+		} else if filter == "Delivered" {
+			err = config.DB.Table("carts").Select("transactions.id as transaction_id, carts.cart_id, quantity, products.id as product_id, product_name, product_image, product_price, user_id, carts.delivery_status").
+				Joins("JOIN products ON products.id = carts.product_id").
+				Joins("JOIN transactions on transactions.cart_id = carts.cart_id").
+				Where("uploaded_by = ? AND carts.delivery_status = ?", user_id, filter).
+				Scan(&orders).Error
+		} else if filter == "All" {
+			err = config.DB.Table("carts").Select("transactions.id as transaction_id, carts.cart_id, quantity, products.id as product_id, product_name, product_image, product_price, user_id, carts.delivery_status").
+				Joins("JOIN products ON products.id = carts.product_id").
+				Joins("JOIN transactions on transactions.cart_id = carts.cart_id").
+				Where("uploaded_by = ?", user_id).
+				Scan(&orders).Error
+		}
+		if err != nil {
+			c.String(http.StatusInternalServerError, "error", err)
+			return
+		}
+
+		c.JSON(200, &orders)
+		return
+	} else if user_role == "Customer" {
+		var userOrders []model.UserOrder
+
+		var err error
+
+		if filter == "All" {
+			err = config.DB.Table("carts").
+				Select("transactions.id as transaction_id, carts.cart_id, carts.quantity, products.id as product_id, products.product_name, products.product_image, products.product_price, products.uploaded_by, carts.delivery_status").
+				Joins("JOIN products ON products.id = carts.product_id").
+				Joins("JOIN transactions on transactions.cart_id = carts.cart_id").
+				Where("carts.user_id = ?", user_id).
+				Scan(&userOrders).Error
+		} else if filter == "Canceled" {
+			err = config.DB.Table("carts").
+				Select("transactions.id as transaction_id, carts.cart_id, carts.quantity, products.id as product_id, products.product_name, products.product_image, products.product_price, products.uploaded_by, carts.delivery_status").
+				Joins("JOIN products ON products.id = carts.product_id").
+				Joins("JOIN transactions on transactions.cart_id = carts.cart_id").
+				Where("carts.user_id = ? AND carts.delivery_status = ?", user_id, filter).
+				Scan(&userOrders).Error
+		} else if filter == "Delivered" {
+			err = config.DB.Table("carts").
+				Select("transactions.id as transaction_id, carts.cart_id, carts.quantity, products.id as product_id, products.product_name, products.product_image, products.product_price, products.uploaded_by, carts.delivery_status").
+				Joins("JOIN products ON products.id = carts.product_id").
+				Joins("JOIN transactions on transactions.cart_id = carts.cart_id").
+				Where("carts.user_id = ? AND carts.delivery_status = ?", user_id, filter).
+				Scan(&userOrders).Error
+		} else if filter == "Recent" {
+			err = config.DB.Table("carts").
+				Select("transactions.id as transaction_id, carts.cart_id, carts.quantity, products.id as product_id, products.product_name, products.product_image, products.product_price, products.uploaded_by, carts.delivery_status").
+				Joins("JOIN products ON products.id = carts.product_id").
+				Joins("JOIN transactions on transactions.cart_id = carts.cart_id").
+				Where("carts.user_id = ? AND carts.created_at >= NOW() - INTERVAL '7 days'", user_id).
+				Scan(&userOrders).Error
+		}
+		if err != nil {
+			c.String(http.StatusInternalServerError, "error", err)
+			return
+		}
+		c.JSON(200, &userOrders)
+		return
+	}
+}
+
+func SearchOrder(c *gin.Context) {
+	var searchQuery = c.Query("q")
+	var role = c.Query("role")
+	var user_id = c.Query("user_id")
+
+	if role == "Shop Owner" {
+		var shopOrders []model.ShopOrder
+		var err error
+		err = config.DB.Table("carts").
+			Select("transactions.id as transaction_id, carts.cart_id, quantity, products.id as product_id, product_name, product_image, product_price, user_id, carts.delivery_status").
+			Joins("JOIN products ON products.id = carts.product_id").
+			Joins("JOIN transactions on transactions.cart_id = carts.cart_id").
+			Where("uploaded_by = ? AND LOWER(product_name) LIKE ? OR LOWER(delivery_status) LIKE ? OR LOWER(CAST(product_price AS text)) LIKE ? OR LOWER(CAST(cart_id AS text)) LIKE ? OR LOWER(CAST(transaction_id AS text)) LIKE ?", user_id,
+				"%"+searchQuery+"%", "%"+strings.ToLower(searchQuery)+"%", "%"+strings.ToLower(searchQuery)+"%", "%"+strings.ToLower(searchQuery)+"%", "%"+strings.ToLower(searchQuery)+"%").Error
+		if err != nil {
+			c.String(http.StatusOK, "Failed to search for shop orders: %s", err.Error())
+			return
+		}
+		c.JSON(http.StatusOK, &shopOrders)
+		return
+	} else if role == "Customer" {
+		var userOrders []model.UserOrder
+		var err error
+		err = config.DB.Table("carts").
+			Select("transactions.id as transaction_id, carts.cart_id, carts.quantity, products.id as product_id, products.product_name, products.product_image, products.product_price, products.uploaded_by, carts.delivery_status").
+			Joins("JOIN products ON products.id = carts.product_id").
+			Joins("JOIN transactions on transactions.cart_id = carts.cart_id").
+			Where("user_id = ? AND LOWER(product_name) LIKE ? OR LOWER(carts.delivery_status) LIKE ? OR LOWER(CAST(product_price AS text)) LIKE ? OR LOWER(CAST(carts.cart_id AS text)) LIKE ? OR LOWER(CAST(transactions.id AS text)) LIKE ?", user_id,
+				"%"+strings.ToLower(searchQuery)+"%", "%"+strings.ToLower(searchQuery)+"%", "%"+strings.ToLower(searchQuery)+"%", "%"+strings.ToLower(searchQuery)+"%", "%"+strings.ToLower(searchQuery)+"%").
+			Scan(&userOrders).Error
+		if err != nil {
+			c.String(http.StatusOK, "Failed to search for user orders: %s", err.Error())
+			return
+		}
+		c.JSON(http.StatusOK, &userOrders)
+		return
+	}
+
 }

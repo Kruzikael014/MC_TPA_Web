@@ -59,8 +59,6 @@ export default function ViewShopProduct(props: ViewShopProductProps)
     {
       if (user !== undefined)
       {
-        console.log("a");
-
         const products = await GetShopProduct(user?.id, page)
         console.log(products);
         setProducts(products)
@@ -110,13 +108,18 @@ export default function ViewShopProduct(props: ViewShopProductProps)
 
     const getProductCount = async () =>
     {
-      const response = await GetProductCount(Number(id))
-      setProductCount(response)
+      if (user !== undefined)
+      {
+        console.log(user);
+        console.log(user.id);
+        
+        const response = await GetProductCount(Number(user.id))
+        setProductCount(response)
+      }
     }
     getProductCount()
 
-  }, [])
-
+  }, [user])
 
   return (
     <>

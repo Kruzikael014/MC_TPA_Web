@@ -31,5 +31,5 @@ func ProductRoute(e *gin.Engine) {
 	e.GET("/product-paginated", controller.GetShopProductPaginated)
 
 	e.GET("/get-product-count/:id", controller.GetProductCount)
-
+	e.GET("/get-similar-product", controller.GetSimilarProduct)
 }

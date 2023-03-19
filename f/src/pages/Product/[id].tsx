@@ -2,6 +2,9 @@ import ButtonInput from "@/components/ButtonInput"
 import Footer from "@/components/Footer"
 import HeaderModule from "@/components/HeaderModule"
 import InputField from "@/components/InputField"
+import LargeProductCard from "@/components/LargeProductCard"
+import LiveImage from "@/components/LiveImage"
+import MediumProductCard from "@/components/MediumProductCard"
 import Navbar from "@/components/Navbar"
 import ThemeToggle from "@/components/ThemeToggle"
 import API from "@/env"
@@ -17,6 +20,7 @@ import { useRouter } from "next/router"
 import { ParsedUrlQuery } from "querystring"
 import { useEffect, useState } from "react"
 import AddCart from "../api/Cart-APIs/AddCart"
+import GetRecommendation from "../api/Product-APIs/GetRecommendation"
 import GetSingleProduct from "../api/Product-APIs/GetSingleProduct"
 import getUserFromToken from "../api/User-APIs/getuser"
 
@@ -36,6 +40,8 @@ const ProductDetail = (props: ProductDetailProp) =>
 
   const [user, setUser] = useState<User | undefined>(undefined)
   const router = useRouter()
+
+  const [recommendation, setRecommendation] = useState<Product[] | string | undefined>(undefined)
 
 
   useEffect(() =>
@@ -77,8 +83,6 @@ const ProductDetail = (props: ProductDetailProp) =>
     getImageUrl()
   }, [])
 
-
-
   const addToCart = async () =>
   {
 
@@ -100,14 +104,12 @@ const ProductDetail = (props: ProductDetailProp) =>
       product_id: product.id,
       user_id: user?.id,
       quantity: Number(desiredQty),
-      delivery_status : 'In progress'
+      delivery_status: 'In progress'
     }
 
     const response = await AddCart(newItem)
 
-    // alert(response)
     console.log(response);
-
   }
 
   const parseProductDetail = (detail: string | undefined): string[] =>
@@ -129,6 +131,19 @@ const ProductDetail = (props: ProductDetailProp) =>
     router.push(`/shop-page/${product.uploaded_by}`)
   }
 
+  useEffect(() =>
+  {
+    const fetchRecommendation = async () =>
+    {
+      if (product !== undefined)
+      {
+        const response = await GetRecommendation(product.product_category)
+        setRecommendation(response)
+      }
+    }
+    fetchRecommendation()
+  }, [product])
+
   return (
     <>
       <ThemeToggle />
@@ -140,7 +155,7 @@ const ProductDetail = (props: ProductDetailProp) =>
           </div>
           <div className={s.detail}>
             <div className={s.imagesection}>
-              <Image width={600} height={450} src={imageUrl} alt="" />
+              <LiveImage imageUrl={product.product_image} width={600} height={450} />
             </div>
             <h4 onClick={handleStoreVisit} className={s.visitstore}>
               Visit store
@@ -178,8 +193,16 @@ const ProductDetail = (props: ProductDetailProp) =>
               <div>
                 Ships from United States
               </div>
-              <div className={s.banner}>
-                Banner
+              <div className={s.banner} onClick={(e) => { router.push("/build-pc") }}>
+                Build PC
+              </div>
+              <div>
+                <h2>
+                  Category
+                </h2>
+                <h3>
+                  {product.product_category}
+                </h3>
               </div>
               <div>
                 <ul>
@@ -215,6 +238,29 @@ const ProductDetail = (props: ProductDetailProp) =>
               </div>
             </div>
           </div>
+        </div>
+      </div>
+      <div className={s.similarproductrecommendation}>
+        <h1>
+          Similar Product
+        </h1>
+        <div className={s.productlist}>
+          {
+            Array.isArray(recommendation) &&
+            recommendation.map((product: Product, index: number) =>
+            {
+              return (
+                <div>
+                  {/* <MediumProductCard index={index} product={product}  /> */}
+                  <LargeProductCard index={index} product={product} />
+                </div>
+              )
+            })
+          }
+          {
+            Array.isArray(recommendation) === false &&
+            <h1>No similar product!</h1>
+          }
         </div>
       </div>
       <Footer />

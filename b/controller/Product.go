@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"fmt"
 	"net/http"
 	"strconv"
 	"strings"
@@ -284,12 +285,31 @@ type Product struct {
 }
 
 func GetProductCount(c *gin.Context) {
-	var uploadedBy = c.Param("id")
+	uploadedBy, err := strconv.Atoi(c.Param("id"))
+
+	if err != nil {
+		c.String(200, "Failed to get the parameters!")
+		return
+	}
+
 	var count int64
-	err := config.DB.Raw("SELECT COUNT(*) FROM products WHERE uploaded_by = ?", uploadedBy).Scan(&count).Error
+	err = config.DB.Raw("SELECT COUNT(*) FROM products WHERE uploaded_by = ?", uploadedBy).Scan(&count).Error
 	if err != nil {
 		c.String(200, "Failed to get product count")
 		return
 	}
 	c.String(200, strconv.Itoa(int(count)))
+}
+
+func GetSimilarProduct(c *gin.Context) {
+	var category = strings.ToLower(c.Query("category"))
+	fmt.Println(category)
+	var recommendations []model.Product
+	err := config.DB.Find(&recommendations, "LOWER(product_category) LIKE ?", "%"+category+"%").Error
+	if err != nil {
+		c.String(200, "Cant find similar product recommendation!")
+		return
+	}
+	fmt.Println(&recommendations)
+	c.JSON(200, &recommendations)
 }

@@ -10,4 +10,6 @@ func OrderRoute(e *gin.Engine) {
 	e.GET("/get-order-shop/:user_id", controller.GetShopOrders)
 	e.POST("/deliver-order", controller.DeliverOrder)
 	e.POST("/cancel-order", controller.CancelOrder)
+	e.GET("/get-order-filter", controller.GetFilteredOrder)
+	e.GET("/search-order", controller.SearchOrder)
 }

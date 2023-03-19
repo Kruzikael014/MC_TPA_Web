@@ -67,27 +67,24 @@ const MediumProductCard = ({ product, index }: ProductCard) =>
   }
 
   return (
-    <>
-      <div className={styles.mediumproductcard} >
-        <br />
-        <div>
-          <Image src={imageUrls ? imageUrls : "https://www.meme-arsenal.com/memes/c9e6371faa3b57eaee1d35595ca8e910.jpg"}
-            alt="not found"
-            width={290}
-            height={350}
-            onClick={handleCardClick}
-          />
-        </div>
-        <div className={styles.productname}>{product_name}</div>
-        <br />
-        <div className={styles.productprice}>Rp. {product_price.toLocaleString()}</div>
-
-        <div>
-          {product.id}
-        </div>
-
+    <div className={styles.mediumproductcard} >
+      <br />
+      <div>
+        <Image src={imageUrls ? imageUrls : "https://www.meme-arsenal.com/memes/c9e6371faa3b57eaee1d35595ca8e910.jpg"}
+          alt="not found"
+          width={290}
+          height={350}
+          onClick={handleCardClick}
+        />
       </div>
-    </>
+      <div className={styles.productname}>{product_name}</div>
+      <br />
+      <div className={styles.productprice}>Rp. {product_price.toLocaleString()}</div>
+
+      <div>
+        {product.id}
+      </div>
+    </div>
   );
 };
 

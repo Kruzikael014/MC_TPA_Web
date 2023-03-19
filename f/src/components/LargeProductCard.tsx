@@ -75,14 +75,14 @@ const LargeProductCard = ({ product, index, fullaccess }: ProductCard) =>
         {/* <div>{product_category}</div>
         <div>{product_description}</div> */}
         <br />
-        <div>
+        <div onClick={handleCardClick}>
           {/* <Image src={imageUrls ? imageUrls : "https://www.meme-arsenal.com/memes/c9e6371faa3b57eaee1d35595ca8e910.jpg"}
             width={380}
             height={280}
             alt="not found"
             onClick={handleCardClick}
           /> */}
-          <LiveImage imageUrl={product_image} width={380} height={280} />
+          <LiveImage imageUrl={product_image} width={380} height={280}  />
         </div>
         <div className={styles.productname}>{product_name}</div>
         <br />
