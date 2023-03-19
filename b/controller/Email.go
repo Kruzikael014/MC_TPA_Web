@@ -1,7 +1,6 @@
 package controller
 
 import (
-	"fmt"
 	"math/rand"
 	"net/http"
 	"net/smtp"
@@ -102,7 +101,6 @@ func sendOTP(email string, otp int) error {
 }
 
 func StartOTP(c *gin.Context) {
-	fmt.Println("adsasdasd")
 	var OtpRequest struct {
 		Email string `json:"email"`
 	}
@@ -145,10 +143,8 @@ func retrieveOTP(email string) model.OTP {
 }
 
 func deleteOTP(otpID uint, c *gin.Context) {
-	fmt.Println("ID : ", otpID)
 	var otp model.OTP
 	config.DB.Where("id = ?", otpID).Delete(&otp)
-	fmt.Println("Deleted : ", otp)
 }
 
 func VerifyOTP(c *gin.Context) {
@@ -228,10 +224,8 @@ func retrieveForgotPass(email string) model.ForgotPass {
 }
 
 func deleteForgotPass(otpID uint, c *gin.Context) {
-	fmt.Println("ID : ", otpID)
 	var otp model.ForgotPass
 	config.DB.Where("id = ?", otpID).Delete(&otp)
-	fmt.Println("Deleted : ", otp)
 }
 
 func VerifyForgotPass(c *gin.Context) {
@@ -264,7 +258,6 @@ func VerifyForgotPass(c *gin.Context) {
 }
 
 func StartForgotPass(c *gin.Context) {
-	fmt.Println("adsasdasd")
 	var OtpRequest struct {
 		Email string `json:"email"`
 	}

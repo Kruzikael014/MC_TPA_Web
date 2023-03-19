@@ -21,7 +21,9 @@ func Connect() {
 	db.AutoMigrate(&model.Promo{})
 	db.AutoMigrate(&model.OTP{})
 	db.AutoMigrate(&model.ForgotPass{})
-	db.AutoMigrate(&model.Wishlist{})
+	db.AutoMigrate(&model.WishlistHeader{})
+	db.AutoMigrate(&model.WishlistDetail{})
+	db.AutoMigrate(&model.WishlistFollower{})
 	db.AutoMigrate(&model.Transaction{})
 	db.AutoMigrate(&model.Shop{})
 	db.AutoMigrate(&model.Cart{})
@@ -29,8 +31,6 @@ func Connect() {
 	db.AutoMigrate(&model.Voucher{})
 	db.AutoMigrate(&model.Announcement{})
 	db.AutoMigrate(&model.Review{})
-	db.AutoMigrate(&model.UserOrder{})
-	db.AutoMigrate(&model.ShopOrder{})
 
 	var adminCount int64 = 0
 	db.Model(model.User{}).Where("email = ?", "Admin123@email.com").Count(&adminCount)

@@ -16,6 +16,7 @@ import SearchBar from './SearchBar'
 import ReactSwitch from 'react-switch'
 import { ThemeContext } from '@/types/Theme'
 import NotificationBar from './NotificationBar'
+import Shortcut from './Shortcut'
 
 
 
@@ -193,57 +194,7 @@ export default function Navbar()
 
           {
             showShortcut && (
-              <>
-                <div className={styles.shortcutstyles}>
-                  {/* <i className="fa-sharp fa-regular fa-user-vneck-hair fa-xs"></i> */}
-
-                  <div className={styles.topcontent}>
-                    <div className={styles.prof}>
-                      <div className={styles.iconcontainer}>
-                        <i className="fa-regular fa-user fa-2xl"></i>
-                      </div>
-                      <div className={styles.actualname}>
-                        <div>
-                          {user.First_name}&nbsp;{user.Last_name}
-                        </div>
-                        <div>
-                          Thank you for being OldEgg customer
-                        </div>
-                      </div>
-                    </div>
-                    <div className={styles.rightsection}>
-                      <div className={styles.rightsubsection}>
-                        <div>
-                          <i className="fa-regular fa-user"></i>
-                        </div>
-                        <div>
-                          My Profile
-                        </div>
-                      </div>
-                      <div className={styles.rightsubsection}>
-                        <div>
-                          <i className="fa-solid fa-gear"></i>
-                        </div>
-                        <div>
-                          Account setting
-                        </div>
-                      </div>
-                      <div className={styles.rightsubsection} onClick={signout}>
-                        <div>
-                          <i className="fa-solid fa-door-open"></i>
-                        </div>
-                        <div>
-                          Sign out
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className={styles.bottomcontent}>
-                    Will be link
-                  </div>
-                </div>
-              </>
+              <Shortcut />
             )
           }
 

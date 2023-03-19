@@ -198,6 +198,22 @@ func GetCustomer(c *gin.Context) {
 	c.JSON(200, user)
 }
 
+func ComparePass(c *gin.Context) {
+	var request struct {
+		UserID   uint   `json:"user_id"`
+		Password string `json:"password"`
+	}
+	c.ShouldBindJSON(&request)
+	var user model.User
+	config.DB.First(&user, "id = ?", request.UserID)
+	err := util.Decrypt(request.Password, user.Password)
+	if err != nil {
+		c.String(200, "Failed")
+		return
+	}
+	c.String(200, "Success")
+}
+
 func GetShop(c *gin.Context) {
 	user := []model.User{}
 	config.DB.Where("role_name = 'Shop Owner'").Find(&user)
@@ -276,16 +292,39 @@ func ChangePassword(c *gin.Context) {
 
 }
 
+func ChangePhoneNum(c *gin.Context) {
+	var Request struct {
+		UserID      uint   `json:"user_id"`
+		NewPhoneNum string `json:"phone_number"`
+	}
+	c.ShouldBindJSON(&Request)
+	if !util.IsValidPhone(Request.NewPhoneNum) {
+		c.String(200, "Phone number is invalid")
+		return
+	}
+	var user model.User
+	err := config.DB.First(&user, "id = ?", Request.UserID).Error
+	if err != nil {
+		c.String(200, "Failed to find the user!")
+		return
+	}
+	user.Phone_num = Request.NewPhoneNum
+	err = config.DB.Save(&user).Error
+	if err != nil {
+		c.String(200, "Failed to aplpy the changes!")
+		return
+	}
+	c.String(200, "Phone number successfully updated!")
+}
+
 func DecreaseBalance(c *gin.Context) {
 	var DecreaseBalanceRequest struct {
 		UserId      uint `json:"user_id"`
 		TotalAmount uint `json:"total_amount"`
 	}
 	c.ShouldBindJSON(&DecreaseBalanceRequest)
-	fmt.Println(DecreaseBalanceRequest)
 	var user model.User
 	config.DB.First(&user, "id = ?", DecreaseBalanceRequest.UserId)
-	fmt.Println(user)
 	if user.Balance < DecreaseBalanceRequest.TotalAmount {
 		c.String(200, "You dont have enough balance!")
 		return

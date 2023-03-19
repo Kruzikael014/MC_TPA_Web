@@ -1,7 +1,6 @@
 package controller
 
 import (
-	"fmt"
 	"strconv"
 
 	"github.com/Kruzikael014/oldegg-backend/config"
@@ -51,13 +50,11 @@ func UpdateShopProfile(c *gin.Context) {
 		c.String(200, "Failed to get the id parameter")
 		return
 	}
-	fmt.Println(id)
 	var UpdateShopRequest struct {
 		ShopBanner      string `json:"shop_banner"`
 		ShopDescription string `json:"shop_description"`
 	}
 	c.ShouldBindJSON(&UpdateShopRequest)
-	fmt.Println(UpdateShopRequest)
 	var shop model.Shop
 	config.DB.First(&shop, "id = ?", id)
 	shop.Shop_Banner = UpdateShopRequest.ShopBanner

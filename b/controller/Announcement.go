@@ -1,7 +1,6 @@
 package controller
 
 import (
-	"fmt"
 	"strconv"
 
 	"github.com/Kruzikael014/oldegg-backend/config"
@@ -12,7 +11,6 @@ import (
 func SaveAnnouncement(c *gin.Context) {
 	var Announcement model.Announcement
 	c.ShouldBindJSON(&Announcement)
-	fmt.Println(Announcement)
 	config.DB.Save(&Announcement)
 }
 

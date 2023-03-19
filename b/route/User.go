@@ -25,6 +25,9 @@ func UserRoute(e *gin.Engine) {
 	// change password (forgot password)
 	e.POST("/change-pass", controller.ChangePassword)
 
+	// Change Phone number
+	e.POST("/change-phone", controller.ChangePhoneNum)
+
 	// get shop
 	e.GET("/shop_owner", controller.GetShop)
 	// get user (only)
@@ -42,4 +45,5 @@ func UserRoute(e *gin.Engine) {
 	e.POST("/get-forgot-pass", controller.StartForgotPass)
 	// Use forgot pass code
 	e.POST("/use-forgot-pass", controller.VerifyForgotPass)
+	e.POST("/compare-pass", controller.ComparePass)
 }

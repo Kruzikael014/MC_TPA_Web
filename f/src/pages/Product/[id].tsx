@@ -12,6 +12,8 @@ import s from "@/styles/HomePage.module.css"
 import AddCartRequest from "@/types/AddCartRequest"
 import Product from "@/types/Product"
 import User from "@/types/User"
+import WishlistDetail from "@/types/WishlistDetail"
+import WishlistHeader from "@/types/WishlistHeader"
 import getCookie from "@/util/GetCookie"
 import { getUrl } from "@/util/ImageController"
 import axios from "axios"
@@ -23,6 +25,8 @@ import AddCart from "../api/Cart-APIs/AddCart"
 import GetRecommendation from "../api/Product-APIs/GetRecommendation"
 import GetSingleProduct from "../api/Product-APIs/GetSingleProduct"
 import getUserFromToken from "../api/User-APIs/getuser"
+import AddToWishlist from "../api/Wishlist-APIs/AddToWishlist"
+import GetUserWishlist from "../api/Wishlist-APIs/GetUserWishlist"
 
 interface ProductDetailProp
 {
@@ -37,10 +41,11 @@ const ProductDetail = (props: ProductDetailProp) =>
   const { product } = props
 
   const [imageUrl, setImageUrl] = useState("")
-
+  const [selectedWishlist, setSelectedWishlist] = useState("")
+  const [wishlistHeader, setWishlistHeader] = useState<WishlistHeader[] | undefined>(undefined)
   const [user, setUser] = useState<User | undefined>(undefined)
   const router = useRouter()
-
+  const [saveWishlist, setSaveWishlist] = useState(false)
   const [recommendation, setRecommendation] = useState<Product[] | string | undefined>(undefined)
 
 
@@ -71,6 +76,25 @@ const ProductDetail = (props: ProductDetailProp) =>
     getCurrUser()
 
   }, [])
+
+
+  useEffect(() =>
+  {
+
+    const fetchWishlist = async () =>
+    {
+      if (user !== undefined)
+      {
+
+        const response = await GetUserWishlist(Number(user.id))
+        if (Array.isArray(response) === false) alert(response)
+        else setWishlistHeader(response)
+
+      }
+    }
+    fetchWishlist()
+
+  }, [user])
 
 
   useEffect(() =>
@@ -144,8 +168,69 @@ const ProductDetail = (props: ProductDetailProp) =>
     fetchRecommendation()
   }, [product])
 
+  const handleWishlistClick = () =>
+  {
+    setSaveWishlist(!saveWishlist)
+  }
+
+  const handleWishlistSelect = async (e:any) =>
+  {
+    e.preventDefault()
+    if (selectedWishlist === "")
+    {
+      alert("Cant be empty")
+      return
+    }
+    // console.log(selectedWishlist);
+    // console.log(product.id);
+    // console.log(1);
+    const request:WishlistDetail = {
+      id: Number(selectedWishlist),
+      product_id: Number(product.id),
+      quantity: 1
+    }
+    const response = await AddToWishlist(request)
+    if (response === "Item successfully saved to wishlist!") {
+      alert(response)
+      router.push("/")
+      return
+    }
+    alert(response)
+  }
+
+  const cancelSave = () => {
+    setSaveWishlist(false)
+  }
+
+
+
   return (
     <>
+      <div className={`${s.wishlistpopup} ${(saveWishlist) ? s.show : ""}`}>
+        <h1>
+          Choose wishlist
+        </h1>
+        <form onSubmit={handleWishlistSelect}>
+          <center>
+            <select onChange={(e) => { setSelectedWishlist(e.target.value) }} style={{ marginTop: "1rem",width: "400px", height: "30px", borderRadius: "10px" }}>
+              <option value=""></option>
+              {
+                Array.isArray(wishlistHeader) &&
+                wishlistHeader.map((wishlist: WishlistHeader) =>
+                {
+                  return (
+                    <option value={wishlist.wishlist_id}>{wishlist.wishlist_name}</option>
+                  )
+                })
+              }
+            </select>
+          </center>
+          <div style={{ display: "flex", justifyContent: "space-evenly", alignItems: "center", position: "absolute", bottom: "3rem", width: "100%", transform: "translateX(-5%)" }}>
+            <ButtonInput placeholder="Cancel" width={150} blue func={cancelSave} />
+            <ButtonInput placeholder="Add" width={150} blue submit />
+          </div>
+        </form>
+      </div>
       <ThemeToggle />
       <HeaderModule />
       <Navbar />
@@ -161,9 +246,12 @@ const ProductDetail = (props: ProductDetailProp) =>
               Visit store
             </h4>
             <div className={s.midsection}>
-              <h1>
-                {product?.product_name}
-              </h1>
+              <div className={s.namecontainer}>
+                <h1>
+                  {product?.product_name}
+                </h1>
+                <i className="fa-solid fa-bookmark fa-2x" title="Add item to wishlist" onClick={handleWishlistClick}></i>
+              </div>
               <div className={s.raterev}>
                 <div>
                   {(product?.product_rating !== undefined) ? product.product_rating : 1}/5

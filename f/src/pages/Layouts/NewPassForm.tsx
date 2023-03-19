@@ -19,9 +19,9 @@ const NewPassForm = (props: emailprops) =>
 
   const [password, setPassword] = useState<string | undefined>("")
   const { email } = props
-  const router =  useRouter()
+  const router = useRouter()
 
-  const handleFormSubmit = async (e:any) =>
+  const handleFormSubmit = async (e: any) =>
   {
     e.preventDefault()
     if (email === "" || email === undefined)
@@ -38,12 +38,14 @@ const NewPassForm = (props: emailprops) =>
     const response = await UpdatePass(changePassRequest)
     console.log(response);
 
-    
-    if (response !== "OK") {
+
+    if (response !== "OK")
+    {
       alert(response)
       return
     }
-    else {
+    else
+    {
       alert("Password successfully changed!")
       router.push("/signin")
     }

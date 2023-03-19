@@ -29,7 +29,6 @@ func GetThem(c *gin.Context) {
 func SendChat(c *gin.Context) {
 	var ReqFrom string
 	h := http.Header{}
-	fmt.Println(h)
 	for _, sub := range websocket.Subprotocols(c.Request) {
 		h.Set("Sec-Websocket-Protocol", sub)
 		ReqFrom = sub

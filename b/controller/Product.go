@@ -1,7 +1,6 @@
 package controller
 
 import (
-	"fmt"
 	"net/http"
 	"strconv"
 	"strings"
@@ -303,13 +302,11 @@ func GetProductCount(c *gin.Context) {
 
 func GetSimilarProduct(c *gin.Context) {
 	var category = strings.ToLower(c.Query("category"))
-	fmt.Println(category)
 	var recommendations []model.Product
 	err := config.DB.Find(&recommendations, "LOWER(product_category) LIKE ?", "%"+category+"%").Error
 	if err != nil {
 		c.String(200, "Cant find similar product recommendation!")
 		return
 	}
-	fmt.Println(&recommendations)
 	c.JSON(200, &recommendations)
 }

@@ -1,7 +1,6 @@
 package controller
 
 import (
-	"fmt"
 	"strconv"
 
 	"github.com/Kruzikael014/oldegg-backend/config"
@@ -33,7 +32,6 @@ func AddToCart(c *gin.Context) {
 		Quantity:  newCart.Quantity,
 		UserId:    newCart.UserId,
 	}
-	fmt.Println("asdc")
 	config.DB.Create(&cart)
 	c.String(200, "Inserting item to cart")
 	return
