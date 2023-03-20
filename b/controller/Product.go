@@ -127,6 +127,76 @@ func SearchProduct(c *gin.Context) {
 	c.JSON(http.StatusOK, product)
 }
 
+func SearchProducts(c *gin.Context) {
+	filter := c.Query("filter")
+	pageStr := c.Query("page")
+	userQuery := c.Query("q")
+	page, err := strconv.Atoi(pageStr)
+
+	if err != nil || page < 1 {
+		c.String(http.StatusOK, "invalid page number")
+		return
+	}
+
+	if userQuery == "" {
+		c.String(http.StatusOK, "missing query parameter 'name'")
+		return
+	}
+
+	var products []model.Product
+	offset := (page - 1) * 25
+	if filter == "All" {
+		result := config.DB.Where("LOWER(product_name) LIKE ?", "%"+strings.ToLower(userQuery)+"%").Offset(offset).Limit(25).Find(&products)
+		if result.Error != nil {
+			c.String(http.StatusOK, "failed to search for products")
+			return
+		}
+	} else if filter == "Price" {
+		result := config.DB.Where("LOWER(product_name) LIKE ?", "%"+strings.ToLower(userQuery)+"%").Order("product_price").Offset(offset).Limit(25).Find(&products)
+		if result.Error != nil {
+			c.String(http.StatusOK, "failed to search for products")
+			return
+		}
+	} else if filter == "Rating" {
+		result := config.DB.Where("LOWER(product_name) LIKE ?", "%"+strings.ToLower(userQuery)+"%").Order("rating DESC").Offset(offset).Limit(25).Find(&products)
+		if result.Error != nil {
+			c.String(http.StatusOK, "failed to search for products")
+			return
+		}
+	} else if filter == "Review" {
+		query := `select p.* from reviews r
+		join products p on r.shop_id = p.uploaded_by
+		WHERE LOWER(product_name) like ?
+		group by p.id, p.created_at, p.updated_at, p.deleted_at, p.product_name, p.product_category, 
+		p.product_description, p.product_image, p.product_price, p.product_stock, p.product_details,
+		p.uploaded_by, p.rating
+		order by count(*) DESC
+		LIMIT 25 OFFSET ?`
+		result := config.DB.Raw(query, "%"+strings.ToLower(userQuery)+"%", offset).Scan(&products)
+		if result.Error != nil {
+			c.String(http.StatusOK, "failed to search for products")
+			return
+		}
+	} else if filter == "Number Bought" {
+		query := `select p.* from transactions t
+		join carts c on c.cart_id = t.cart_id
+		join products p on c.product_id = p.id
+		where LOWER(product_name) like ?
+		group by p.id, p.created_at, p.updated_at, p.deleted_at, p.product_name, p.product_category, 
+		p.product_description, p.product_image, p.product_price, p.product_stock, p.product_details,
+		p.uploaded_by, p.rating
+		order by count(*)
+		limit 25 offset ?`
+		result := config.DB.Raw(query, "%"+strings.ToLower(userQuery)+"%", offset).Scan(&products)
+		if result.Error != nil {
+			c.String(http.StatusOK, "failed to search for products")
+			return
+		}
+	}
+
+	c.JSON(http.StatusOK, products)
+}
+
 func GetProductCategory(c *gin.Context) {
 	var GetProductReq struct {
 		Uploaded_by uint `json:"uploaded_by"`

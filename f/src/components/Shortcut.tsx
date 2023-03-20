@@ -73,6 +73,16 @@ const Shortcut = () =>
     router.push("/create-wishlist")
   }
 
+  const handleWishlistClicked = (wishlist: number) =>
+  {
+    router.push({
+      pathname: "/wishlist",
+      query: {
+        wishlist: Number(wishlist)
+      }
+    })
+  }
+
   return (
     <>
       <div className={s.shortcutstyles}>
@@ -129,7 +139,7 @@ const Shortcut = () =>
               wishlistHeader.map((wishlist: WishlistHeader) =>
               {
                 return (
-                  <div className={s.wishlist}>
+                  <div className={s.wishlist} onClick={(e) => { handleWishlistClicked(Number(wishlist.wishlist_id)) }}>
                     {wishlist.wishlist_name}
                   </div>
                 )
@@ -138,6 +148,9 @@ const Shortcut = () =>
             <div>
               <i className="fa-solid fa-plus" onClick={createWishlist}></i>
               Add a wishlist
+            </div>
+            <div>
+              🪐 Public Wishlist
             </div>
           </div>
           <div className={s.centercompartment}>

@@ -181,9 +181,6 @@ const ProductDetail = (props: ProductDetailProp) =>
       alert("Cant be empty")
       return
     }
-    // console.log(selectedWishlist);
-    // console.log(product.id);
-    // console.log(1);
     const request:WishlistDetail = {
       id: Number(selectedWishlist),
       product_id: Number(product.id),

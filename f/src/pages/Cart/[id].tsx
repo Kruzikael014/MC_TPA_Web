@@ -19,63 +19,55 @@ import GetCartTotal from "../api/Cart-APIs/GetCartTotal";
 
 const CartPage = () =>
 {
-
   const router = useRouter()
   const query = router.query
 
   const [cart, setCart] = useState<CartItem[] | undefined>(undefined)
   const [products, setProducts] = useState<Product[] | undefined>(undefined)
-  const [totalPrice, setTotalPrice] = useState(0)
-
-
-
-  useEffect(() =>
-  {
-
-    const fetchCart = async () =>
-    {
-      const response: CartItem[] | undefined = await GetCart(Number(query.id));
-      setCart(response)
-
-      if (Array.isArray(response))
-      {
-        const promises = response.map(async (cartItem: CartItem) =>
-        {
-          const productResponse: Product = await GetSingleProduct(Number(cartItem.product_id));
-          return productResponse;
-        });
-
-        const products = await Promise.all(promises);
-        setProducts(products);
-      }
-    };
-    fetchCart()
-
-  }, [query.id])
+  const [totalPrice, setTotalPrice] = useState<number>(0)
 
   const updateTotalPrice = async () =>
   {
     if (cart)
     {
-      const response = await GetCartTotal(Number(cart[0].cart_id))
-      setTotalPrice(Number(response))
+      if (Array.isArray(cart))
+      {
+        const promises = cart?.map(async (cartProduct: Cart) =>
+        {
+          const response: number = await GetCartTotal(Number(cartProduct.cart_id))
+          return response
+        })
+        const productPrices = await Promise.all(promises)
+        setTotalPrice(productPrices[0])
+      }
     }
   }
 
   useEffect(() =>
   {
-    updateTotalPrice()
-  }, [cart])
+    const fetchCart = async () =>
+    {
+      const response: CartItem[] | undefined = await GetCart(Number(query.id));
+      setCart(response)
+    };
+    fetchCart()
+  }, [query.id])
 
   useEffect(() =>
   {
-    if (Array.isArray(cart))
+    if (cart && Array.isArray(cart))
     {
-      const quantityChanged = cart?.some(cartItem => cartItem.quantity)
-      if (quantityChanged)
+      const promises = cart?.map(async (cartItem: CartItem) =>
       {
-        updateTotalPrice()
-      }
+        const productResponse: Product = await GetSingleProduct(Number(cartItem.product_id));
+        return productResponse;
+      });
+
+      Promise.all(promises).then(products =>
+      {
+        setProducts(products);
+        updateTotalPrice();
+      });
     }
   }, [cart])
 
@@ -91,7 +83,6 @@ const CartPage = () =>
     })
   }
 
-
   return (
     <>
       <Navbar />
@@ -106,7 +97,7 @@ const CartPage = () =>
         <div className={s.offheader}>
           <div className={s.cartcontent}>
             {
-              (products !== undefined && cart !== undefined) ?
+              (products !== undefined && cart !== undefined && Array.isArray(products)) ?
                 products.map((product: Product, index) =>
                 {
                   return (
@@ -132,7 +123,7 @@ const CartPage = () =>
               </p>
               <b>
                 <p>
-                  {`Rp. ${totalPrice.toLocaleString()}, -`}
+                  {`Rp. ${totalPrice?.toLocaleString()}, -`}
                 </p>
               </b>
             </div>

@@ -11,4 +11,5 @@ func CartRoute(e *gin.Engine) {
 	e.POST("/update-cart-qty", controller.UpdateQty)
 	e.GET("/get-cart-total/:id", controller.GetCartTotal)
 	e.POST("/remove-cart-item", controller.RemoveItemFromCart)
+	e.POST("/extract-from-wishlist", controller.AddAllWishlistToCart)
 }

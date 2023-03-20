@@ -1,32 +1,33 @@
 
 import RemoveCartItem from "@/pages/api/Cart-APIs/RemoveCartItem";
 import UpdateCartQty from "@/pages/api/Cart-APIs/UpdateCartQty";
+import RemoveWishlistItem from "@/pages/api/Wishlist-APIs/RemoveWishlistItem";
+import UpdateWishlistQty from "@/pages/api/Wishlist-APIs/UpdateWishlistQty";
 import s from "@/styles/HomePage.module.css"
 import CartItem from "@/types/Cart";
 import Product from "@/types/Product";
 import RemoveCartRequest from "@/types/RemoveCartRequest";
 import UpdateRequest from "@/types/UpdateRequest";
+import WishlistDetail from "@/types/WishlistDetail";
 import { useEffect, useState } from "react";
 import InputField from "./InputField";
 import LiveImage from "./LiveImage";
 
-interface CartCardProps
+interface ProductCardProps
 {
-  cart: CartItem
   product: Product
-  onChangex: () => void
+  wishlistDetail: WishlistDetail
 }
 
 
-const CartCard = (props: CartCardProps) =>
+const ProductCard = (props: ProductCardProps) =>
 {
 
-  const { cart, product, onChangex } = props
+  const { product, wishlistDetail } = props
 
-  const { product_id, quantity, user_id, cart_id, delivery_status } = cart
-
+  const { product_id, quantity } = wishlistDetail
   const { product_category, product_description, product_details, product_image, product_name, product_price, product_rating, product_stock, uploaded_by, id } = product
-  const [currQty, setCurrQty] = useState(0)
+  const [currQuantity, setCurrQuantity] = useState(0)
 
   const parseProductDetail = (detail: string | undefined): string[] =>
   {
@@ -44,32 +45,34 @@ const CartCard = (props: CartCardProps) =>
 
   const handleQtyChange = async (e: any) =>
   {
-    const newQty = e.target.value;
-    setCurrQty(newQty);
-    const request: UpdateRequest = {
-      cart_id: Number(cart_id),
+
+    const newQty = e.target.value
+    setCurrQuantity(newQty)
+    const request = {
+      wishlist_id: Number(wishlistDetail.id),
       new_qty: Number(newQty),
-      product_id: Number(product_id),
-    };
-    const response = await UpdateCartQty(request);
-    setCurrQty(response.new_qty);
-    onChangex()
-  };
+      product_id: Number(product_id)
+    }
+    const response = await UpdateWishlistQty(request)
+    console.log(response);
+
+  }
 
   const handleRemoveClick = async () =>
   {
-    const request: RemoveCartRequest = {
-      cart_id: Number(cart_id),
-      product_id: Number(product_id)
+    const request = {
+      wishlist_id: Number(wishlistDetail.id),
+      product_id: Number(id)
     }
-    const response = await RemoveCartItem(request)
+    const response = await RemoveWishlistItem(request)
     alert(response)
     window.location.reload()
   }
 
+
   return (
     <>
-      <div className={s.cartcard}>
+      <div className={s.ProductCard}>
         <div className={s.imagecontainer}>
           <LiveImage width={200} imageUrl={product_image} />
         </div>
@@ -115,4 +118,4 @@ const CartCard = (props: CartCardProps) =>
   );
 }
 
-export default CartCard;
+export default ProductCard;

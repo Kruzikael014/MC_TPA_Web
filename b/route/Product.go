@@ -20,6 +20,7 @@ func ProductRoute(e *gin.Engine) {
 	e.GET("/get-offset", controller.GetProductsOffset)
 	// searching
 	e.GET("/search-product", controller.SearchProduct)
+	e.GET("/search-products", controller.SearchProducts)
 	e.POST("/get-product-category", controller.GetProductCategory)
 	// lowest price
 	e.POST("/lowest-priced-products", controller.FetchLowPricedProduct)

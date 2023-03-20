@@ -80,6 +80,7 @@ func GetCartTotal(c *gin.Context) {
 		config.DB.First(&product, cart.ProductId)
 		total += int(cart.Quantity) * int(product.Product_Price)
 	}
+
 	c.String(200, strconv.Itoa(total))
 }
 
@@ -95,4 +96,67 @@ func RemoveItemFromCart(c *gin.Context) {
 		return
 	}
 	c.String(200, "Item successfully removed")
+}
+
+func AddAllWishlistToCart(c *gin.Context) {
+	var AddWishlistToCartRequest struct {
+		UserId     uint `json:"user_id"`
+		WishlistId uint `json:"wishlist_id"`
+	}
+	err := c.BindJSON(&AddWishlistToCartRequest)
+	if err != nil {
+		c.String(200, "Failed to parse request: %s", err.Error())
+		return
+	}
+	var wishlistDetails []model.WishlistDetail
+	err = config.DB.Where("id = ?", AddWishlistToCartRequest.WishlistId).Find(&wishlistDetails).Error
+	if err != nil {
+		c.String(200, "Failed to retrieve wishlist details: %s", err.Error())
+		return
+	}
+	var cart model.Cart
+	config.DB.Where("user_id = ?", AddWishlistToCartRequest.UserId).First(&cart)
+	if cart.CartID != 0 {
+		for _, wishlistDetail := range wishlistDetails {
+			var tempCart model.Cart
+			config.DB.Where("user_id = ? and product_id = ?", AddWishlistToCartRequest.UserId, wishlistDetail.ProductID).First(&tempCart)
+			if tempCart.ProductId != 0 {
+				tempCart.Quantity += 1
+				config.DB.Save(&tempCart)
+			} else {
+				tempCart = model.Cart{
+					CartID:    cart.CartID,
+					ProductId: wishlistDetail.ProductID,
+					Quantity:  1,
+					UserId:    AddWishlistToCartRequest.UserId,
+				}
+				config.DB.Create(&tempCart)
+			}
+		}
+		c.String(200, "Items added to cart successfully")
+		return
+	} else {
+		for _, wishlistDetail := range wishlistDetails {
+			config.DB.Where("user_id = ?", AddWishlistToCartRequest.UserId).First(&cart)
+			var tempCart model.Cart
+			if cart.CartID != 0 {
+				tempCart = model.Cart{
+					CartID:    cart.CartID,
+					ProductId: wishlistDetail.ProductID,
+					Quantity:  1,
+					UserId:    AddWishlistToCartRequest.UserId,
+				}
+				config.DB.Create(&tempCart)
+			} else {
+				tempCart = model.Cart{
+					ProductId: wishlistDetail.ProductID,
+					Quantity:  1,
+					UserId:    AddWishlistToCartRequest.UserId,
+				}
+				config.DB.Create(&tempCart)
+			}
+		}
+		c.String(200, "Items added to cart successfully")
+		return
+	}
 }

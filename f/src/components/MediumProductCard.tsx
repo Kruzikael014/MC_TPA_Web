@@ -6,6 +6,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import DeleteShopProduct from "../pages/api/Product-APIs/DeleteShopProduct";
 import { changeFunc } from "../pages/HomePage/ShopOwner";
+import LiveImage from "./LiveImage";
 
 interface ProductCard
 {
@@ -69,13 +70,14 @@ const MediumProductCard = ({ product, index }: ProductCard) =>
   return (
     <div className={styles.mediumproductcard} >
       <br />
-      <div>
-        <Image src={imageUrls ? imageUrls : "https://www.meme-arsenal.com/memes/c9e6371faa3b57eaee1d35595ca8e910.jpg"}
+      <div onClick={handleCardClick}>
+        {/* <Image src={imageUrls ? imageUrls : "https://www.meme-arsenal.com/memes/c9e6371faa3b57eaee1d35595ca8e910.jpg"}
           alt="not found"
           width={290}
           height={350}
           onClick={handleCardClick}
-        />
+        /> */}
+        <LiveImage imageUrl={product_image} width={380} height={280}  />
       </div>
       <div className={styles.productname}>{product_name}</div>
       <br />

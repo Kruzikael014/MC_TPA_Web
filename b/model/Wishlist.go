@@ -1,13 +1,18 @@
 package model
 
-import "gorm.io/gorm"
+import (
+	"time"
+
+	"gorm.io/gorm"
+)
 
 type WishlistHeader struct {
 	gorm.Model
-	ID        uint   `json:"wishlist_id" gorm:"primaryKey;"`
-	Name      string `json:"wishlist_name"`
-	IsVisible bool   `json:"is_visible"`
-	UserID    uint   `json:"user_id"`
+	CreatedAt time.Time `json:"created_at"`
+	ID        uint      `json:"wishlist_id" gorm:"primaryKey;"`
+	Name      string    `json:"wishlist_name"`
+	IsVisible bool      `json:"is_visible"`
+	UserID    uint      `json:"user_id"`
 }
 
 type WishlistDetail struct {

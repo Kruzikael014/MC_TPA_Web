@@ -3,6 +3,7 @@ import searchProduct from '@/pages/api/Promo-APIs/SearchProduct';
 import s from '@/styles/HomePage.module.css'
 import Product from '@/types/Product';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import LiveImage from './LiveImage';
 
@@ -11,6 +12,7 @@ const SearchBar = () =>
 
   const [input, setInput] = useState("")
   const [product, setProduct] = useState<Product | undefined>(undefined)
+  const router = useRouter()
 
   useEffect(() =>
   {
@@ -24,12 +26,22 @@ const SearchBar = () =>
 
   }, [input])
 
+  const redirectSearchPage = () =>
+  {
+    router.push({
+      pathname: "/search-page",
+      query: {
+        search: input
+      }
+    })
+  }
+
 
   return (
     <div className={s.searc}>
       <div className={s.searchcontainer}>
         <input type={"text"} className={s.search} onChange={(e) => { setInput(e.target.value) }} />
-        <div className={s.searchbutt}>
+        <div className={s.searchbutt} onClick={redirectSearchPage}>
           <i className="fa-solid fa-magnifying-glass fa-xl"></i>
         </div>
       </div>
