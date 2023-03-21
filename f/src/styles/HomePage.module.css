@@ -1329,6 +1329,30 @@
 .shortcutstyles .bottomcontent .leftcompartment .wishlist:hover {
   text-decoration: underline;
 }
+.shortcutstyles .bottomcontent .leftcompartment .publicwishlistbtnn {
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+  cursor: pointer;
+}
+.shortcutstyles .bottomcontent .leftcompartment .publicwishlistbtnn i {
+  inherits: true;
+}
+.shortcutstyles .bottomcontent .leftcompartment .publicwishlistbtnn:hover {
+  text-decoration: underline;
+}
+.shortcutstyles .bottomcontent .leftcompartment .publicwishlistbtnn:hover i {
+  inherits: true;
+}
+.shortcutstyles .bottomcontent .leftcompartment .publicwishlistbtn {
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+  cursor: pointer;
+}
+.shortcutstyles .bottomcontent .leftcompartment .publicwishlistbtn:hover {
+  text-decoration: underline;
+}
 .shortcutstyles .topcontent {
   background-color: #c3d3f8;
   display: flex;
@@ -1367,6 +1391,137 @@
 .shortcutstyles .topcontent .prof .actualname {
   display: flex;
   flex-direction: column;
+}
+
+.publicwishlistpage {
+  display: flex;
+  flex-direction: column;
+}
+.publicwishlistpage .publicwishlistpagecontent {
+  display: flex;
+  flex-direction: column;
+  padding: 6rem;
+  box-sizing: border-box;
+}
+.publicwishlistpage .publicwishlistpagecontent .headers {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  -moz-column-gap: 3rem;
+       column-gap: 3rem;
+}
+.publicwishlistpage .publicwishlistpagecontent .headers .paginator {
+  display: flex;
+  flex-direction: row;
+  width: 8rem;
+  justify-content: space-evenly;
+  border: 1px solid rgba(0, 0, 0, 0.16789);
+  border-radius: 10px;
+}
+.publicwishlistpage .publicwishlistpagecontent .publicwishlists {
+  display: flex;
+  flex-direction: column;
+  row-gap: 4rem;
+}
+
+.publicwishlistcard {
+  border-radius: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.16789);
+  width: 90%;
+  height: 35rem;
+  padding: 3rem;
+  position: relative;
+}
+.publicwishlistcard .duplicform {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  width: 90%;
+  height: inherit;
+  background-color: #ffffff;
+  z-index: 2;
+  padding: 2rem;
+}
+.publicwishlistcard .duplicform .form {
+  display: flex;
+  flex-direction: column;
+  row-gap: 2rem;
+  width: inherit;
+}
+.publicwishlistcard .duplicform .form .aformdi {
+  display: flex;
+  flex-direction: row;
+  width: inherit;
+}
+.publicwishlistcard .duplicform .form .aformdi .left, .publicwishlistcard .duplicform .form .aformdi .right {
+  width: 40%;
+}
+.publicwishlistcard .duplicform .form .aformdi .right {
+  display: flex;
+  flex-direction: row;
+}
+.publicwishlistcard .duplicform .form .aformdi .right select {
+  font-size: 18px;
+  font-weight: bold;
+}
+.publicwishlistcard .duplicform .form .buttons {
+  display: flex;
+  flex-direction: row;
+  -moz-column-gap: 3rem;
+       column-gap: 3rem;
+}
+.publicwishlistcard .foldupbut {
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+  cursor: pointer;
+  opacity: 0;
+  display: flex;
+  flex-direction: row;
+  -moz-column-gap: 5rem;
+       column-gap: 5rem;
+  position: absolute;
+  right: 5rem;
+}
+.publicwishlistcard .foldupbut.show {
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+  position: absolute;
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  -moz-column-gap: 5rem;
+       column-gap: 5rem;
+  right: 5rem;
+  opacity: 1;
+}
+.publicwishlistcard .foldupbut .follab:hover, .publicwishlistcard .foldupbut .duplab:hover {
+  text-decoration: underline;
+}
+.publicwishlistcard .contentcontainer {
+  display: flex;
+  flex-direction: row;
+}
+.publicwishlistcard .contentcontainer .wishitem {
+  display: flex;
+  flex-direction: row;
+  -moz-column-gap: 2rem;
+       column-gap: 2rem;
+  width: 80%;
+  height: 100%;
+  padding: 2rem;
+  box-sizing: border-box;
+  overflow-x: auto;
+}
+.publicwishlistcard .contentcontainer .wishcardstat {
+  display: flex;
+  flex-direction: column;
+  width: 20%;
+  height: 15rem;
+  padding: 1rem;
+  box-sizing: border-box;
 }
 
 .largeproductcard {
@@ -2502,4 +2657,15 @@
 }
 .wishlistpage .wishlistcontent .savetocartlabel:hover {
   text-decoration: underline;
+}
+
+.publicwishlistdetail {
+  display: flex;
+  flex-direction: column;
+}
+.publicwishlistdetail .content {
+  display: flex;
+  flex-direction: column;
+  padding: 6rem;
+  box-sizing: border-box;
 }/*# sourceMappingURL=HomePage.module.css.map */

@@ -17,6 +17,10 @@ import ReactSwitch from 'react-switch'
 import { ThemeContext } from '@/types/Theme'
 import NotificationBar from './NotificationBar'
 import Shortcut from './Shortcut'
+import CartItem from '@/types/Cart'
+import GetCart from '@/pages/api/Cart-APIs/GetCart'
+import GetTotalTransaction from '@/pages/api/Cart-APIs/GetTotalTransaction'
+import GetCartTotal from '@/pages/api/Cart-APIs/GetCartTotal'
 
 
 
@@ -28,9 +32,39 @@ export default function Navbar()
   const [country, setCountry] = useState<string | null>("")
   const router = useRouter()
 
+  const [cartx, setCartx] = useState<CartItem[] | undefined>(undefined)
+  const [totalResponse, setTotalResponse] = useState<number>(0)
   const [countryLoaded, setCountryLoaded] = useState(false)
 
   const theme = useContext(ThemeContext)
+
+  useEffect(() =>
+  {
+
+    if (user !== undefined)
+    {
+      const fetchCard = async () =>
+      {
+
+        const response = await GetCart(Number(user.id))
+        setCartx(response)
+
+      }
+      fetchCard()
+    }
+
+  }, [user])
+
+  const fetchCartTotalPrice = async () =>
+  {
+
+    if (cartx !== undefined)
+    {
+      const totalResponse = await GetCartTotal(Number(cartx[0]?.cart_id))
+      setTotalResponse(totalResponse)
+      return totalResponse
+    }
+  };
 
   useEffect(() =>
   {
@@ -92,14 +126,6 @@ export default function Navbar()
     }
   };
 
-  const signout = () =>
-  {
-    // clear cookie 
-    clearCookie("JWToken")
-    //  reload page
-    window.location.reload()
-  }
-
   const handleCartButtonClick = (e: any) =>
   {
     router.push(`/Cart/${user.id}`)
@@ -118,6 +144,7 @@ export default function Navbar()
   {
     router.push("/order-page")
   }
+
 
   return (
     <div className={styles.navbar} style={{ backgroundColor: theme.navbar, color: theme.textColor }}>
@@ -166,16 +193,10 @@ export default function Navbar()
                 </select>
               }
             </div>
-
-
           </div>
-
           {/* Search bar here */}
-
           <SearchBar />
-
           {/* Search bar here */}
-
           <div className={styles.notifbutton} onClick={notificationClick}>
             <i className="fa-regular fa-bell fa-xl"></i>
           </div>
@@ -191,13 +212,11 @@ export default function Navbar()
           <div className={styles.themebutt}>
 
           </div>
-
           {
             showShortcut && (
               <Shortcut />
             )
           }
-
           <Link href={user.Email !== undefined ? "" : "/signin"} onClick={profileClick} className={styles.dontblue}>
             <div className={styles.signin}>
               <i className="fa-regular fa-user fa-2xl"></i>
@@ -221,7 +240,7 @@ export default function Navbar()
               </div>
             </b>
           </div>
-          <div className='cartbutton' title={`${2} items, $${5.099}`} onClick={handleCartButtonClick}>
+          <div className='cartbutton' title={`${(cartx?.length !== 0) ? cartx?.length : 0} items, Rp ${(isNaN(Number(fetchCartTotalPrice()))) ? totalResponse.toLocaleString() : Number(fetchCartTotalPrice).toLocaleString()}`} onClick={handleCartButtonClick}>
             <Image width={28} height={28} src={cart ? cart : "https://www.meme-arsenal.com/memes/c9e6371faa3b57eaee1d35595ca8e910.jpg"} alt='not found' />
           </div>
         </div>

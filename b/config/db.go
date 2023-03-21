@@ -24,6 +24,7 @@ func Connect() {
 	db.AutoMigrate(&model.WishlistHeader{})
 	db.AutoMigrate(&model.WishlistDetail{})
 	db.AutoMigrate(&model.WishlistFollower{})
+	db.AutoMigrate(&model.WishlistComment{})
 	db.AutoMigrate(&model.Transaction{})
 	db.AutoMigrate(&model.Shop{})
 	db.AutoMigrate(&model.Cart{})

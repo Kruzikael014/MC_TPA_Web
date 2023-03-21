@@ -17,13 +17,14 @@ interface ProductCardProps
 {
   product: Product
   wishlistDetail: WishlistDetail
+  isAuthorized: boolean
 }
 
 
 const ProductCard = (props: ProductCardProps) =>
 {
 
-  const { product, wishlistDetail } = props
+  const { product, wishlistDetail, isAuthorized } = props
 
   const { product_id, quantity } = wishlistDetail
   const { product_category, product_description, product_details, product_image, product_name, product_price, product_rating, product_stock, uploaded_by, id } = product
@@ -99,18 +100,21 @@ const ProductCard = (props: ProductCardProps) =>
         </div>
         <div className={s.rightsection}>
           <div>
-            <input className={s.qtyinput} type="number" min={1} defaultValue={quantity} max={product_stock} onChange={handleQtyChange} />
+            <input className={s.qtyinput} type="number" min={1} defaultValue={quantity} max={product_stock} onChange={handleQtyChange}  contentEditable={(isAuthorized) ? true : false} />
           </div>
           <div className={s.pricesection}>
             <p>
               {`Rp. ${product_price.toLocaleString()}, -`}
             </p>
-            <button className={s.delbut} onClick={handleRemoveClick}>
-              <i className="fa-solid fa-trash"></i>
-              <span>
-                Remove
-              </span>
-            </button>
+            {
+              isAuthorized &&
+              <button className={s.delbut} onClick={handleRemoveClick}>
+                <i className="fa-solid fa-trash"></i>
+                <span>
+                  Remove
+                </span>
+              </button>
+            }
           </div>
         </div>
       </div>

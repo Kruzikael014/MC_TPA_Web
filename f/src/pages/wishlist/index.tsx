@@ -190,7 +190,7 @@ const WishlistPage = () =>
             {
               return (
                 <div className={s.wishlistitem}>
-                  <ProductCard wishlistDetail={wishlistDetail[index]} product={product} />
+                  <ProductCard isAuthorized={true} wishlistDetail={wishlistDetail[index]} product={product} />
                 </div>
               )
             })

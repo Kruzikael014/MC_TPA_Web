@@ -83,6 +83,13 @@ const Shortcut = () =>
     })
   }
 
+  const handlePublicWishlistClicked = () =>
+  {
+
+    router.push("/public-wishlist")
+
+  }
+
   return (
     <>
       <div className={s.shortcutstyles}>
@@ -145,11 +152,11 @@ const Shortcut = () =>
                 )
               })
             }
-            <div>
+            <div className={s.publicwishlistbtnn}>
               <i className="fa-solid fa-plus" onClick={createWishlist}></i>
               Add a wishlist
             </div>
-            <div>
+            <div className={s.publicwishlistbtn} onClick={handlePublicWishlistClicked}>
               🪐 Public Wishlist
             </div>
           </div>

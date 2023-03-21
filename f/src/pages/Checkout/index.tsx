@@ -103,7 +103,7 @@ const CheckoutForm = () =>
     // console.log(delivery);
     // console.log(payment);
     // console.log(user);
-    
+
     // kalau misalnya dia pilih cryptocurrency / debit credit langsung checkout aja (tidak bisa kita kurangin karena gamungkin kita minta credit / debitnya terus kurangin duit dia $5000 beneran)
     if (payment === "Credit/Debit" || payment === "Cryptocurrency")
     {
@@ -121,25 +121,34 @@ const CheckoutForm = () =>
     // kalau misalnya dia pilih OldEggCurrency, validasiin oldegg money user nya dulu
     else
     {
-      const payRequest: PayRequest = {
-        total_amount: Number(totalPrice),
-        user_id: Number(user?.id)
-      }
-      const response = await PayCheckout(payRequest)
-      if (response === "You dont have enough balance!") {
-        alert(response)
-        return
-      }
-      const request: CheckoutRequest = {
-        cart_id: Number(cartList[0].cart_id),
-        delivery_provider: delivery,
-        transaction_payment: payment,
-        delivery_status: "In progress"
-      }
-      const checkoutResponse = await CartCheckout(request)
-      if (checkoutResponse === "Cart successfully checked out!") {
-        alert(checkoutResponse)
-        router.push("/")
+      if (user !== undefined)
+      {
+
+        const payRequest: PayRequest = {
+          total_amount: Number(totalPrice),
+          user_id: Number(user?.id)
+        }
+        const response = await PayCheckout(payRequest)
+        if (response === "You dont have enough balance!")
+        {
+          alert(response)
+          return
+        }
+        const request: CheckoutRequest = {
+          cart_id: Number(cartList[0].cart_id),
+          delivery_provider: delivery,
+          transaction_payment: payment,
+          delivery_status: "In progress"
+        }
+        const checkoutResponse = await CartCheckout(request)
+        if (checkoutResponse === "Cart successfully checked out!")
+        {
+          alert(checkoutResponse)
+          router.push("/")
+        }
+      } else
+      {
+        alert("User undefined")
       }
     }
 

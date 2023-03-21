@@ -25,6 +25,7 @@ import AddCart from "../api/Cart-APIs/AddCart"
 import GetRecommendation from "../api/Product-APIs/GetRecommendation"
 import GetSingleProduct from "../api/Product-APIs/GetSingleProduct"
 import getUserFromToken from "../api/User-APIs/getuser"
+import GetUserFromId from "../api/User-APIs/GetUserFromId"
 import AddToWishlist from "../api/Wishlist-APIs/AddToWishlist"
 import GetUserWishlist from "../api/Wishlist-APIs/GetUserWishlist"
 
@@ -44,10 +45,11 @@ const ProductDetail = (props: ProductDetailProp) =>
   const [selectedWishlist, setSelectedWishlist] = useState("")
   const [wishlistHeader, setWishlistHeader] = useState<WishlistHeader[] | undefined>(undefined)
   const [user, setUser] = useState<User | undefined>(undefined)
+  const [shop, setShop] = useState<User | undefined>(undefined)
   const router = useRouter()
   const [saveWishlist, setSaveWishlist] = useState(false)
   const [recommendation, setRecommendation] = useState<Product[] | string | undefined>(undefined)
-
+  const [loading, setLoading] = useState(true)
 
   useEffect(() =>
   {
@@ -109,6 +111,12 @@ const ProductDetail = (props: ProductDetailProp) =>
 
   const addToCart = async () =>
   {
+    console.log(shop?.Status);
+    
+    if (shop?.Status !== "Clear") {
+      alert("Shop has been banned")
+      return
+    } 
 
     if (user?.id === undefined)
     {
@@ -173,7 +181,7 @@ const ProductDetail = (props: ProductDetailProp) =>
     setSaveWishlist(!saveWishlist)
   }
 
-  const handleWishlistSelect = async (e:any) =>
+  const handleWishlistSelect = async (e: any) =>
   {
     e.preventDefault()
     if (selectedWishlist === "")
@@ -181,13 +189,14 @@ const ProductDetail = (props: ProductDetailProp) =>
       alert("Cant be empty")
       return
     }
-    const request:WishlistDetail = {
+    const request: WishlistDetail = {
       id: Number(selectedWishlist),
       product_id: Number(product.id),
       quantity: 1
     }
     const response = await AddToWishlist(request)
-    if (response === "Item successfully saved to wishlist!") {
+    if (response === "Item successfully saved to wishlist!")
+    {
       alert(response)
       router.push("/")
       return
@@ -195,161 +204,199 @@ const ProductDetail = (props: ProductDetailProp) =>
     alert(response)
   }
 
-  const cancelSave = () => {
+  const cancelSave = () =>
+  {
     setSaveWishlist(false)
   }
 
+  useEffect(() =>
+  {
+    const fetchShop = async () =>
+    {
+      const response = await GetUserFromId(product.uploaded_by)
+      setShop(prevUser => ({
+        ...prevUser,
+        id: response.id,
+        First_name: response.first_name,
+        Last_name: response.last_name,
+        Email: response.email,
+        Password: response.password,
+        Phone_num: response.phone_num,
+        Email_subscriber: response.email_subscriber,
+        Status: response.status,
+        Role_name: response.role_name,
+        balance: response.balance
+      }))
+      console.log(shop);
+    }
+    fetchShop()
+  }, [product, loading])
 
 
   return (
-    <>
-      <div className={`${s.wishlistpopup} ${(saveWishlist) ? s.show : ""}`}>
-        <h1>
-          Choose wishlist
-        </h1>
-        <form onSubmit={handleWishlistSelect}>
-          <center>
-            <select onChange={(e) => { setSelectedWishlist(e.target.value) }} style={{ marginTop: "1rem",width: "400px", height: "30px", borderRadius: "10px" }}>
-              <option value=""></option>
-              {
-                Array.isArray(wishlistHeader) &&
-                wishlistHeader.map((wishlist: WishlistHeader) =>
-                {
-                  return (
-                    <option value={wishlist.wishlist_id}>{wishlist.wishlist_name}</option>
-                  )
-                })
-              }
-            </select>
-          </center>
-          <div style={{ display: "flex", justifyContent: "space-evenly", alignItems: "center", position: "absolute", bottom: "3rem", width: "100%", transform: "translateX(-5%)" }}>
-            <ButtonInput placeholder="Cancel" width={150} blue func={cancelSave} />
-            <ButtonInput placeholder="Add" width={150} blue submit />
-          </div>
-        </form>
-      </div>
+    <div>
       <ThemeToggle />
       <HeaderModule />
       <Navbar />
-      <div className={s.productdetail}>
-        <div className={s.detailcontent}>
-          <div className={s.directorybar}>
-          </div>
-          <div className={s.detail}>
-            <div className={s.imagesection}>
-              <LiveImage imageUrl={product.product_image} width={600} height={450} />
+      {
+        (shop !== undefined && shop?.Status === "Clear") ? (
+          <div>
+            <div className={`${s.wishlistpopup} ${(saveWishlist) ? s.show : ""}`}>
+              <h1>
+                Choose wishlist
+              </h1>
+              <form onSubmit={handleWishlistSelect}>
+                <center>
+                  <select onChange={(e) => { setSelectedWishlist(e.target.value) }} style={{ marginTop: "1rem", width: "400px", height: "30px", borderRadius: "10px" }}>
+                    <option value=""></option>
+                    {
+                      Array.isArray(wishlistHeader) &&
+                      wishlistHeader.map((wishlist: WishlistHeader) =>
+                      {
+                        return (
+                          <option value={wishlist.wishlist_id}>{wishlist.wishlist_name}</option>
+                        )
+                      })
+                    }
+                  </select>
+                </center>
+                <div style={{ display: "flex", justifyContent: "space-evenly", alignItems: "center", position: "absolute", bottom: "3rem", width: "100%", transform: "translateX(-5%)" }}>
+                  <ButtonInput placeholder="Cancel" width={150} blue func={cancelSave} />
+                  <ButtonInput placeholder="Add" width={150} blue submit />
+                </div>
+              </form>
             </div>
-            <h4 onClick={handleStoreVisit} className={s.visitstore}>
-              Visit store
-            </h4>
-            <div className={s.midsection}>
-              <div className={s.namecontainer}>
-                <h1>
-                  {product?.product_name}
-                </h1>
-                <i className="fa-solid fa-bookmark fa-2x" title="Add item to wishlist" onClick={handleWishlistClick}></i>
+            <div className={s.productdetail}>
+              <div className={s.detailcontent}>
+                <div className={s.directorybar}>
+                </div>
+                <div className={s.detail}>
+                  <div className={s.imagesection}>
+                    <LiveImage imageUrl={product.product_image} width={600} height={450} />
+                  </div>
+                  <h4 onClick={handleStoreVisit} className={s.visitstore}>
+                    Visit store
+                  </h4>
+                  <div className={s.midsection}>
+                    <div className={s.namecontainer}>
+                      <h1>
+                        {product?.product_name}
+                      </h1>
+                      <i className="fa-solid fa-bookmark fa-2x" title="Add item to wishlist" onClick={handleWishlistClick}></i>
+                    </div>
+                    <div className={s.raterev}>
+                      <div>
+                        {(product?.product_rating !== undefined) ? product.product_rating : 1}/5
+                      </div>
+                      <div>
+                        Write a review
+                      </div>
+                    </div>
+                    <div className={s.seemore}>
+                      <i className="fa-solid fa-magnifying-glass fa-xl"></i>
+                      <div>
+                        See more
+                      </div>
+                      <div>
+                        "{product?.product_name}"
+                      </div>
+                    </div>
+                    <div>
+                      {
+                        (product.product_stock !== 0
+                          &&
+                          product.product_stock !== undefined) ?
+                          `In stock (${product.product_stock} pcs)` :
+                          "Product out of stock"
+                      }
+                    </div>
+                    <div>
+                      Ships from United States
+                    </div>
+                    <div className={s.banner} onClick={(e) => { router.push("/build-pc") }}>
+                      Build PC
+                    </div>
+                    <div>
+                      <h2>
+                        Category
+                      </h2>
+                      <h3>
+                        {product.product_category}
+                      </h3>
+                    </div>
+                    <div>
+                      <ul>
+                        {parseProductDetail(product?.product_details).map((detail, index) => (
+                          <li key={index}>{detail}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+
+                  <div className={s.rightsection}>
+                    <div className={s.shippedby}>
+                      <i></i>
+                      <div>
+                        sold & shipped by OldEgg
+                      </div>
+                    </div>
+                    <div>
+                      Rp 9,000 shipping
+                    </div>
+
+                    <div>
+                      Estimated price
+
+                    </div>
+                    <div className={s.detailprice}>
+                      {/* Rp {product?.product_price.toLocaleString()} */}
+                    </div>
+
+                    <div className={s.buttonqty}>
+                      <InputField numberQty required onChange={setDesiredQty} value={desiredQty} width={50} height={44} />
+                      <ButtonInput orange placeholder="Add to cart" func={addToCart} />
+                    </div>
+                  </div>
+                </div>
               </div>
-              <div className={s.raterev}>
-                <div>
-                  {(product?.product_rating !== undefined) ? product.product_rating : 1}/5
-                </div>
-                <div>
-                  Write a review
-                </div>
-              </div>
-              <div className={s.seemore}>
-                <i className="fa-solid fa-magnifying-glass fa-xl"></i>
-                <div>
-                  See more
-                </div>
-                <div>
-                  "{product?.product_name}"
-                </div>
-              </div>
-              <div>
+            </div>
+            <div className={s.similarproductrecommendation}>
+              <h1>
+                Similar Product
+              </h1>
+              <div className={s.productlist}>
                 {
-                  (product.product_stock !== 0
-                    &&
-                    product.product_stock !== undefined) ?
-                    `In stock (${product.product_stock} pcs)` :
-                    "Product out of stock"
+                  Array.isArray(recommendation) &&
+                  recommendation.map((product: Product, index: number) =>
+                  {
+                    return (
+                      <div>
+                        {/* <MediumProductCard index={index} product={product}  /> */}
+                        <LargeProductCard index={index} product={product} />
+                      </div>
+                    )
+                  })
+                }
+                {
+                  Array.isArray(recommendation) === false &&
+                  <h1>No similar product!</h1>
                 }
               </div>
-              <div>
-                Ships from United States
-              </div>
-              <div className={s.banner} onClick={(e) => { router.push("/build-pc") }}>
-                Build PC
-              </div>
-              <div>
-                <h2>
-                  Category
-                </h2>
-                <h3>
-                  {product.product_category}
-                </h3>
-              </div>
-              <div>
-                <ul>
-                  {parseProductDetail(product?.product_details).map((detail, index) => (
-                    <li key={index}>{detail}</li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-
-            <div className={s.rightsection}>
-              <div className={s.shippedby}>
-                <i></i>
-                <div>
-                  sold & shipped by OldEgg
-                </div>
-              </div>
-              <div>
-                Rp 9,000 shipping
-              </div>
-
-              <div>
-                Estimated price
-
-              </div>
-              <div className={s.detailprice}>
-                {/* Rp {product?.product_price.toLocaleString()} */}
-              </div>
-
-              <div className={s.buttonqty}>
-                <InputField numberQty required onChange={setDesiredQty} value={desiredQty} width={50} height={44} />
-                <ButtonInput orange placeholder="Add to cart" func={addToCart} />
-              </div>
             </div>
           </div>
-        </div>
-      </div>
-      <div className={s.similarproductrecommendation}>
-        <h1>
-          Similar Product
-        </h1>
-        <div className={s.productlist}>
-          {
-            Array.isArray(recommendation) &&
-            recommendation.map((product: Product, index: number) =>
-            {
-              return (
-                <div>
-                  {/* <MediumProductCard index={index} product={product}  /> */}
-                  <LargeProductCard index={index} product={product} />
-                </div>
-              )
-            })
-          }
-          {
-            Array.isArray(recommendation) === false &&
-            <h1>No similar product!</h1>
-          }
-        </div>
-      </div>
+
+        )
+          :
+          (
+            <h1>
+              Shop has been banned
+            </h1>
+          )
+      }
       <Footer />
-    </>
+    </div>
+
+
   )
 }
 

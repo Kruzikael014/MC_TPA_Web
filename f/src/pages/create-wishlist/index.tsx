@@ -71,7 +71,7 @@ const CreateWishlist = () =>
       <div className={s.content}>
         <center>
           <h1>
-            Content
+            Create Wishlist
           </h1>
           <form className={s.wishlsitform} onSubmit={handleFormSubmit}>
             <InputField required onChange={setWishlistName} value={wishlistName} placeholder={"Wishlist name"} text width={800} />
