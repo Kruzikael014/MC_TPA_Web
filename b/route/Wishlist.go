@@ -14,7 +14,9 @@ func WishlistRoute(e *gin.Engine) {
 	e.PATCH("/update-wishlist-qty", controller.UpdateWishlisQty)
 	e.PATCH("/update-wishlist-header", controller.UpdateWishlist)
 	e.GET("/get-public-wishlist", controller.GetPublicWishlist)
+	e.GET("/get-followed-wishlist", controller.GetFollowedWishlist)
 	e.POST("/follow-wishlist", controller.FollowWishlist)
+	e.POST("/unfollow-wishlist", controller.UnfollowWishlist)
 	e.POST("/duplicate-wishlist", controller.DuplicateWishlist)
 
 	// detail static paths
@@ -22,4 +24,6 @@ func WishlistRoute(e *gin.Engine) {
 	e.GET("/get-single-public-wishlist/:id", controller.GetSinglePublicWishlist)
 	// comment
 	e.POST("/comment-wishlist", controller.CommentOnWishlist)
+	e.GET("/get-wishlist-comments", controller.GetWishlistComments)
+	e.POST("/copy-wishlist-cart", controller.AddToCartFromWishlist)
 }

@@ -110,9 +110,7 @@ const PublicWishlistPage = () =>
             <select defaultValue={"All"} onChange={(e) => { setFilter(e.target.value) }}>
               <option value="All">All</option>
               <option value="Created Date">Created Date</option>
-              <option value="Rating">Rating</option>
               <option value="Price">Price</option>
-              <option value="Review">Review</option>
               <option value="Follower">Follower</option>
             </select>
           </div>

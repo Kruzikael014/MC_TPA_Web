@@ -13,6 +13,7 @@ import InputField from "./InputField";
 import ButtonInput from "./ButtonInput";
 import { useRouter } from "next/router";
 import AddToCartFromWishlist from "@/pages/api/Wishlist-APIs/AddToCartFromWishlist";
+import UnfollowWishlist from "@/pages/api/Wishlist-APIs/UnfollowWishlist";
 
 
 interface PublicWishlistCardInterface
@@ -20,7 +21,7 @@ interface PublicWishlistCardInterface
   list: PublicWishlist,
 }
 
-const PublicWishlistCard = (props: PublicWishlistCardInterface) =>
+const FollowedWishlistCard = (props: PublicWishlistCardInterface) =>
 {
 
   const { list } = props
@@ -57,13 +58,13 @@ const PublicWishlistCard = (props: PublicWishlistCardInterface) =>
     getCurrUser()
   }, [])
 
-  const handleFollow = async () =>
+  const handleUnfollow = async () =>
   {
     const request = {
       wishlist_id: Number(id),
-      follower_id: Number(user?.id),
+      user_id: Number(user?.id),
     }
-    const response = await FollowWishlist(request)
+    const response = await UnfollowWishlist(request)
     alert(response)
   }
 
@@ -156,8 +157,8 @@ const PublicWishlistCard = (props: PublicWishlistCardInterface) =>
         </div>
       }
       <div className={`${s.foldupbut} ${(buttonAppearance) ? s.show : ""}`}>
-        <h2 onClick={handleFollow} className={s.follab}>
-          Follow
+        <h2 onClick={handleUnfollow} className={s.follab}>
+          Unfollow
         </h2>
         <h2 onClick={handleDuplicate} className={s.duplab}>
           Duplicate
@@ -197,4 +198,4 @@ const PublicWishlistCard = (props: PublicWishlistCardInterface) =>
   );
 }
 
-export default PublicWishlistCard;
+export default FollowedWishlistCard;

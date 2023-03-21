@@ -163,6 +163,41 @@ const CheckoutForm = () =>
         <h1 className={s.title}>
           Checkout form
         </h1>
+        <div className={s.cartsummary} style={{marginBottom: "3rem"}}>
+          <h2>
+            Summary
+          </h2>
+          <div className={s.pricerow}>
+            <p>
+              Item(s):
+            </p>
+            <b>
+              <p>
+                {`Rp. ${totalPrice?.toLocaleString()}, -`}
+              </p>
+            </b>
+          </div>
+          <div className={s.pricerow}>
+            <p>
+              Est. Delivery:
+            </p>
+            <b>
+              <p>
+                {`Rp. 0, -`}
+              </p>
+            </b>
+          </div>
+          <div className={s.pricerow}>
+            <p>
+              Est. GST:
+            </p>
+            <b>
+              <p>
+                {`Rp. 0, -`}
+              </p>
+            </b>
+          </div>
+        </div>
         <form onSubmit={handleFormSubmit} className={s.theform}>
           <InputField onChange={setDelivery} value={delivery} required placeholder="Input your delivery service provider" width={650} height={35} />
           <select defaultValue={""} className={s.inputselect} onChange={(e) => { setPayment(e.target.value) }}>

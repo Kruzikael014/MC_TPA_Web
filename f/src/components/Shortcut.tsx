@@ -90,6 +90,11 @@ const Shortcut = () =>
 
   }
 
+  const handleFollowerWishlistClicked = () =>
+  {
+    router.push("/followed-wishlist")
+  }
+
   return (
     <>
       <div className={s.shortcutstyles}>
@@ -158,6 +163,9 @@ const Shortcut = () =>
             </div>
             <div className={s.publicwishlistbtn} onClick={handlePublicWishlistClicked}>
               🪐 Public Wishlist
+            </div>
+            <div className={s.publicwishlistbtn} onClick={handleFollowerWishlistClicked}>
+              👾 Followed Wishlist
             </div>
           </div>
           <div className={s.centercompartment}>

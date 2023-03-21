@@ -19,6 +19,8 @@ import getUserFromToken from "../api/User-APIs/getuser";
 import getCookie from "@/util/GetCookie";
 import User from "@/types/User";
 import commentWishlist from "../api/Wishlist-APIs/CommentWishlist";
+import GetWishlistComment from "../api/Wishlist-APIs/GetWishlistComment";
+import Comment from "@/types/Comment";
 
 
 interface PublicWishlistDetailInterface
@@ -33,6 +35,7 @@ const PublicWishlistDetail = (props: PublicWishlistDetailInterface) =>
   const [comment, setComment] = useState("")
   const [commentAs, setCommentAS] = useState("Comment as yourself")
   const [user, setUser] = useState<User | undefined>(undefined)
+  const [wishlistComments, setWishlistComments] = useState<Comment[] | undefined>(undefined)
 
   const getWishlistDetail = async () =>
   {
@@ -40,6 +43,23 @@ const PublicWishlistDetail = (props: PublicWishlistDetailInterface) =>
     console.log(response);
     return response.wishlist_details;
   };
+
+  useEffect(() =>
+  {
+
+    const fetchComments = async () =>
+    {
+      const response = await GetWishlistComment(Number(publicWishlist.id))
+      if (Array.isArray(response) === false)
+      {
+        alert(response)
+        return
+      }
+      setWishlistComments(response)
+    }
+    fetchComments()
+
+  }, [wishlistComments])
 
   useEffect(() =>
   {
@@ -79,6 +99,7 @@ const PublicWishlistDetail = (props: PublicWishlistDetailInterface) =>
               <ProductCard isAuthorized={false}
                 product={product}
                 wishlistDetail={wishlistDetail}
+                key={index}
               />
             </div>
           );
@@ -133,18 +154,38 @@ const PublicWishlistDetail = (props: PublicWishlistDetailInterface) =>
         </div>
         <div className={s.commentcontent}>
           <div className={s.commentehader}>
-            <h1>
-              Comment
-            </h1>
-            <select defaultValue={"Comment Anonymously"} onChange={(e) => { setCommentAS(e.target.value) }}>
-              <option value="Comment as yourself">Comment as yourself</option>
-              <option value="Comment Anonymously">Comment Anonymously</option>
-            </select>
-            <InputField text onChange={setComment} value={comment} height={80} width={800} placeholder={"Comment here..."} />
-            <ButtonInput orange placeholder="Comment" centered width={150} func={handleCommentClick} />
+            <div className={s.commentutils}>
+              <h1>
+                Comment
+              </h1>
+              <select defaultValue={"Comment Anonymously"} onChange={(e) => { setCommentAS(e.target.value) }}>
+                <option value="Comment as yourself">Comment as yourself</option>
+                <option value="Comment Anonymously">Comment Anonymously</option>
+              </select>
+            </div>
+            <div className={s.commentform}>
+              <InputField text onChange={setComment} value={comment} height={80} width={800} placeholder={"Comment here..."} />
+              <div className={s.buttoncontainer}>
+                <ButtonInput orange placeholder="Comment" centered width={150} func={handleCommentClick} />
+              </div>
+            </div>
           </div>
           <div className={s.comments}>
+            {
+              wishlistComments?.map((comment: Comment) =>
+              {
+                return (
+                  <div className={s.commentcard}>
+                    <div>
 
+                    </div>
+                    <div>
+                      {comment.comment}
+                    </div>
+                  </div>
+                )
+              })
+            }
           </div>
         </div>
       </div>

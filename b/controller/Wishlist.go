@@ -173,6 +173,43 @@ type PublicWishlist struct {
 	ProductLists []model.Product `json:"product_list"`
 }
 
+func GetFollowedWishlist(c *gin.Context) {
+	user_id, err := strconv.Atoi(c.Query("user_id"))
+	if err != nil {
+		c.String(200, "Failed to get the user_id from the query param!")
+		return
+	}
+	var publicWishlists []PublicWishlist
+	config.DB.Raw(
+		`
+		select wh.id,
+		wh.name as wishlist_name,
+		CONCAT(u.first_name, ' ', u.last_name) as uploaded_by,
+		sum(p.product_price) as total_price,
+		count(*) as product_count from wishlist_headers wh
+		join wishlist_details wd on wd.id = wh.id
+		join products p on p.id = wd.product_id
+		join users u on u.id = wh.user_id
+		join wishlist_followers wf on wishlist_id = wh.id
+		WHERE wf.follower_id = ?
+		GROUP BY wh.created_at, wh.id, wh.name, CONCAT(u.first_name, ' ', u.last_name)
+		ORDER BY wh.id ASC
+		`, user_id,
+	).Scan(&publicWishlists)
+	for index, publicWishlist := range publicWishlists {
+		var tempWishlists []model.WishlistDetail
+		config.DB.Find(&tempWishlists, "id = ?", publicWishlist.ID)
+		var tempProducts []model.Product
+		for _, wishlistDetails := range tempWishlists {
+			var prod model.Product
+			config.DB.First(&prod, "id = ?", wishlistDetails.ProductID)
+			tempProducts = append(tempProducts, prod)
+		}
+		publicWishlists[index].ProductLists = tempProducts
+	}
+	c.JSON(200, publicWishlists)
+}
+
 func GetPublicWishlist(c *gin.Context) {
 	page, err := strconv.Atoi(c.Query("page"))
 	if err != nil {
@@ -196,74 +233,87 @@ func GetPublicWishlist(c *gin.Context) {
 	if filter == "All" {
 		config.DB.Raw(
 			`
-			select wh.id, 
-			wh.name as wishlist_name, 
-			CONCAT(u.first_name, ' ', u.last_name) as uploaded_by, 
-			sum(p.product_price) as total_price, 
-			count(*) as product_count from wishlist_headers wh
-			join wishlist_details wd on wd.id = wh.id
-			join products p on p.id = wd.product_id
-			join users u on u.id = wh.user_id
-			WHERE wh.user_id != ?
-			AND is_visible = true
-			GROUP BY wh.created_at, wh.id, wh.name, CONCAT(u.first_name, ' ', u.last_name)
-			ORDER BY wh.name ASC
-			LIMIT ? OFFSET ?
-			`, id, pageSize, offset,
+		select wh.id, 
+		wh.name as wishlist_name, 
+		CONCAT(u.first_name, ' ', u.last_name) as uploaded_by, 
+		sum(p.product_price) as total_price, 
+		count(*) as product_count from wishlist_headers wh
+		join wishlist_details wd on wd.id = wh.id
+		join products p on p.id = wd.product_id
+		join users u on u.id = wh.user_id
+		WHERE wh.user_id != ?
+		AND is_visible = true
+		GROUP BY wh.created_at, wh.id, wh.name, CONCAT(u.first_name, ' ', u.last_name)
+		ORDER BY wh.name ASC
+		LIMIT ? OFFSET ?
+		`, id, pageSize, offset,
 		).Scan(&publicWishlists)
 	} else if filter == "Created Date" {
 		config.DB.Raw(
 			`
-			select wh.id, 
-			wh.name as wishlist_name, 
-			CONCAT(u.first_name, ' ', u.last_name) as uploaded_by, 
-			sum(p.product_price) as total_price, 
-			count(*) as product_count from wishlist_headers wh
-			join wishlist_details wd on wd.id = wh.id
-			join products p on p.id = wd.product_id
-			join users u on u.id = wh.user_id
-			WHERE wh.user_id != ?
-			AND is_visible = true
-			GROUP BY wh.created_at, wh.id, wh.name, CONCAT(u.first_name, ' ', u.last_name)
-			ORDER BY wh.created_at DESC
-			LIMIT ? OFFSET ?
-			`, id, pageSize, offset,
+		select wh.id, 
+		wh.name as wishlist_name, 
+		CONCAT(u.first_name, ' ', u.last_name) as uploaded_by, 
+		sum(p.product_price) as total_price, 
+		count(*) as product_count from wishlist_headers wh
+		join wishlist_details wd on wd.id = wh.id
+		join products p on p.id = wd.product_id
+		join users u on u.id = wh.user_id
+		WHERE wh.user_id != ?
+		AND is_visible = true
+		GROUP BY wh.created_at, wh.id, wh.name, CONCAT(u.first_name, ' ', u.last_name)
+		ORDER BY wh.created_at DESC
+		LIMIT ? OFFSET ?
+		`, id, pageSize, offset,
 		).Scan(&publicWishlists)
 	} else if filter == "Price" {
 		config.DB.Raw(
 			`
-			select wh.id, 
-			wh.name as wishlist_name, 
-			CONCAT(u.first_name, ' ', u.last_name) as uploaded_by, 
-			sum(p.product_price) as total_price, 
-			count(*) as product_count from wishlist_headers wh
-			join wishlist_details wd on wd.id = wh.id
-			join products p on p.id = wd.product_id
-			join users u on u.id = wh.user_id
-			WHERE wh.user_id != ?
-			AND is_visible = true
-			GROUP BY wh.created_at, wh.id, wh.name, CONCAT(u.first_name, ' ', u.last_name)
-			ORDER BY sum(p.product_price) ASC
-			LIMIT ? OFFSET ?
-			`, id, pageSize, offset,
+		select wh.id, 
+		wh.name as wishlist_name, 
+		CONCAT(u.first_name, ' ', u.last_name) as uploaded_by, 
+		sum(p.product_price) as total_price, 
+		count(*) as product_count from wishlist_headers wh
+		join wishlist_details wd on wd.id = wh.id
+		join products p on p.id = wd.product_id
+		join users u on u.id = wh.user_id
+		WHERE wh.user_id != ?
+		AND is_visible = true
+		GROUP BY wh.created_at, wh.id, wh.name, CONCAT(u.first_name, ' ', u.last_name)
+		ORDER BY sum(p.product_price) ASC
+		LIMIT ? OFFSET ?
+		`, id, pageSize, offset,
 		).Scan(&publicWishlists)
 	} else if filter == "Follower" {
 		config.DB.Raw(
 			`
-			select wh.id, 
-			wh.name as wishlist_name, 
-			CONCAT(u.first_name, ' ', u.last_name) as uploaded_by, 
-			sum(p.product_price) as total_price, 
-			count(*) as product_count from wishlist_headers wh
-			join wishlist_details wd on wd.id = wh.id
-			join products p on p.id = wd.product_id
-			join users u on u.id = wh.user_id
-			WHERE wh.user_id != ?
-			AND is_visible = true
-			GROUP BY wh.created_at, wh.id, wh.name, CONCAT(u.first_name, ' ', u.last_name)
-			ORDER BY wh.name ASC
-			LIMIT ? OFFSET ?
-			`, id, pageSize, offset,
+	 SELECT 
+		wh.id, 
+		wh.name as wishlist_name, 
+		CONCAT(u.first_name, ' ', u.last_name) as uploaded_by, 
+		SUM(p.product_price) as total_price, 
+		COUNT(*) as product_count
+	 FROM 
+		 wishlist_headers wh 
+	 LEFT JOIN 
+		 wishlist_followers wf ON wh.id = wf.wishlist_id 
+	 JOIN 
+		 wishlist_details wd ON wd.id = wh.id
+	 JOIN 
+		 products p ON p.id = wd.product_id
+	 JOIN 
+		 users u ON u.id = wh.user_id
+	 WHERE
+		wh.user_id != ?
+	 GROUP BY 
+		 wh.created_at,
+		 wh.id, 
+		 wh.name,
+		 CONCAT(u.first_name, ' ', u.last_name)
+	 ORDER BY 
+		COUNT(DISTINCT wf.follower_id) DESC
+	 LIMIT ? OFFSET ?
+		`, id, pageSize, offset,
 		).Scan(&publicWishlists)
 	}
 
@@ -295,6 +345,79 @@ func FollowWishlist(c *gin.Context) {
 	}
 	c.String(200, "Wishlist followed!")
 }
+
+func UnfollowWishlist(c *gin.Context) {
+	var unfollowRequest struct {
+		WishlistId uint `json:"wishlist_id"`
+		UserId     uint `json:"user_id"`
+	}
+	c.ShouldBindJSON(&unfollowRequest)
+	err := config.DB.Exec("DELETE FROM wishlist_followers WHERE wishlist_id = ? AND follower_id = ?", unfollowRequest.WishlistId, unfollowRequest.UserId).Error
+	if err != nil {
+		c.String(200, "Failed to delete (unfollow) the wishlist!")
+		return
+	}
+	c.String(200, "Wishlist unfollowed!")
+}
+
+func AddToCartFromWishlist(c *gin.Context) {
+	var CartFromWishlistRequest struct {
+		UserId     uint `json:"user_id"`
+		WishlistId uint `json:"wishlist_id"`
+	}
+	err := c.ShouldBindJSON(&CartFromWishlistRequest)
+	if err != nil {
+		c.String(200, "Error while binding JSON!")
+		return
+	}
+	var cart model.Cart
+	err = config.DB.First(&cart, "user_id = ?", CartFromWishlistRequest.UserId).Error
+	if err != nil {
+		c.String(200, "Failed to find cart!")
+		return
+	}
+	var wishlists []model.WishlistDetail
+	err = config.DB.Find(&wishlists, "id = ?", CartFromWishlistRequest.WishlistId).Error
+	if err != nil {
+		c.String(200, "Failed to find cart from provided id!")
+		return
+	}
+
+	for _, wishDetail := range wishlists {
+		var prevCart model.Cart
+		config.DB.First(&prevCart, "user_id = ?", CartFromWishlistRequest.UserId)
+		var temp model.Cart
+		if prevCart.CartID == 0 {
+			temp = model.Cart{
+				ProductId: wishDetail.ProductID,
+				Quantity:  1,
+				UserId:    CartFromWishlistRequest.UserId,
+			}
+		} else {
+			var temp2 model.Cart
+			config.DB.First(&temp2, "user_id = ? and product_id = ?", CartFromWishlistRequest.UserId, wishDetail.ProductID)
+			if temp2.ID != 0 {
+				temp = model.Cart{
+					CartID:    temp2.CartID,
+					ProductId: temp2.ProductId,
+					Quantity:  temp2.Quantity + 1,
+					UserId:    temp2.UserId,
+				}
+			} else {
+				temp = model.Cart{
+					CartID:    prevCart.CartID,
+					ProductId: wishDetail.ProductID,
+					Quantity:  1,
+					UserId:    CartFromWishlistRequest.UserId,
+				}
+			}
+		}
+		config.DB.Save(&temp)
+	}
+	return
+}
+
+// handle cart exists
 
 func DuplicateWishlist(c *gin.Context) {
 	var DuplicateWishlistRequest struct {
@@ -431,4 +554,19 @@ func CommentOnWishlist(c *gin.Context) {
 		return
 	}
 	c.String(200, "Comment successfully posted!")
+}
+
+func GetWishlistComments(c *gin.Context) {
+	id, err := strconv.Atoi(c.Query("wishlist_id"))
+	if err != nil {
+		c.String(200, "Failed to get id parameter!")
+		return
+	}
+	var comments []model.WishlistComment
+	err = config.DB.Find(&comments, "wishlist_id = ?", id).Error
+	if err != nil {
+		c.String(200, "Failed to find any comment!")
+		return
+	}
+	c.JSON(200, &comments)
 }
