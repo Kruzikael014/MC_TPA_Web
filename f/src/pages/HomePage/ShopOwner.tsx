@@ -1,3 +1,4 @@
+import MiniNavbar from "@/components/MiniNavbar"
 import styles from "@/styles/HomePage.module.css"
 import { Dispatch, SetStateAction, useState } from "react"
 import InsertPromotion from "../Layouts/InsertPromotion"
@@ -9,7 +10,7 @@ import ViewShopOrder from "../Layouts/ViewShopOrder"
 import ViewShopProduct from "../Layouts/ViewShopProduct"
 
 
-export let changeFunc: Dispatch<SetStateAction<number>> = () => {}
+export let changeFunc: Dispatch<SetStateAction<number>> = () => { }
 
 export default function ShopOwner()
 {
@@ -33,10 +34,11 @@ export default function ShopOwner()
     if (clickedButton === 7) return <ViewShopOrder />
   }
 
-  
+
 
   return (
     <>
+      <MiniNavbar />
       <div className={styles.shopowner} >
         <h1>
           My Shop
@@ -59,7 +61,7 @@ export default function ShopOwner()
             View Order
           </div>
         </div>
-        
+
         <div className={styles.shopownersubpage}>
           {showSubcontent()}
         </div>

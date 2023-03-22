@@ -1,3 +1,4 @@
+import MiniNavbar from "@/components/MiniNavbar"
 import styles from "@/styles/HomePage.module.css"
 import { Dispatch, SetStateAction, useState } from "react"
 import AddVoucher from "../Layouts/AddVoucher"
@@ -10,7 +11,7 @@ import ManageUser from "../Layouts/ManageUser"
 import OpenShop from "../Layouts/OpenShop"
 import SendLetter from "../Layouts/SendLetter"
 
-export let changeFunc: Dispatch<SetStateAction<number>> = () => {}
+export let changeFunc: Dispatch<SetStateAction<number>> = () => { }
 
 const AdminPage = () =>
 {
@@ -20,7 +21,7 @@ const AdminPage = () =>
   {
     setClickedButton(index)
   }
-  
+
   const showSubcontent = () =>
   {
     if (clickedButton === 1) return <ManageReport />
@@ -34,37 +35,40 @@ const AdminPage = () =>
     if (clickedButton === 9) return <InsertPromotion />
   }
   return (
-    <div className={styles.adminpage}>
-      <div className={styles.featurebuttoncontainer}>
-        <div className={`${styles.adminfeaturebutton} ${clickedButton == 1 ? styles.clicked : ""}`} onClick={() => { handleButtonClick(1) }}>
-          Manage Report
+    <div>
+      <MiniNavbar />
+      <div className={styles.adminpage}>
+        <div className={styles.featurebuttoncontainer}>
+          <div className={`${styles.adminfeaturebutton} ${clickedButton == 1 ? styles.clicked : ""}`} onClick={() => { handleButtonClick(1) }}>
+            Manage Report
+          </div>
+          <div className={`${styles.adminfeaturebutton} ${clickedButton == 2 ? styles.clicked : ""}`} onClick={() => { handleButtonClick(2) }}>
+            Manage user
+          </div>
+          <div className={`${styles.adminfeaturebutton} ${clickedButton == 3 ? styles.clicked : ""}`} onClick={() => { handleButtonClick(3) }}>
+            Open shop
+          </div>
+          <div className={`${styles.adminfeaturebutton} ${clickedButton == 4 ? styles.clicked : ""}`} onClick={() => { handleButtonClick(4) }}>
+            Manage shop
+          </div>
+          <div className={`${styles.adminfeaturebutton} ${clickedButton == 5 ? styles.clicked : ""}`} onClick={() => { handleButtonClick(5) }}>
+            Send newsletter
+          </div>
+          <div className={`${styles.adminfeaturebutton} ${clickedButton == 6 ? styles.clicked : ""}`} onClick={() => { handleButtonClick(6) }}>
+            Add Voucher
+          </div>
+          <div className={`${styles.adminfeaturebutton} ${clickedButton == 7 ? styles.clicked : ""}`} onClick={() => { handleButtonClick(7) }}>
+            Manage Reviews
+          </div>
+          <div className={`${styles.adminfeaturebutton} ${clickedButton == 8 ? styles.clicked : ""}`} onClick={() => { handleButtonClick(8) }}>
+            Manage Promotions
+          </div>
         </div>
-        <div className={`${styles.adminfeaturebutton} ${clickedButton == 2 ? styles.clicked : ""}`} onClick={() => { handleButtonClick(2) }}>
-          Manage user
+        <div>
+          {
+            showSubcontent()
+          }
         </div>
-        <div className={`${styles.adminfeaturebutton} ${clickedButton == 3 ? styles.clicked : ""}`} onClick={() => { handleButtonClick(3) }}>
-          Open shop
-        </div>
-        <div className={`${styles.adminfeaturebutton} ${clickedButton == 4 ? styles.clicked : ""}`} onClick={() => { handleButtonClick(4) }}>
-          Manage shop
-        </div>
-        <div className={`${styles.adminfeaturebutton} ${clickedButton == 5 ? styles.clicked : ""}`} onClick={() => { handleButtonClick(5) }}>
-          Send newsletter
-        </div>
-        <div className={`${styles.adminfeaturebutton} ${clickedButton == 6 ? styles.clicked : ""}`} onClick={() => { handleButtonClick(6) }}>
-          Add Voucher
-        </div>
-        <div className={`${styles.adminfeaturebutton} ${clickedButton == 7 ? styles.clicked : ""}`} onClick={() => { handleButtonClick(7) }}>
-          Manage Reviews
-        </div>
-        <div className={`${styles.adminfeaturebutton} ${clickedButton == 8 ? styles.clicked : ""}`} onClick={() => { handleButtonClick(8) }}>
-          Manage Promotions
-        </div>
-      </div>
-      <div>
-        {
-          showSubcontent()
-        }
       </div>
     </div>
   )
