@@ -25,6 +25,10 @@ func SaveReview(c *gin.Context) {
 	c.String(200, "Review Successfully saved!")
 }
 
+func UpdateReview(c *gin.Context) {
+	var newReview model.Review
+}
+
 func GetReviewByShop(c *gin.Context) {
 	var id = c.Query("shop_id")
 	var reviews []model.Review

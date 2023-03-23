@@ -1,4 +1,3 @@
-import ButtonInput from "@/components/ButtonInput";
 import Footer from "@/components/Footer";
 import HeaderModule from "@/components/HeaderModule";
 import Navbar from "@/components/Navbar";
@@ -24,18 +23,16 @@ const ChatPage = () =>
   const [message, setMessage] = useState("")
 
   const [ourChat, setOurChat] = useState<Chat[] | undefined>()
-  const [chatSubject, setChatSubject] = useState<User[] | undefined>(undefined);
-
-
 
   useEffect(() =>
   {
+    console.log(targetPerson);
     const fetchChatting = async () =>
     {
+      console.log(targetPerson);
       if (user !== undefined && targetPerson !== undefined)
       {
         const response = await GetChat(String(user.id), String(targetPerson.id))
-        console.log(response);
         if (Array.isArray(response) === false)
         {
           alert(response)
@@ -90,7 +87,7 @@ const ChatPage = () =>
         });
       };
     }
-  }, [socket]);
+  }, [user, admin, targetPerson, socket, message]);
 
   useEffect(() =>
   {
@@ -116,8 +113,6 @@ const ChatPage = () =>
     getCurrUser();
   }, []);
 
-
-
   useEffect(() =>
   {
     const chatSocket = localStorage.getItem(CHAT_SOCKET_KEY);
@@ -131,7 +126,7 @@ const ChatPage = () =>
       setSocket(newSocket);
       localStorage.setItem(CHAT_SOCKET_KEY, "ws://localhost:8088/send-message");
     }
-  }, []);
+  }, [user, admin, targetPerson, message]);
 
   const sendMessage = (message: string) =>
   {
@@ -148,26 +143,6 @@ const ChatPage = () =>
     }
   }
 
-  useEffect(() =>
-  {
-    const fetchRecentChats = async () =>
-    {
-      if (user !== undefined)
-      {
-        const response = await GetRecentChat(Number(user.id));
-        if (Array.isArray(response))
-        {
-          console.log(response);
-          setChatSubject(response);
-          console.log(chatSubject);
-        } else
-        {
-          alert(response);
-        }
-      }
-    };
-    fetchRecentChats();
-  }, [user?.id]);
 
   const handleMessageSend = () =>
   {
@@ -190,7 +165,10 @@ const ChatPage = () =>
           <h1 className={s.title}>
             Chat
           </h1>
-
+          <div className={s.chatlists} onClick={(e) => { setTargetPerson(admin) }}>
+            {user?.Role_name !== "Admin" && <ChatCard userTo={admin} />}
+          </div>
+          <ChatLeftSection setTargetPerson={setTargetPerson} user={user} />
         </div>
         {
           targetPerson !== undefined &&
@@ -236,18 +214,66 @@ const ChatPage = () =>
     </>
   );
 };
-
 export default ChatPage;
+
+
+interface ChatLeftSectionInterface
+{
+  setTargetPerson: Function,
+  user: User | undefined,
+}
+
+export function ChatLeftSection(props: ChatLeftSectionInterface)
+{
+  const { setTargetPerson, user } = props;
+  const [recentIds, setRecentIds] = useState([])
+
+  useEffect(() =>
+  {
+    const getRecentChatIds = async () =>
+    {
+      if (user !== undefined)
+      {
+        const response = await GetRecentChat(Number(user.id))
+        if (Array.isArray(response) === false)
+        {
+          alert(response)
+          return
+        }
+        setRecentIds(response)
+      }
+
+    };
+    getRecentChatIds();
+  }, [user]);
+
+  return (
+    <div className={s.chatlists} >
+      {recentIds && Array.isArray(recentIds) &&
+        recentIds.map((number: number, index: number) =>
+        {
+          return (
+            <div>
+              {(number === 1) ? "" :
+                <FetchingChatCard id={number} setTargetPerson={setTargetPerson} />}
+            </div>
+          )
+        })
+      }
+    </div>
+  );
+}
+
 
 interface ChatCardInterface
 {
-  userTo: User | undefined
+  userTo: User | undefined,
 }
 
 const ChatCard = (props: ChatCardInterface) =>
 {
-
-  const { userTo } = props
+  const { userTo } = props;
+  const name = userTo?.First_name && userTo?.Last_name ? `${userTo.First_name} ${userTo.Last_name}` : "Unknown User";
 
   return (
     <div className={s.chatcard}>
@@ -256,7 +282,7 @@ const ChatCard = (props: ChatCardInterface) =>
           <i className="fa-solid fa-user fa-2x"></i>
         </div>
         <div className={s.name}>
-          {(userTo?.First_name + " " + userTo?.Last_name === "Mighty Admin") ? "Customer Center" : userTo?.First_name + " " + userTo?.Last_name}
+          {(name === "Mighty Admin") ? "Customer Center" : name}
         </div>
       </div>
       <br />
@@ -265,25 +291,55 @@ const ChatCard = (props: ChatCardInterface) =>
   )
 }
 
+
 export { ChatCard }
 
-export function ChatLeftSection()
+
+
+interface FetchingChatCardInterface
 {
+  id: number,
+  setTargetPerson: Function
+}
+
+const FetchingChatCard = (props: FetchingChatCardInterface) =>
+{
+  const { id, setTargetPerson } = props;
+  const [user, setUser] = useState<User | undefined>(undefined)
+
+  useEffect(() =>
+  {
+
+    const fetchUser = async () =>
+    {
+      if (id !== undefined)
+      {
+        const response = await GetUserFromId(Number(id))
+        setUser(prevUser => ({
+          ...prevUser,
+          id: response.id,
+          First_name: response.first_name,
+          Last_name: response.last_name,
+          Email: response.email,
+          Password: response.password,
+          Phone_num: response.phone_num,
+          Email_subscriber: response.email_subscriber,
+          Status: response.status,
+          Role_name: response.role_name,
+          balance: response.balance
+        }))
+      }
+    }
+    fetchUser()
+
+  }, [id])
+
   return (
-    <div className={s.chatlists}>
-      <div className={s.chtcart} onClick={(e) => { setTargetPerson(admin) }}>
-        {(user?.Role_name !== "Admin") ? <ChatCard userTo={admin} /> : ""}
-        {
-          chatSubject !== undefined &&
-          Array.isArray(chatSubject) &&
-          chatSubject.map((subject: User, index: number) =>
-          {
-            return (
-              <ChatCard userTo={subject} key={index} />
-            )
-          })
-        }
-      </div>
+    <div onClick={(e) => { setTargetPerson(user) }}>
+      <ChatCard userTo={user} />
     </div>
   )
 }
+
+
+export { FetchingChatCard }

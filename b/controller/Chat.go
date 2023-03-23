@@ -94,16 +94,10 @@ func GetRecentChats(c *gin.Context) {
 		return
 	}
 
-	var users []model.User
+	var userIds []int
 	for _, userId := range chats {
-		var tempUser model.User
-		err := config.DB.First(&tempUser, "id = ?", userId).Error
-		if err != nil {
-			c.String(200, "Failed to find the user!")
-			return
-		}
-		users = append(users, tempUser)
+		userIds = append(userIds, int(userId))
 	}
 
-	c.JSON(200, &users)
+	c.JSON(200, &userIds)
 }
