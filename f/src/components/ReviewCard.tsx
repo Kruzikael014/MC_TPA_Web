@@ -6,6 +6,10 @@ import s from "@/styles/HomePage.module.css"
 import InputField from "./InputField";
 import SaveReview from "@/pages/api/Review-APIs/SaveReview";
 import ButtonInput from "./ButtonInput";
+import getUserFromToken from "@/pages/api/User-APIs/getuser";
+import getCookie from "@/util/GetCookie";
+import DeleteReview from "@/pages/api/Review-APIs/DeleteReview";
+import UpdateReview from "@/pages/api/Review-APIs/UpdateReview";
 
 
 interface ReviewCardInterface
@@ -20,6 +24,33 @@ const ReviewCard = (props: ReviewCardInterface) =>
   const [uploader, setUploader] = useState<User | undefined>(undefined)
   const [shop, setShop] = useState<User | undefined>(undefined)
   const [showReviewForm, setShowReviewForm] = useState(false)
+  const [user, setUser] = useState<User | undefined>(undefined)
+
+
+  useEffect(() =>
+  {
+    const getCurrUser = async () =>
+    {
+      const ob = {
+        JWToken: getCookie("JWToken")
+      }
+      const response = await getUserFromToken(ob)
+      setUser(
+        {
+          First_name: response.first_name,
+          Last_name: response.last_name,
+          Email: response.email,
+          Password: response.password,
+          Phone_num: response.phone_num,
+          Email_subscriber: response.email_subscriber,
+          Role_name: response.role_name,
+          Status: response.status,
+          id: response.id,
+          balance: response.balance
+        })
+    }
+    getCurrUser();
+  }, [])
 
   useEffect(() =>
   {
@@ -96,31 +127,32 @@ const ReviewCard = (props: ReviewCardInterface) =>
   const handleEdit = async () =>
   {
     setShowReviewForm(true)
-    console.log("Updating review with id", review.review_id);
-    
   }
-  
+
   const handleRemove = async () =>
   {
-    console.log("deleting review with id", review.review_id);
-
+    const response = await DeleteReview(Number(review?.review_id))
+    alert(response)
   }
 
   return (
     <>
-    {
-      showReviewForm ?
-      <ViewReviewShopForm oldReview={review} setStateFunction={setShowReviewForm} />
-      :
-       <div className={s.reviewcard}>
-        <div style={{ display: "flex", flexDirection: "column", rowGap: "2rem", marginRight: "1rem" }}>
-          <div onClick={handleEdit}>
-            <i className="fa-solid fa-pen-to-square fa-2x"></i>
+      {
+        showReviewForm &&
+        <ViewReviewShopForm oldReview={review} setStateFunction={setShowReviewForm} />
+      }
+      <div className={s.reviewcard}>
+        {
+          user?.id === review.reviewer_id &&
+          <div style={{ display: "flex", flexDirection: "column", rowGap: "2rem", marginRight: "1rem" }}>
+            <div onClick={handleEdit}>
+              <i className="fa-solid fa-pen-to-square fa-2x"></i>
+            </div>
+            <div onClick={handleRemove}>
+              <i className="fa-solid fa-trash fa-2x"></i>
+            </div>
           </div>
-          <div onClick={handleRemove}>
-            <i className="fa-solid fa-trash fa-2x"></i>
-          </div>
-        </div>
+        }
         <div className={s.namediv}>
           <div>
             Name
@@ -185,7 +217,6 @@ const ReviewCard = (props: ReviewCardInterface) =>
           </div>
         </div>
       </div>
-    }
 
     </>
   )
@@ -222,20 +253,21 @@ const ViewReviewShopForm = (props: ViewReviewSHopForm) =>
     }
 
     const newReview: Review = {
+      review_id: Number(oldReview.review_id),
       created_at: new Date(),
       message: comment,
       delivered_ontime: deliveredOnTime,
       item_accurate: itemAsDescribed,
-      rating_value: rate,
+      rating_value: Number(rate),
       satisfying_service: satisfactoryService,
-      reviewer_id: oldReview?.review_id,
-      shop_id: oldReview?.reviewer_id
+      reviewer_id: Number(oldReview?.reviewer_id),
+      shop_id: Number(oldReview?.shop_id)
     }
     console.log("with data ", newReview);
-    // const response = await SaveReview(newReview)
-    // alert(response)
+    const response = await UpdateReview(newReview)
+    alert(response)
     setStateFunction(false)
-    // window.location.reload()
+    window.location.reload()
   };
 
   const handleRatingChange = (e: React.ChangeEvent<HTMLInputElement>) =>

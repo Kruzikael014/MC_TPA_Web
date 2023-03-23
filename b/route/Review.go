@@ -14,5 +14,6 @@ func ReviewRoute(e *gin.Engine) {
 	e.GET("/get-percentage-ontime", controller.GetOnTimePercentage)
 	e.GET("/get-percentage-satisfaction", controller.GetSatisfyingServicePercentage)
 	e.GET("/get-percentage-accuracy", controller.GetProductAccuracyPercentage)
-
+	e.DELETE("/delete-review", controller.DeleteReview)
+	e.PATCH("/update-review", controller.UpdateReview)
 }

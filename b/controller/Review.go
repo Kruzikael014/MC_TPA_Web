@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"fmt"
 	"net/http"
 	"strconv"
 	"strings"
@@ -27,6 +28,35 @@ func SaveReview(c *gin.Context) {
 
 func UpdateReview(c *gin.Context) {
 	var newReview model.Review
+	c.ShouldBindJSON(&newReview)
+	fmt.Println("id: ", newReview.ID)
+	fmt.Println("message: ", newReview.Message)
+	err := config.DB.Model(&model.Review{}).Where("id = ?", newReview.ID).Updates(&newReview).Error
+	if err != nil {
+		c.String(200, "Failed to update the review!")
+		return
+	}
+	c.String(200, "Review successfully updated!")
+}
+
+func DeleteReview(c *gin.Context) {
+	id, err := strconv.Atoi(c.Query("review_id"))
+	if err != nil {
+		c.String(200, "Failed to get id from query parameter!")
+		return
+	}
+	var temp model.Review
+	err = config.DB.First(&temp, "id = ?", id).Error
+	if err != nil {
+		c.String(200, "Failed to find the review!")
+		return
+	}
+	err = config.DB.Delete(&temp).Error
+	if err != nil {
+		c.String(200, "Failed to delete the review!")
+		return
+	}
+	c.String(200, "Review successfully deleted!")
 }
 
 func GetReviewByShop(c *gin.Context) {
